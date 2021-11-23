@@ -1,0 +1,14 @@
+Sample project theme: Google Trends
+
+⎯ Goal: Publish descriptive information about the trends all over the world
+
+⎯ Data acquisition layer: google trends dataset
+
+⎯ Data publishing: every day/minute the data is sent to update the old values
+
+⎯ Processing  &  bizz  logic: when users search for keywords, its incremented on the number of searches for that keyword, making it easy for us to read the information
+
+⎯ Integration API: nao sei
+
+⎯ Web portal: web application to show us information about the trends all over the world
+
