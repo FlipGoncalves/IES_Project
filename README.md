@@ -1,6 +1,9 @@
 # IES_Project
 Project for class IES 2021/2022
 
+# Group ID
+- 51
+
 # Team
 - Filipe Gonçalves, 98083
 - João Borges, 98155
@@ -8,7 +11,7 @@ Project for class IES 2021/2022
 - Vicente Costa, 98515
 
 # Team Roles
-- Team Manager (Coordinator): Filipe Gonçalves
+- Team Manager: Filipe Gonçalves
 - Arquitect: Vicente Costa
 - DevOps: Pedro Lopes
 - Product Owner: João Borges
