@@ -1,14 +1,14 @@
 Sample project theme: Twitter Trends Bot
 
-⎯ Goal: Publish descriptive information about the trends all over the world, seen from twitter
+⎯ Goal: Publish descriptive information about the trends all over the world, seen from twitter, as well as statistic information about them in relation with the user
 
 ⎯ Data acquisition layer: twitter bot which collects data from all tweets by likes/trending
 
-⎯ Data publishing: every time the page is refreshed, the bot will run and gain more information, change information, etc.
+⎯ Data publishing: every time the page is refreshed, the bot will run and gain more information, change information, delete information, etc.
 
 ⎯ Processing & bizz logic: when users tweet something and it gets a lot of likes/shares, we can see that people like it, so it represents a trend
 
 ⎯ Integration API: nao sei
 
-⎯ Web portal: web application to show us information about the trends all over the world
+⎯ Web portal: web application to show us information about the trends all over the world, as well as statistic information
 
