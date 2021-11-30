@@ -39,3 +39,14 @@ database:
 
 
     cassandra?
+
+
+twitter bot:
+    python - https://realpython.com/twitter-bot-python-tweepy/
+             https://auth0.com/blog/how-to-make-a-twitter-bot-in-python-using-tweepy/
+
+    
+    or
+    
+    java -  https://gist.github.com/dueyfinster/2469810
+            https://medium.com/@SeloSlav/how-to-make-a-scary-russian-twitter-bot-with-java-b7b62768a3ac
