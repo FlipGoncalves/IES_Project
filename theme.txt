@@ -8,7 +8,7 @@ Sample project theme: Twitter Trends Bot
 
 ⎯ Processing & bizz logic: when users tweet something and it gets a lot of likes/shares, we can see that people like it, so it represents a trend
 
-⎯ Integration API: nao sei
+⎯ Integration API: REST Api, with database connection
 
 ⎯ Web portal: web application to show us information about the trends all over the world, as well as statistic information
 

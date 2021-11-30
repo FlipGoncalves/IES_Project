@@ -3,6 +3,8 @@ Software project management and comprehension tool:
 
 Web java-based aplication tool:
     Java Spring boot 
+    Java Spring
+    Thymeleaf
 
 database:
     Requisites:
@@ -37,8 +39,6 @@ database:
             -> high perfomance and availability +
             -> developers of the group are less experienced with this tool - 
 
-
-    cassandra?
 
 
 twitter bot:
