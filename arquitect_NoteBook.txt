@@ -1,0 +1,52 @@
+Software project management and comprehension tool: 
+    maven
+
+Web java-based aplication tool:
+    Java Spring boot 
+    Java Spring
+    Thymeleaf
+
+database:
+    Requisites:
+        - a database oriented to lines -
+        - very high perfomance 
+        - high availability
+        - horizontal scalability
+        - easy filter of content
+    Options:
+        mySql
+            -> oriented to column - 
+            -> great understanding from the developers +
+            -> scale well if configured correctly  +-
+            -> very high availability +
+            -> vertical scalability -
+        
+        
+        mongodb 
+            -> document database +-
+            -> vertical and horizontal scalability and high availability + (sharding and replica sets.)
+            -> great for transactional, search, analytics +
+            -> perfomance limitations can happend due to inadequate or inappropriate indexing strategies, 
+        or as a consequence of poor schema design patterns -
+            -> the developers have some experience and understanding of mongodb +-
+        
+
+        cassandra
+        
+            -> oriented to lines  +
+            -> distributed + (maybe overkill)
+            -> horizontal scalability +
+            -> high perfomance and availability +
+            -> developers of the group are less experienced with this tool - 
+
+
+
+twitter bot:
+    python - https://realpython.com/twitter-bot-python-tweepy/
+             https://auth0.com/blog/how-to-make-a-twitter-bot-in-python-using-tweepy/
+
+    
+    or
+    
+    java -  https://gist.github.com/dueyfinster/2469810
+            https://medium.com/@SeloSlav/how-to-make-a-scary-russian-twitter-bot-with-java-b7b62768a3ac
