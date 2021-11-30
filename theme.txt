@@ -1,12 +1,12 @@
-Sample project theme: Google Trends
+Sample project theme: Twitter Trends Bot
 
-⎯ Goal: Publish descriptive information about the trends all over the world
+⎯ Goal: Publish descriptive information about the trends all over the world, seen from twitter
 
-⎯ Data acquisition layer: google trends dataset
+⎯ Data acquisition layer: twitter bot which collects data from all tweets by likes/trending
 
-⎯ Data publishing: every day/minute the data is sent to update the old values
+⎯ Data publishing: every time the page is refreshed, the bot will run and gain more information, change information, etc.
 
-⎯ Processing  &  bizz  logic: when users search for keywords, its incremented on the number of searches for that keyword, making it easy for us to read the information
+⎯ Processing & bizz logic: when users tweet something and it gets a lot of likes/shares, we can see that people like it, so it represents a trend
 
 ⎯ Integration API: nao sei
 
