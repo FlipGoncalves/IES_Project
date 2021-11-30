@@ -1,0 +1,39 @@
+Persona nº 1:
+	
+	Name: Anabela Flor
+	
+	Age: 16 years old
+	
+	Occupation: student
+	
+	Hobbies: sewing, tv series, social network
+	
+	Profile: Anabela is a very outgoing person, she values a lot her image and tries to be always in on the new trends so that she is the first one to hear everything. She always has something to talk about, from sports to music, she is always capable of talking to anyone; but what she really likes is fashion, since she was 6 years old, she always helped her family out on sewing any piece of wearing, which made her develop a huge interest on fashion.
+	
+	Goals: 
+	- Be better at sewing
+	- Have more time to study (because the social networks are very time consuming)
+	
+Persona nº 2:
+
+	Name: Joshua Jo
+	
+	Age: 24 years old
+	
+	Occupation: company manager
+	
+	Hobbies: swimming, helping others
+	
+	Profile: Joshua is a free spirit person, always with high hopes and time to help others. He became the creator of a company in Canada, which has as objective making toys with recyclated trash that are trending so that a percentage goes for charity (with bought copyright terms of course). He still only has 20 employees under his orders, so he wants to optimize the work as much as he can, so that he won't put any overwork to his employees.
+	
+	Goals:
+	- Help people
+	- Optimize time on the different areas of his company
+	
+	
+
+Scenario:
+	
+	Persona nº 1: Anabela changed of schools, and is finding very hard to keep up with all the new people that she is meeting and what is going on around the world, so she figured that she would use trendit; trendit would not olny trim a lot of time on the social networks, but also let her know about what topics related to something (a band, an actress...) where the most popular (a music, a movie...), so she can talk about it with a friend that has the same tastes.
+	
+	Persona nº 2: Joshua wants to optimize the work done on his company, so he figured out which parts were spending the most time on the development of a new product. One of the hard parts of the work is finding the right thing to create a product, it is one of the most important parts of the work, because it will be the starting point of the work, everything will be builded up from there, so it is crucial that this part not only is really certain, but also fast; and one of the arduous tasks in this work is data research, it would be really useful to be able to see what is currently trending on Canada; thankfully, trendit exists, and it helps Joshua and his employees by ordering trends by popularity and also by age bracket, topics...
