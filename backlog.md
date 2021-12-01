@@ -7,3 +7,12 @@
 - building personas
 - searching for the best arquitectures to use for the project
 - build backlog
+- NEW: Introduce user Accounts:
+  - Step 1: User accounts only with no benefits
+  - Step 2: Make enterprise edition
+- NEW: Let user's personalise their topics of interest
+- NEW: Show most popular tweets of hashtags:
+  - Step 1: Simply Show Them
+  - Step 3: Making it possible to hide some hashtags
+  - Step 2: Making it possible to sort it by increase of popularity within a time interval
+- NEW: Create a page of famous tweets within the last 24H
