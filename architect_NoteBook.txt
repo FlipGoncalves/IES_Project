@@ -13,6 +13,7 @@ database:
         - high availability
         - horizontal scalability
         - easy filter of content
+        
     Options:
         mySql
             -> oriented to column - 
