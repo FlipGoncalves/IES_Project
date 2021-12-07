@@ -11,4 +11,3 @@ Sample project theme: Twitter Trends Bot
 ⎯ Integration API: REST Api, with database connection
 
 ⎯ Web portal: web application to show us information about the trends all over the world, as well as statistic information
-

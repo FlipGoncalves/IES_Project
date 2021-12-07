@@ -1,0 +1,83 @@
+Persona nº 1:
+	
+	Name: Anabela Flor
+	
+	Age: 16 years old
+	
+	Occupation: Student
+	
+	Hobbies: sewing, tv series, social network
+	
+	Profile: Anabela is a very outgoing person, she values a lot her image and tries to be always in on the new trends so that she is the first one to hear everything. Anabela loves fashion, since she was 6 years old, she always helped her family out on sewing any piece of wearing, which made her develop a huge interest on fashion.
+	
+	Goals: 
+	- Be better at sewing
+	- Have more time to study (because the social networks are very time consuming)
+	
+Persona nº 2:
+
+	Name: Joshua Jo
+	
+	Age: 24 years old
+	
+	Occupation: Company Manager
+	
+	Hobbies: swimming, helping others
+	
+	Profile: Joshua is a free spirit person, always with high hopes and time to help others. He became the creator of a company in Canada, which has as objective making toys with recyclated trash that are trending so that a percentage goes for charity (with bought copyright terms of course). He still only has 20 employees under his orders, so he wants to optimize the work as much as he can, so that he won't put any overwork to his employees.
+	
+	Goals:
+	- Help people
+	- Optimize time on the different areas of his company
+	
+Persona nº 3:
+	
+	Name: Alonso Boda
+	
+	Age: 34 years old
+	
+	Occupation: Economist
+	
+	Hobbies: fishing, playing piano
+	
+	Profile: Alonso is a shy person, but he is interested in almost anything that comes around him. He works hard at his work, and he also goes always beyond what people ask him to do, which makes his colleagues not only depend on him, but also take him as a role model.
+	
+	Goals: 
+	- Be able to talk with more people
+	
+	
+
+Scenario:
+	
+	Persona nº 1: Anabela changed of schools, and is finding very hard to keep up with all the new people that she is meeting and what is going on the fashion world, so she figured out that she would use trendit; trendit would not olny trim a lot of time on the social networks, but also let her know about what is now the most popular new fashion product, being it a dress or a shoes, that is making the world impressed.
+	
+	Persona nº 2: Joshua wants to optimize the work done on his company, so he figured out which parts were spending the most time on the development of a new product. One of the hard parts of the work is finding the right thing to create a product, it is one of the most important parts of the work, because it will be the starting point of the work, everything will be builded up from there, so it is crucial that this part not only is really certain, but also fast; and one of the arduous tasks in this work is data research, it would be really useful to be able to see what is currently trending on Canada; thankfully, trendit exists, and it helps Joshua and his employees by ordering trends by popularity and also by age bracket, topics...
+	
+	Persona nº 3: Alonso feels bad for not being able to talk with people while on the break at work; he wants to know his colleagues better, but when he thinks about doing so and tries talking to them, nothing on his mind will pop up. Using trendit, Alonso could easily find a good topic for a talk, from the football game last night to the GRAMMYs awards, topics won't be a excuse for him anymore for not talking with people!
+	
+	
+User stories:
+	Persona nº1:
+		- As an aspirant fashionist, Anabela would like to cope up with the latest trends in the fashion world with the minimum time possible
+		- Anabela created a simple account in trendit, for personal use
+		- While creating an account, she put as a topic of interest "fashion"
+		- On her home page, the most popular topics with the hashtag fashion would appear
+		- She could also check what were the most popular fashion topics on australia last night
+		- She can filter the fashion topics to only "carhartt" for example so that she can see what is trending on her favorite brand
+		
+	Persona nº2:
+		- As a Company manager, Joshua wants him and his team to be updated with the latest hits and trends, so that he can develop a new product but with recycled products.
+		- Joshua decides to create a new account in trendit, for enterprise use
+		- While creating the account, he would indicate what market is he interested in (food, toys...)
+		- On the home page the team would have access to lots of different tools, like being able to see the income of "pringles" for example, in the month of january (indicated for smaller business)
+		- Joshua could now contact the enterprise and ask to buy the terms to produce the same product in lower prices and a different brand (own-label brand)
+		- On the research, Joshua's team could also search for rising trends and keep up with many topics at the same time, by comparing them side to side with graphs of popularity and sorts...
+		- They could also check the popularity of their brand, and what topics associated with their brand are the most popular ones
+		
+	Persona nº3:
+		- As a shy colleague, Alonso wants to be able to talk to people without falling short on talking topics, so that he can not only learn more about his colleagues, but also gain a bigger general culture knowledge
+		- Alonso creates an account on trendit, for personal uses
+		- Alonso chooses the option to see all the popular topics on twitter
+		- On his home page, he will see what is trending on his home country, but can also check what is trending on another countries
+		- When choosing the most popular topic, he will see graphs about the popularity over the time and (maybe??) a little summary about what is this topic
+		- He can search about any topic that a person talks about really fast, just by using the search bar, which will show the topic and the derivated topics from this one
