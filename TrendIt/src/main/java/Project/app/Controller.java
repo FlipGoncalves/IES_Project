@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.validation.Valid;
-import javax.validation.constraints.Null;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,52 +18,54 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import Project.app.Repositories.*;
+import Project.app.Models.*;
+import Project.app.Exceptions.*;
+
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/Trend_It")
 public class Controller {
     @Autowired
-    private EmployeeRepository employeeRepository;
+    private TweetRepository tweets_rep;
 
-    @GetMapping("/employees")
-    public List<Employee> getAllEmployees(@RequestParam(value = "email", required = false) String email) {
-        if(email != null){
-            List<Employee> emp = employeeRepository.findByEmailId(email);
-            return emp;
+    @GetMapping("/all_tweets")
+    public List<Tweet> getAllTweets(@RequestParam(value = "trend", required = false) String trend) {
+        if(trend != null){
+            List<Tweet> tweet = tweets_rep.findAllByTrend(trend);
+            return tweet;
         }
-        return employeeRepository.findAll();
+        return tweets_rep.findAll();
     }
 
-    @GetMapping("/employees/{id}")
-    public ResponseEntity<Employee> getEmployeeById(@PathVariable(value = "id" ) Long employeeId) throws ResourceNotFoundException {
-        Employee employee = employeeRepository.findById(employeeId).orElseThrow(() -> new ResourceNotFoundException("Employee not found for this id ::" + employeeId));
-        return ResponseEntity.ok().body(employee);
+    @GetMapping("/tweet_get/{id}")
+    public ResponseEntity<Tweet> getTweetById(@PathVariable(value = "id" ) Integer tweet_id) throws ResourceNotFoundException {
+        Tweet tweet = tweets_rep.findById(tweet_id).orElseThrow(() -> new ResourceNotFoundException("Tweet not found for this id ::" + tweet_id));
+        return ResponseEntity.ok().body(tweet);
     }
 
-    @PostMapping("/employees")
-    public Employee createEmployee(@Valid @RequestBody Employee employee){
-        return employeeRepository.save(employee);
+    @PostMapping("/insert_tweet")
+    public Tweet insertTweet(@Valid @RequestBody Tweet tweet){
+        return tweets_rep.save(tweet);
     }
 
-    @PutMapping("/employees/{id}")
-    public ResponseEntity<Employee> updateEmployee(@PathVariable(value = "id") Long employeeId, @Valid @RequestBody Employee employeeDetails) throws ResourceNotFoundException{
-        Employee employee = employeeRepository.findById(employeeId).orElseThrow(() -> new ResourceNotFoundException("Employee not found for this id :: " + employeeId));
+    // @PutMapping("/user/{id}")
+    // public ResponseEntity<Tweet> updateUser(@PathVariable(value = "id") Integer user_id, @Valid @RequestBody User user) throws ResourceNotFoundException{
+    //     Tweet tweet = tweets_rep.findById(user_id).orElseThrow(() -> new ResourceNotFoundException("User not found for this id :: " + user_id));
 
-        employee.setEmailId(employeeDetails.getEmailId());
-        employee.setLastName(employeeDetails.getLastName());
-        employee.setFirstName(employeeDetails.getFirstName());
-        final Employee updatedEmployee = employeeRepository.save(employee);
-        return ResponseEntity.ok(updatedEmployee);
-    }
+    //     tweet.setDescription(user.getDescription());
+    //     tweet.setTrends(user.getTrends());
+    //     tweet.setPerson(user.getPerson());
+    //     final Tweet updated_tweet = tweets_rep.save(tweet);
+    //     return ResponseEntity.ok(updated_tweet);
+    // }
 
-    @DeleteMapping("/employees/{id}")
-    public Map<String, Boolean> deleteEmployee(@PathVariable(value = "id") Long employeeId) throws ResourceNotFoundException{
-        Employee employee = employeeRepository.findById(employeeId).orElseThrow(() -> new ResourceNotFoundException("Employee not found for this id :: " + employeeId));
+    @DeleteMapping("/tweet_del/{id}")
+    public Map<String, Boolean> deleteTweet(@PathVariable(value = "id") Integer tweet_id) throws ResourceNotFoundException{
+        Tweet tweet = tweets_rep.findById(tweet_id).orElseThrow(() -> new ResourceNotFoundException("Tweet not found for this id :: " + tweet_id));
 
-        employeeRepository.delete(employee);
+        tweets_rep.delete(tweet);
         Map<String, Boolean> response = new HashMap<>();
         response.put("deleted", Boolean.TRUE);
         return response;
     }
-}class Controller {
-    
 }
