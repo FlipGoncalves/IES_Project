@@ -10,21 +10,21 @@ services:
       dockerfile: Dockerfile
     ports:
       - "9001:9001"
-    restart: always
+    restart: unless-stopped
     depends_on:
       - db # This service depends on mysql. Start that first.
     environment: # Pass environment variables to the service
       SERVER_PORT: 8000
       SPRING_APPLICATION_NAME: TrendIt
       SPRING_DATASOURCE_URL: jdbc:mongodb://mongo:27017/trendit
-      SPRING_DATA_MONGODB_AUTHENTICATION_DATABASE: trendit
+      SPRING_DATA_MONGODB_AUTHENTICATION_DATABASE: admin
       SPRING_DATA_MONGODB_HOST: mongo
       SPRING_DATA_MONGODB_PORT: 27017
-      SPRING_DATASOURCE_USERNAME: grupo51
-      SPRING_DATASOURCE_PASSWORD: grupo51
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: example
       SPRING_DATA_MONGODB_DATABASE: trendit
-      SPRING_DATA_MONGODB_USERNAME: grupo51
-      SPRING_DATA_MONGODB_PASSWORD: grupo51
+      SPRING_DATA_MONGODB_USERNAME: root
+      SPRING_DATA_MONGODB_PASSWORD: example
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
 
     networks: # Networks to join (Services on the same network can communicate with each other using their name)
@@ -48,7 +48,7 @@ services:
     volumes:
       - data:/data/db
       - data:/data/mongodb.log
-        #- init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
+      - init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
     networks:
       - backend
 
