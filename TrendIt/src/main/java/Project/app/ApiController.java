@@ -24,7 +24,7 @@ import Project.app.Exceptions.*;
 
 @RestController
 @RequestMapping("/Trend_It")
-public class Controller {
+public class ApiController {
     @Autowired
     private TweetRepository tweets_rep;
     @Autowired
@@ -70,9 +70,6 @@ public class Controller {
         response.put("deleted", Boolean.TRUE);
         return response;
     }
-
-
-
 
     @GetMapping("/all_users")
     public List<User> getAllUsers() {

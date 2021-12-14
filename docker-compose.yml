@@ -30,6 +30,7 @@ services:
     networks: # Networks to join (Services on the same network can communicate with each other using their name)
       - backend
 
+
   # Database Service (MongoDB)
   db:
     image: mongo:latest
@@ -37,7 +38,7 @@ services:
     hostname: db
     restart: unless-stopped
     ports:
-      - 27017:27017
+      - 27117:27017
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: example
