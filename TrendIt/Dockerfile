@@ -35,7 +35,6 @@ COPY src src
 # Package the application
 
 RUN ./mvnw clean
-
 RUN ./mvnw package -DskipTests -Pprod,no-liquibase
 
 #create target directory to store compiled dependencies
