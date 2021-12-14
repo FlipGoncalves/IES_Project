@@ -20,7 +20,7 @@ public class Tweet implements Serializable{
     private String tag;
 
     @Column(name = "ts", nullable = false)
-    private String timestamp;
+    private String ts;
 
     @Column(name = "description", nullable = false)
     private String description;

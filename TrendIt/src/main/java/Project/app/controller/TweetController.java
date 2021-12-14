@@ -1,4 +1,8 @@
-package Project.app;
+package Project.app.controller;
+
+import Project.app.repository.TweetRepository;
+import Project.app.model.Tweet;
+import Project.app.exception.ResourceNotFoundException;
 
 import java.util.HashMap;
 import java.util.List;
@@ -41,7 +45,7 @@ public class TweetController {
     }
 
     @PostMapping("/employees")
-    public Employee createTweet(@Valid @RequestBody Tweet tweet){
+    public Tweet createTweet(@Valid @RequestBody Tweet tweet){
         return tweetRepository.save(tweet);
     }
 
