@@ -128,7 +128,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
                   InterestTen
                 </label>
               </div>
-              <button type="sumbit" class="w3-button w3-theme"><i class="bi bi-check-lg"></i>Register</button> 
+              <button onclick="if (document.getElementById('Password').value != document.getElementById('Repeat_Password').value) return false;" type="sumbit" class="w3-button w3-theme"><i class="bi bi-check-lg"></i>Register</button> 
             </div>
           </div>
         </div>
@@ -157,6 +157,17 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 </footer>
  
 <script>
+
+function password() {
+  var x = document.getElementById("Password");
+  var y = document.getElementById("Repeat_Password");
+  if (x === y) {
+    console.log("true")
+    return true
+  }
+  return false
+}
+
 // Accordion
 function myFunction(id) {
   var x = document.getElementById(id);
