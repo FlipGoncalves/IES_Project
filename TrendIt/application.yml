@@ -2,7 +2,7 @@ spring:
   data:
     mongodb:
       username: root
-      password: root
-      database: test_db
-      port: 27117
+      password: example
+      database: trendit
+      port: 27107
       host: localhost

@@ -10,7 +10,7 @@ import javax.persistence.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
-@Document(collection = "tweet")
+@Document(collection = "Tweet")
 public class Tweet implements Serializable {
 
     @Id
