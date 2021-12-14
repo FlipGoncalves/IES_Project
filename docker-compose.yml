@@ -16,10 +16,10 @@ services:
     environment: # Pass environment variables to the service
       SERVER_PORT: 8000
       SPRING_APPLICATION_NAME: TrendIt
-      SPRING_DATASOURCE_URL: jdbc:mongodb://mongo:27117/trendit
+      SPRING_DATASOURCE_URL: jdbc:mongodb://db:27017/trendit
       SPRING_DATA_MONGODB_AUTHENTICATION_DATABASE: admin
-      SPRING_DATA_MONGODB_HOST: mongo
-      SPRING_DATA_MONGODB_PORT: 27117
+      SPRING_DATA_MONGODB_HOST: db
+      SPRING_DATA_MONGODB_PORT: 27017
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: example
       SPRING_DATA_MONGODB_DATABASE: trendit
@@ -34,8 +34,8 @@ services:
   # Database Service (MongoDB)
   db:
     image: mongo:latest
-    container_name: mongo
-    hostname: mongo
+    container_name: db
+    hostname: db
     restart: unless-stopped
     ports:
       - 27117:27017

@@ -34,9 +34,10 @@ COPY src src
 
 # Package the application
 
-RUN ./mvnw clean
-
-RUN ./mvnw package
+#RUN ./mvnw clean
+#RUN ./mvnw package -DskipTests -Pprod,no-liquibase
+RUN ./mvnw package -DskipTests
+RUN ./mvnw package -DskipTests -Pprod,no-liquibase
 
 #create target directory to store compiled dependencies
 RUN mkdir -p target/dependency && (cd target/dependency; jar -xf ../*.jar)
