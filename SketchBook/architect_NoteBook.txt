@@ -51,3 +51,5 @@ twitter bot:
     
     java -  https://gist.github.com/dueyfinster/2469810
             https://medium.com/@SeloSlav/how-to-make-a-scary-russian-twitter-bot-with-java-b7b62768a3ac
+            https://dev.to/goldennoodles/java-spring-twitter-bot-2ceo
+            https://github.com/redouane59/twittered/tree/develop/src/main/java/io/github/redouane59/twitter
