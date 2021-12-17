@@ -31,10 +31,10 @@ public class ViewController {
 			if (user_rep.findByUsername(us.getUsername()).getPassword().equals(us.getPassword())) {
 				System.out.println(us.getPassword());
 				model.addAttribute("User", user_rep.findByUsername(us.getUsername()));
-				return "index";
+				return "home";
 			}
 		}
-		return "register";
+		return "index";
 	}
 
 	@GetMapping("/register")
