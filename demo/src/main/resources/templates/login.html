@@ -29,7 +29,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
       <a href="#" class="w3-bar-item w3-button">New Notification 2</a>
     </div>
   </div>
-  <a href="login.html" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="Sign In">Sign In</a>
+  <a href="/login" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="Sign In">Sign In</a>
  </div>
 </div>
 
@@ -57,79 +57,34 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
     
     <!-- Middle Column -->
     <div class="w3-col m7">
-    <div class="w3-row-padding">
+      <form action="#" th:action="@{/login}" th:object="${login}" method="post">
+      <div class="w3-row-padding">
         <div class="w3-col m12">
           <div class="w3-card w3-round w3-white">
             <div class="w3-container w3-padding">
-              <h6 class="w3-opacity">Register to use the application</h6>
+              <h6 class="w3-opacity">Sign In to use the application</h6>
               <div class="form-group">
                 <label for="username">Username</label>
-                <input contenteditable="true" type="text" class="w3-border w3-padding form-control" id="Username" placeholder="Username">
+                <input contenteditable="true" type="text" class="w3-border w3-padding form-control" id="Username" placeholder="Username" th:field="*{username}">
               </div>
               <div class="form-group">
                 <label for="username">Password</label>
-                <input contenteditable="true" type="password" class="w3-border w3-padding form-control" id="Password" placeholder="Password">
+                <input contenteditable="true" type="password" class="w3-border w3-padding form-control" id="Password" placeholder="Password" th:field="*{password}">
               </div>
-              <div class="form-group">
-                <label for="username">Repeat Password</label>
-                <input contenteditable="true" type="password" class="w3-border w3-padding form-control" id="Repeat_Password" placeholder="Repeat Password">
-              </div>
-              <div class="form-group">
-                <label for="username">Interests</label>
-                <label class="container">
-                  <input type="checkbox" class="w3-border w3-padding" id="checkOne">
-                  <span class="checkmark"></span>
-                  InterestOne
-                </label>
-                <label class="container">
-                  <input type="checkbox" class="w3-border w3-padding" id="checkTwo">
-                  <span class="checkmark"></span>
-                  InterestTwo
-                </label>
-                <label class="container">
-                  <input type="checkbox" class="w3-border w3-padding" id="checkThree">
-                  <span class="checkmark"></span>
-                  InterestThree
-                </label>
-                <label class="container">
-                  <input type="checkbox" class="w3-border w3-padding" id="checkFour">
-                  <span class="checkmark"></span>
-                  InterestFour
-                </label>
-                <label class="container">
-                  <input type="checkbox" class="w3-border w3-padding" id="checkFive">
-                  <span class="checkmark"></span>
-                  InterestFive
-                </label>
-                <label class="container">
-                  <input type="checkbox" class="w3-border w3-padding" id="checkSix">
-                  <span class="checkmark"></span>
-                  InterestSix
-                </label>
-                <label class="container">
-                  <input type="checkbox" class="w3-border w3-padding" id="checkSeven">
-                  <span class="checkmark"></span>
-                  InterestSeven
-                </label>
-                <label class="container">
-                  <input type="checkbox" class="w3-border w3-padding" id="checkEight">
-                  <span class="checkmark"></span>
-                  InterestEight
-                </label>
-                <label class="container">
-                  <input type="checkbox" class="w3-border w3-padding" id="checkNine">
-                  <span class="checkmark"></span>
-                  InterestNine
-                </label>
-                <label class="container">
-                  <input type="checkbox" class="w3-border w3-padding" id="checkTen">
-                  <span class="checkmark"></span>
-                  InterestTen
-                </label>
-              </div>
-              <button type="button" class="w3-button w3-theme"><i class="bi bi-check-lg"></i>Register</button> 
+              <button type="submit" class="w3-button w3-theme" value="submit"><i class="bi bi-check-lg"></i>Sign In</button>
             </div>
           </div>
+        </div>
+      </div>
+      </form>
+      <div class="w3-row-padding" style="margin-top: 20px;">
+          <div class="w3-col m12">
+              <div class="w3-card w3-round w3-white">
+                <div class="w3-container w3-padding">
+                    <h3 class="w3-center center" style="padding-top: 5px;">Not Registered it ? Register here !</h3>
+                    <a href="/register"><button type="button" class="w3-button w3-theme w3-center center"><i class="bi bi-check-lg"></i>Register</button></a>
+                </div>
+            </div>
         </div>
       </div>
       
