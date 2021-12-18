@@ -1,6 +1,8 @@
 package TwitterBot;
 
 import TwitterBot.APIInterface.APITwitter;
+import TwitterBot.model.TweetCount;
+import TwitterBot.model.TweetCountResponse;
 import TwitterBot.model.TweetTrendsJson;
 import TwitterBot.model.TweetTrendsResponse;
 import org.springframework.boot.SpringApplication;
@@ -30,16 +32,55 @@ public class TwitterBotApp {
   static Twitter twitter;
   
   public static void main( String[] args ) throws TwitterException {
+    
+    String token = System.getenv( "token" );
+    if ( token.isEmpty() || token.isBlank() ) {
+      System.out.println( "Bearer Token not set" );
+      System.exit( - 1 );
+    }
+    
+    // TODO extract this to an endpoint of our controller so that main project can poll this into his own database
+/*
     Retrofit retrofit = new Retrofit.Builder()
+      .baseUrl( "https://api.twitter.com/2/" )
+      .addConverterFactory( GsonConverterFactory.create() )
+      .build();
+    APITwitter client = retrofit.create( APITwitter.class );
+    Call<TweetCountResponse> calltargetResponse = client.getCount( "lakers", "day", "Bearer " + token );
+    calltargetResponse.enqueue( new Callback<TweetCountResponse>() {
+      @Override public void onResponse( Call<TweetCountResponse> call,
+                                        Response<TweetCountResponse> response ) {
+        System.out.println();
+        System.out.println();
+        System.out.println( "------------------" );
+        System.out.println( "This -> " + this + "\n RESPONSE ->" + response.body() );
+        response.body().getTweetCountList().forEach( System.out::println );
+        System.out.println( "In The last 7days there were " + response.body().getTtCount() + " tweets matching this " +
+          "query." );
+        System.out.println( "Tambem da para ver o dia em que foi mais popular se fizermos uma stream da lista " +
+          "tweetCountList" );
+        System.out.println( "------------------" );
+        System.out.println( "------------------" );
+        System.out.println();
+      }
+      
+      @Override public void onFailure( Call<TweetCountResponse> call, Throwable throwable ) {
+        System.out.println( call );
+        System.out.println( call.request() );
+        System.err.println( throwable.getCause() );
+        System.out.println( "Something Went Wrong" );
+        System.exit( - 1 );
+      }
+    } );
+*/
+    
+    
+    // TODO extract this into a controller so that the main project can poll this for updates some endpoints do not
+    //  use this baseUrl
+   /* Retrofit retrofit = new Retrofit.Builder()
       .baseUrl( "https://api.twitter.com/1.1/" )
       .addConverterFactory( GsonConverterFactory.create() )
       .build();
-    
-    String token = System.getenv( "token" );
-    if (token.isEmpty() || token.isBlank()){
-      System.out.println("Bearer Token not set");
-      System.exit( -1 );
-    }
     APITwitter client = retrofit.create( APITwitter.class );
     Call<List<TweetTrendsResponse>> calltargetResponse = client.getTrends( "1", 2, "Bearer " + token );
     calltargetResponse.enqueue( new Callback<List<TweetTrendsResponse>>() {
@@ -47,22 +88,24 @@ public class TwitterBotApp {
                                         Response<List<TweetTrendsResponse>> response ) {
         System.out.println();
         System.out.println();
-        System.out.println("------------------");
-        System.out.println("This -> " + this + "\n RESPONSE ->" + response.body());
+        System.out.println( "------------------" );
+        System.out.println( "This -> " + this + "\n RESPONSE ->" + response.body() );
         response.body().get( 0 ).getTrends().forEach( System.out::println );
-        System.out.println("------------------");
-        System.out.println("------------------");
+        System.out.println( "------------------" );
+        System.out.println( "------------------" );
         System.out.println();
       }
       
       @Override public void onFailure( Call<List<TweetTrendsResponse>> call, Throwable throwable ) {
         System.out.println( call );
-        System.out.println(call.request());
+        System.out.println( call.request() );
         System.err.println( throwable.getCause() );
         System.out.println( "Something Went Wrong" );
-        System.exit( -1 );
+        System.exit( - 1 );
       }
-    } );
+    } );*/
+    
+    
     SpringApplication.run( TwitterBotApp.class, args );
   }
 

@@ -1,6 +1,8 @@
 package TwitterBot.APIInterface;
 
 
+import TwitterBot.model.TweetCount;
+import TwitterBot.model.TweetCountResponse;
 import TwitterBot.model.TweetTrendsResponse;
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -16,4 +18,8 @@ public interface APITwitter {
   Call<List<TweetTrendsResponse>> getTrends( @Query("id") String id, @Query("max_results") int maxT,
                                              @Header("Authorization") String auth );
   
+  @Headers({"Content-Type: application/json;charset=UTF-8"})
+  @GET("tweets/counts/recent")
+  Call<TweetCountResponse> getCount( @Query("query") String query, @Query("granularity") String granularity,
+                                      @Header("Authorization") String auth );
 }
