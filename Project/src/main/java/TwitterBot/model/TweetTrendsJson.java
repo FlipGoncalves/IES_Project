@@ -67,4 +67,14 @@ public class TweetTrendsJson {
   public void setUrl( String url ) {
     this.url = url;
   }
+  
+  @Override public String toString() {
+    return "Tweet{" +
+      "name='" + name + '\'' +
+      ", promoted_content='" + promoted_content + '\'' +
+      ", query='" + query + '\'' +
+      ", tweet_volume=" + tweet_volume +
+      ", url='" + url + '\'' +
+      '}';
+  }
 }

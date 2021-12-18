@@ -1,6 +1,7 @@
 package TwitterBot;
 
 import TwitterBot.APIInterface.APITwitter;
+import TwitterBot.model.TweetTrendsJson;
 import TwitterBot.model.TweetTrendsResponse;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -35,6 +36,10 @@ public class TwitterBotApp {
       .build();
     
     String token = System.getenv( "token" );
+    if (token.isEmpty() || token.isBlank()){
+      System.out.println("Bearer Token not set");
+      System.exit( -1 );
+    }
     APITwitter client = retrofit.create( APITwitter.class );
     Call<List<TweetTrendsResponse>> calltargetResponse = client.getTrends( "1", 2, "Bearer " + token );
     calltargetResponse.enqueue( new Callback<List<TweetTrendsResponse>>() {
@@ -43,7 +48,8 @@ public class TwitterBotApp {
         System.out.println();
         System.out.println();
         System.out.println("------------------");
-        System.out.println( this + "\n" + response.body().get( 0 ).getTrends());
+        System.out.println("This -> " + this + "\n RESPONSE ->" + response.body());
+        response.body().get( 0 ).getTrends().forEach( System.out::println );
         System.out.println("------------------");
         System.out.println("------------------");
         System.out.println();
@@ -51,8 +57,10 @@ public class TwitterBotApp {
       
       @Override public void onFailure( Call<List<TweetTrendsResponse>> call, Throwable throwable ) {
         System.out.println( call );
+        System.out.println(call.request());
         System.err.println( throwable.getCause() );
         System.out.println( "Something Went Wrong" );
+        System.exit( -1 );
       }
     } );
     SpringApplication.run( TwitterBotApp.class, args );
