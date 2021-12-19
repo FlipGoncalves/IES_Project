@@ -5,11 +5,11 @@ import com.google.gson.annotations.SerializedName;
 
 public class Locations {
   @Expose
-  @SerializedName( "name" )
+  @SerializedName("name")
   String name;
   
   @Expose
-  @SerializedName( "woeid" )
+  @SerializedName("woeid")
   String woeid;
   
   public String getName() {

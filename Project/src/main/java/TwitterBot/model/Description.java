@@ -4,6 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
+// List of hashtags
 public class Description {
   List<Hashtag> hashtags;
   
