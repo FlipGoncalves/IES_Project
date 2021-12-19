@@ -2,31 +2,39 @@ package TwitterBot.model;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
+@AllArgsConstructor
+@NoArgsConstructor
+@Document(collection = "Trends")
 public class TweetTrendsJson {
   @SerializedName("name")
   @Expose
+  @Field("name")
   String name;
+  
   @SerializedName("promoted_content")
   @Expose
+  @Field("promoted_content")
   String promoted_content;
+  
   @SerializedName("query")
+  @Field("query")
   @Expose
   String query;
+  
+  @Field("tweet_volume")
   @SerializedName("tweet_volume")
   @Expose
   Long tweet_volume;
+  
+  @Field("url")
   @SerializedName("url")
   @Expose
   String url;
-  
-  public TweetTrendsJson( String name, String promoted_content, String query, Long tweet_volume, String url ) {
-    this.name = name;
-    this.promoted_content = promoted_content;
-    this.query = query;
-    this.tweet_volume = tweet_volume;
-    this.url = url;
-  }
   
   public String getName() {
     return name;

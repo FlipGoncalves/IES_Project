@@ -1,6 +1,7 @@
 package TwitterBot;
 
 import TwitterBot.APIInterface.APITwitter;
+import TwitterBot.controller.TweetController;
 import TwitterBot.model.TweetCount;
 import TwitterBot.model.TweetCountResponse;
 import TwitterBot.model.TweetTrendsJson;
@@ -26,15 +27,15 @@ import java.util.List;
 
 
 @SpringBootApplication
-@ComponentScan("com.app.repository.TweetRepository")
+@ComponentScan(basePackageClasses=TweetController.class)
 @EnableAutoConfiguration(exclude = {DataSourceAutoConfiguration.class})
 public class TwitterBotApp {
   static Twitter twitter;
-  
+  public static String token = null;
   public static void main( String[] args ) throws TwitterException {
     
-    String token = System.getenv( "token" );
-    if ( token.isEmpty() || token.isBlank() ) {
+    token = System.getenv( "token" );
+    if ( token == null && ( token.isEmpty() || token.isBlank() ) ) {
       System.out.println( "Bearer Token not set" );
       System.exit( - 1 );
     }
