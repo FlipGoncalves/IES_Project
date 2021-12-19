@@ -45,7 +45,7 @@ public class TwitterBotApp {
                                                 .build();
     
     String ids = "1138505981460193280,1261326399320715264";
-    String bearerToken = System.getenv( "ACCESS_TOKEN" );
+    String bearerToken = System.getenv( "ACCESS_TOKEN" );  // ACCESS_TOKEN="<BEARER TOKEN>"
     URIBuilder uriBuilder = null;
     try {
       uriBuilder = new URIBuilder( "https://api.twitter.com/2/tweets" );
