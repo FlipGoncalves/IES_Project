@@ -2,6 +2,7 @@ package Project.app;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 import java.util.Map;
 
 import javax.validation.Valid;
@@ -23,7 +24,7 @@ import Project.app.Models.*;
 import Project.app.Exceptions.*;
 
 @RestController
-@RequestMapping("/Trend_It")
+@RequestMapping("/TrendIt")
 public class ApiController {
     @Autowired
     private TweetRepository tweets_rep;
@@ -31,12 +32,12 @@ public class ApiController {
     private UserRepository user_rep;
 
     @GetMapping("/all_tweets")
-    public List<Tweet> getAllTweets(@RequestParam(value = "trend", required = false) String trend) {
-        if(trend != null){
-            List<Tweet> tweet = tweets_rep.findAllByTrend(trend);
+    public Set<Tweet> getAllTweets(@RequestParam(value = "trends", required = false) String trends) {
+        if(trends != null){
+            Set<Tweet> tweet = tweets_rep.findAllByTrends(trends);
             return tweet;
         }
-        return tweets_rep.findAll();
+        return null;
     }
 
     @GetMapping("/tweet_get/{id}")
@@ -76,11 +77,11 @@ public class ApiController {
         return user_rep.findAll();
     }
 
-    // @GetMapping("/user_get/{id}")
-    // public ResponseEntity<User> getUserById(@PathVariable(value = "id" ) Integer user_id) throws ResourceNotFoundException {
-    //     User user = user_rep.findById(user_id).orElseThrow(() -> new ResourceNotFoundException("User not found for this id ::" + user_id));
-    //     return ResponseEntity.ok().body(user);
-    // }
+    @GetMapping("/user_get/{id}")
+    public ResponseEntity<User> getUserById(@PathVariable(value = "id" ) Integer user_id) throws ResourceNotFoundException {
+        User user = user_rep.findById(user_id).orElseThrow(() -> new ResourceNotFoundException("User not found for this id ::" + user_id));
+        return ResponseEntity.ok().body(user);
+    }
 
     @PostMapping("/insert_user")
     public User insertUser(@Valid @RequestBody User user){

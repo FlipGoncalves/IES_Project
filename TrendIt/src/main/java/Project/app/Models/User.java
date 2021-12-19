@@ -1,5 +1,6 @@
 package Project.app.Models;
 
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -10,13 +11,14 @@ import org.springframework.data.mongodb.core.mapping.Field;
 import java.io.Serializable;
 import java.util.*;
 
+@Entity
 @Document(collection = "User")
 public class User implements Serializable{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Field("id")
-	private Long usernameID;
+	private Integer id;
 
     @Field("username")
 	private String username;
@@ -39,12 +41,12 @@ public class User implements Serializable{
 		this.password = password;
 	}
 
-	public Long getUsernameID() {
-		return usernameID;
+	public Integer getId() {
+		return id;
 	}
 
-	public void setUsernameID(Long usernameID) {
-		this.usernameID = usernameID;
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
 	public String getUsername() {
@@ -73,6 +75,6 @@ public class User implements Serializable{
 
 	@Override
     public String toString() {
-        return "User [id=" + usernameID + ", Username=" + username + "]";
+        return "User [id=" + id + ", Username=" + username + ", Password=" + password + ", Interests=" + interests + "]";
     }
 }
