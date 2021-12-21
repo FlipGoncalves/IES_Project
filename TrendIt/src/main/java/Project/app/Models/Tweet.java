@@ -3,33 +3,28 @@ package Project.app.Models;
 import java.io.Serializable;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
 
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
-@Entity
-@Document(collection = "tweet")
+@Document(collection = "Tweet")
 public class Tweet implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Field("id")
 	private Integer id;
+    @Field("description")
     private String description;
-	// @OneToMany(targetEntity = Quote.class,fetch = FetchType.EAGER, mappedBy = "movie", cascade = CascadeType.ALL)
-	// private Set<Quote> quotes;
+    @Field("trends")
     private Set<String> trends;
+    @Field("person")
     private String person;
 
 	public Tweet(Integer id, String description, Set<String> trends, String person) {
-		this.id = id;
         this.description = description;
         this.trends = trends;
         this.person = person;
@@ -57,7 +52,6 @@ public class Tweet implements Serializable {
 		this.id = id;
 	}
     
-    @Column(name = "person", nullable = false)
     public String getPerson() {
         return person;
     }
@@ -66,7 +60,6 @@ public class Tweet implements Serializable {
         this.person = person;
     }
 
-    @Column(name = "trends", nullable = false)
 	public Set<String> getTrends() {
         return trends;
     }
@@ -75,7 +68,6 @@ public class Tweet implements Serializable {
         this.trends = trends;
     }
 
-    @Column(name = "description", nullable = false)
 	public String getDescription() {
 		return description;
 	}

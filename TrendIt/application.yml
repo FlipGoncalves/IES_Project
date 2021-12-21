@@ -1,0 +1,8 @@
+spring:
+  data:
+    mongodb:
+      username: root
+      password: example
+      database: trendit
+      port: 27107
+      host: localhost

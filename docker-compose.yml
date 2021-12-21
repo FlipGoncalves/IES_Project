@@ -1,0 +1,63 @@
+version: '3.3'
+
+# Define services
+services:
+  # App backend service
+  app-server:
+    # Configuration for building the docker image for the backend service
+    build:
+      context: TrendIt # Use an image built from the specified dockerfile in the `polling-app-server` directory.
+      dockerfile: Dockerfile
+    ports:
+      - "9001:9001"
+    restart: unless-stopped
+    depends_on:
+      - db # This service depends on mysql. Start that first.
+    environment: # Pass environment variables to the service
+      SERVER_PORT: 9001
+      SPRING_APPLICATION_NAME: TrendIt
+      SPRING_DATASOURCE_URL: jdbc:mongodb://db:27017/trendit
+      SPRING_DATA_MONGODB_AUTHENTICATION_DATABASE: admin
+      SPRING_DATA_MONGODB_HOST: db
+      SPRING_DATA_MONGODB_PORT: 27017
+      SPRING_DATASOURCE_USERNAME: root  
+      SPRING_DATASOURCE_PASSWORD: example
+      SPRING_DATA_MONGODB_DATABASE: trendit
+      SPRING_DATA_MONGODB_USERNAME: root
+      SPRING_DATA_MONGODB_PASSWORD: example
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+
+    networks: # Networks to join (Services on the same network can communicate with each other using their name)
+      - backend
+
+
+  # Database Service (MongoDB)
+  db:
+    image: mongo:latest
+    container_name: db
+    hostname: db
+    restart: unless-stopped
+    ports:
+      - 27117:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+      MONGO_INITDB_DATABASE: trendit
+      MONGO_DB_USERNMAE: grupo51
+      MONGO_DB_PASSWORD: grupo51
+    volumes:
+      - data:/data/db
+      - data:/data/mongodb.log
+      - init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
+    networks:
+      - backend
+
+
+volumes:
+  data:
+  init-mongo.js:
+
+# Networks to be created to facilitate communication between containers
+networks:
+  backend:
+    driver: bridge

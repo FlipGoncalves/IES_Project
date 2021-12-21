@@ -29,7 +29,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
       <a href="#" class="w3-bar-item w3-button">New Notification 2</a>
     </div>
   </div>
-  <a href="login.html" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="Sign In">Sign In</a>
+  <a href="/login" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="Sign In">Sign In</a>
  </div>
 </div>
 
@@ -57,6 +57,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
     
     <!-- Middle Column -->
     <div class="w3-col m7">
+    <form action="/TrendIt/insert_user" th:action="@{/register}" th:object="${register}" method="post">
     <div class="w3-row-padding">
         <div class="w3-col m12">
           <div class="w3-card w3-round w3-white">
@@ -64,25 +65,75 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
               <h6 class="w3-opacity">Register to use the application</h6>
               <div class="form-group">
                 <label for="username">Username</label>
-                <input contenteditable="true" type="text" class="w3-border w3-padding form-control" id="Username" placeholder="Username">
+                <input contenteditable="true" type="text" class="w3-border w3-padding form-control" id="Username" th:field="*{username}" placeholder="Username">
               </div>
               <div class="form-group">
                 <label for="username">Password</label>
-                <input contenteditable="true" type="password" class="w3-border w3-padding form-control" id="Password" placeholder="Password">
+                <input contenteditable="true" type="password" class="w3-border w3-padding form-control" id="Password" th:field="*{password}" placeholder="Password">
               </div>
               <div class="form-group">
                 <label for="username">Repeat Password</label>
                 <input contenteditable="true" type="password" class="w3-border w3-padding form-control" id="Repeat_Password" placeholder="Repeat Password">
               </div>
               <div class="form-group">
-                <label for="username">IDK</label>
-                <input contenteditable="true" class="w3-border w3-padding form-control" id="IDK" placeholder="IDK">
+                <label for="username">Interests</label>
+                <label class="container">
+                  <input type="checkbox" class="w3-border w3-padding" id="checkOne" th:field="*{interests}" value="InterestOne" name="InterestOne">
+                  <span class="checkmark"></span>
+                  InterestOne
+                </label>
+                <label class="container">
+                  <input type="checkbox" class="w3-border w3-padding" id="checkTwo" th:field="*{interests}" value="InterestTwo" name="InterestTwo">
+                  <span class="checkmark"></span>
+                  InterestTwo
+                </label>
+                <label class="container">
+                  <input type="checkbox" class="w3-border w3-padding" id="checkThree" th:field="*{interests}" value="InterestThree" name="InterestThree">
+                  <span class="checkmark"></span>
+                  InterestThree
+                </label>
+                <label class="container">
+                  <input type="checkbox" class="w3-border w3-padding" id="checkFour" th:field="*{interests}" value="InterestFour" name="InterestFour">
+                  <span class="checkmark"></span>
+                  InterestFour
+                </label>
+                <label class="container">
+                  <input type="checkbox" class="w3-border w3-padding" id="checkFive" th:field="*{interests}" value="InterestFive" name="InterestFive">
+                  <span class="checkmark"></span>
+                  InterestFive
+                </label>
+                <label class="container">
+                  <input type="checkbox" class="w3-border w3-padding" id="checkSix" th:field="*{interests}" value="InterestSix" name="InterestSix">
+                  <span class="checkmark"></span>
+                  InterestSix
+                </label>
+                <label class="container">
+                  <input type="checkbox" class="w3-border w3-padding" id="checkSeven" th:field="*{interests}" value="InterestSeven" name="InterestSeven">
+                  <span class="checkmark"></span>
+                  InterestSeven
+                </label>
+                <label class="container">
+                  <input type="checkbox" class="w3-border w3-padding" id="checkEight" th:field="*{interests}" value="InterestEight" name="InterestEight">
+                  <span class="checkmark"></span>
+                  InterestEight
+                </label>
+                <label class="container">
+                  <input type="checkbox" class="w3-border w3-padding" id="checkNine" th:field="*{interests}" value="InterestNine" name="InterestNine">
+                  <span class="checkmark"></span>
+                  InterestNine
+                </label>
+                <label class="container">
+                  <input type="checkbox" class="w3-border w3-padding" id="checkTen" th:field="*{interests}" value="InterestTen" name="InterestTen">
+                  <span class="checkmark"></span>
+                  InterestTen
+                </label>
               </div>
-              <button type="button" class="w3-button w3-theme"><i class="bi bi-check-lg"></i>Register</button> 
+              <button onclick="if (document.getElementById('Password').value != document.getElementById('Repeat_Password').value) return false;" type="sumbit" class="w3-button w3-theme"><i class="bi bi-check-lg"></i>Register</button> 
             </div>
           </div>
         </div>
       </div>
+    </form>
       
     <!-- End Middle Column -->
     </div>
@@ -106,6 +157,17 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 </footer>
  
 <script>
+
+function password() {
+  var x = document.getElementById("Password");
+  var y = document.getElementById("Repeat_Password");
+  if (x === y) {
+    console.log("true")
+    return true
+  }
+  return false
+}
+
 // Accordion
 function myFunction(id) {
   var x = document.getElementById(id);

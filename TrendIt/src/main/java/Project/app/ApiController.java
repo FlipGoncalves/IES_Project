@@ -2,6 +2,7 @@ package Project.app;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 import java.util.Map;
 
 import javax.validation.Valid;
@@ -12,7 +13,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
+// import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,18 +24,20 @@ import Project.app.Models.*;
 import Project.app.Exceptions.*;
 
 @RestController
-@RequestMapping("/Trend_It")
-public class Controller {
+@RequestMapping("/TrendIt")
+public class ApiController {
     @Autowired
     private TweetRepository tweets_rep;
+    @Autowired
+    private UserRepository user_rep;
 
     @GetMapping("/all_tweets")
-    public List<Tweet> getAllTweets(@RequestParam(value = "trend", required = false) String trend) {
-        if(trend != null){
-            List<Tweet> tweet = tweets_rep.findAllByTrend(trend);
+    public Set<Tweet> getAllTweets(@RequestParam(value = "trends", required = false) String trends) {
+        if(trends != null){
+            Set<Tweet> tweet = tweets_rep.findAllByTrends(trends);
             return tweet;
         }
-        return tweets_rep.findAll();
+        return null;
     }
 
     @GetMapping("/tweet_get/{id}")
@@ -67,5 +70,21 @@ public class Controller {
         Map<String, Boolean> response = new HashMap<>();
         response.put("deleted", Boolean.TRUE);
         return response;
+    }
+
+    @GetMapping("/all_users")
+    public List<User> getAllUsers() {
+        return user_rep.findAll();
+    }
+
+    @GetMapping("/user_get/{id}")
+    public ResponseEntity<User> getUserById(@PathVariable(value = "id" ) Integer user_id) throws ResourceNotFoundException {
+        User user = user_rep.findById(user_id).orElseThrow(() -> new ResourceNotFoundException("User not found for this id ::" + user_id));
+        return ResponseEntity.ok().body(user);
+    }
+
+    @PostMapping("/insert_user")
+    public User insertUser(@Valid @RequestBody User user){
+        return user_rep.save(user);
     }
 }
