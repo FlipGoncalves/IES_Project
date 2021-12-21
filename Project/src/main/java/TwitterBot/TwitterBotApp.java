@@ -45,7 +45,11 @@ public class TwitterBotApp {
                                                 .build();
     
     String ids = "1138505981460193280,1261326399320715264";
+<<<<<<< HEAD
     String bearerToken = System.getenv( "ACCESS_TOKEN" );  // ACCESS_TOKEN="<BEARER TOKEN>"
+=======
+    String bearerToken = System.getenv( "ACCESS_TOKEN" );
+>>>>>>> b6d54cddca7f7f240698b2c78a545fa4917ecc4e
     URIBuilder uriBuilder = null;
     try {
       uriBuilder = new URIBuilder( "https://api.twitter.com/2/tweets" );
@@ -95,7 +99,11 @@ public class TwitterBotApp {
       e.printStackTrace();
     }
     queryParameters = new ArrayList<>();
+<<<<<<< HEAD
     queryParameters.add(new BasicNameValuePair("query", "from:x    OR from:KingJames OR from:DailyNASA"));
+=======
+    queryParameters.add(new BasicNameValuePair("query", "from:hyperlegen OR from:KingJames OR from:DailyNASA"));
+>>>>>>> b6d54cddca7f7f240698b2c78a545fa4917ecc4e
     uriBuilder.addParameters(queryParameters);
   
     try {
