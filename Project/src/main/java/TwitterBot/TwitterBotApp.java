@@ -1,16 +1,7 @@
 package TwitterBot;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.config.CookieSpecs;
-import org.apache.http.client.config.RequestConfig;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.utils.URIBuilder;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.util.EntityUtils;
+import TwitterBot.Services.TwitterService;
+import TwitterBot.controller.TweetController;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -19,121 +10,96 @@ import org.springframework.context.annotation.ComponentScan;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.util.ArrayList;
-
 
 // useful site : https://twitter4j.org/en/code-examples.html
 
 
 @SpringBootApplication
-@ComponentScan("com.app.repository.TweetRepository")
+@ComponentScan(basePackageClasses=TweetController.class)
+@ComponentScan(basePackageClasses= TwitterService.class)
 @EnableAutoConfiguration(exclude = {DataSourceAutoConfiguration.class})
 public class TwitterBotApp {
   static Twitter twitter;
-  
+  public static String token = null;
   public static void main( String[] args ) throws TwitterException {
-    String tweetResponse = null;
     
-    CloseableHttpClient httpClient = HttpClients.custom()
-                                                .setDefaultRequestConfig(
-                                                  RequestConfig.custom()
-                                                               .setCookieSpec( CookieSpecs.STANDARD )
-                                                               .build()
-                                                )
-                                                .build();
+    token = System.getenv( "token" );
+    if ( token == null && ( token.isEmpty() || token.isBlank() ) ) {
+      System.out.println( "Bearer Token not set" );
+      System.exit( - 1 );
+    }
     
-    String ids = "1138505981460193280,1261326399320715264";
-    String bearerToken = System.getenv( "ACCESS_TOKEN" );
-    URIBuilder uriBuilder = null;
-    try {
-      uriBuilder = new URIBuilder( "https://api.twitter.com/2/tweets" );
-    } catch (URISyntaxException e) {
-      error( e );
-    }
-    ArrayList<NameValuePair> queryParameters;
-    queryParameters = new ArrayList<>();
-    queryParameters.add( new BasicNameValuePair( "ids", ids ) );
-    queryParameters.add( new BasicNameValuePair( "tweet.fields", "created_at" ) );
-    uriBuilder.addParameters( queryParameters );
-    
-    HttpGet httpGet = null;
-    try {
-      httpGet = new HttpGet( uriBuilder.build() );
-    } catch (
-      URISyntaxException e) {
-      error( e );
-    }
-    httpGet.setHeader( "Authorization", String.format( "Bearer %s", bearerToken ) );
-    httpGet.setHeader( "Content-Type", "application/json" );
-    CloseableHttpResponse response = null;
-    try {
-      response = httpClient.execute( httpGet ); //
-    } catch (IOException e) {
-      error( e );
-    }
-    HttpEntity entity = null;
-    entity = response.getEntity();
-    if ( null != entity ) {
-      try {
-        tweetResponse = EntityUtils.toString( entity, "UTF-8" ); //
-      } catch (IOException e) {
-        error( e );
+    // TODO extract this to an endpoint of our controller so that main project can poll this into his own database
+/*
+    Retrofit retrofit = new Retrofit.Builder()
+      .baseUrl( "https://api.twitter.com/2/" )
+      .addConverterFactory( GsonConverterFactory.create() )
+      .build();
+    APITwitter client = retrofit.create( APITwitter.class );
+    Call<TweetCountResponse> calltargetResponse = client.getCount( "lakers", "day", "Bearer " + token );
+    calltargetResponse.enqueue( new Callback<TweetCountResponse>() {
+      @Override public void onResponse( Call<TweetCountResponse> call,
+                                        Response<TweetCountResponse> response ) {
+        System.out.println();
+        System.out.println();
+        System.out.println( "------------------" );
+        System.out.println( "This -> " + this + "\n RESPONSE ->" + response.body() );
+        response.body().getTweetCountList().forEach( System.out::println );
+        System.out.println( "In The last 7days there were " + response.body().getTtCount() + " tweets matching this " +
+          "query." );
+        System.out.println( "Tambem da para ver o dia em que foi mais popular se fizermos uma stream da lista " +
+          "tweetCountList" );
+        System.out.println( "------------------" );
+        System.out.println( "------------------" );
+        System.out.println();
       }
-    }
-    System.out.println(  );
-    System.out.println(  );
-    System.out.println(  );
-    System.out.println( tweetResponse );
-    System.out.println(  );
-    System.out.println(  );
-    System.out.println(  );
-    try {
-      uriBuilder = new URIBuilder("https://api.twitter.com/2/tweets/search/recent");
-    } catch (URISyntaxException e) {
-      e.printStackTrace();
-    }
-    queryParameters = new ArrayList<>();
-    queryParameters.add(new BasicNameValuePair("query", "from:hyperlegen OR from:KingJames OR from:DailyNASA"));
-    uriBuilder.addParameters(queryParameters);
-  
-    try {
-      httpGet = new HttpGet(uriBuilder.build());
-    } catch (URISyntaxException e) {
-      e.printStackTrace();
-    }
-    httpGet.setHeader("Authorization", String.format("Bearer %s", bearerToken));
-    httpGet.setHeader("Content-Type", "application/json");
-  
-    try {
-      response = httpClient.execute(httpGet);
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-    entity = response.getEntity();
-    String searchResponse = null;
-    if (null != entity) {
-      try {
-        searchResponse = EntityUtils.toString(entity, "UTF-8");
-      } catch (IOException e) {
-        e.printStackTrace();
+      
+      @Override public void onFailure( Call<TweetCountResponse> call, Throwable throwable ) {
+        System.out.println( call );
+        System.out.println( call.request() );
+        System.err.println( throwable.getCause() );
+        System.out.println( "Something Went Wrong" );
+        System.exit( - 1 );
       }
-    }
-    System.out.println(  );
-    System.out.println(  );
-    System.out.println(  );
-    System.out.println(searchResponse);
-    System.out.println(  );
-    System.out.println(  );
-    System.out.println(  );
+    } );
+*/
+    
+    
+    // TODO extract this into a controller so that the main project can poll this for updates some endpoints do not
+    //  use this baseUrl
+   /* Retrofit retrofit = new Retrofit.Builder()
+      .baseUrl( "https://api.twitter.com/1.1/" )
+      .addConverterFactory( GsonConverterFactory.create() )
+      .build();
+    APITwitter client = retrofit.create( APITwitter.class );
+    Call<List<TweetTrendsResponse>> calltargetResponse = client.getTrends( "1", 2, "Bearer " + token );
+    calltargetResponse.enqueue( new Callback<List<TweetTrendsResponse>>() {
+      @Override public void onResponse( Call<List<TweetTrendsResponse>> call,
+                                        Response<List<TweetTrendsResponse>> response ) {
+        System.out.println();
+        System.out.println();
+        System.out.println( "------------------" );
+        System.out.println( "This -> " + this + "\n RESPONSE ->" + response.body() );
+        response.body().get( 0 ).getTrends().forEach( System.out::println );
+        System.out.println( "------------------" );
+        System.out.println( "------------------" );
+        System.out.println();
+      }
+      
+      @Override public void onFailure( Call<List<TweetTrendsResponse>> call, Throwable throwable ) {
+        System.out.println( call );
+        System.out.println( call.request() );
+        System.err.println( throwable.getCause() );
+        System.out.println( "Something Went Wrong" );
+        System.exit( - 1 );
+      }
+    } );*/
+    
+    
     SpringApplication.run( TwitterBotApp.class, args );
   }
-  
-  // access the twitter API using your twitter4j.properties file
-  // The factory instance is re-useable and thread safe.
-  private static void error( Exception e ) {
-    System.out.println( e.getStackTrace() );
-  }
+
+// access the twitter API using your twitter4j.properties file
+// The factory instance is re-useable and thread safe.
 }
     

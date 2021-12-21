@@ -1,74 +1,56 @@
 package TwitterBot.controller;
 
+import TwitterBot.Services.TwitterService;
+import TwitterBot.model.SearchTweets.Datum;
+import TwitterBot.model.CountTweets.TweetCount;
+import TwitterBot.model.TrendTweet.TweetTrendsJson;
 import TwitterBot.repository.TweetRepository;
-import TwitterBot.model.Tweet;
-import TwitterBot.exception.ResourceNotFoundException;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.validation.Valid;
-import javax.validation.constraints.Null;
-
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/v1")
+@AllArgsConstructor
+@NoArgsConstructor
 public class TweetController {
-    @Autowired
-    private TweetRepository tweetRepository;
-
-    @GetMapping("/tweet")
-    public List<Tweet> getAllTweets(@RequestParam(value = "tag", required = false) Long tag) {
-        if(tag != null){
-            List<Tweet> tweet = tweetRepository.findByTag(tag);
-            return tweet;
-        }
-        return tweetRepository.findAll();
+  @Autowired private TweetRepository tweetRepository;
+  @Autowired private TwitterService twitterService;
+  
+  private static final Logger logger = LogManager.getLogger( "TweetController" );
+  
+  @GetMapping("/trends") public List<TweetTrendsJson> getTrends( @RequestParam("id") Long[] cityWoeid ) {
+    List<TweetTrendsJson> result = null;
+    for (int i = 0 ; i < cityWoeid.length ; i++) {
+      return  twitterService.getTrends( cityWoeid[0] );
+      //result.addAll( twitterService.getTrends( cityWoeid[i] ) );
+      //TODO twitterService.saveTrends(); save which trend or save the full response body?
+      
     }
-
-    @GetMapping("/tweet/{id}")
-    public ResponseEntity<Tweet> getTweetById(@PathVariable(value = "id" ) Long tweetId) throws ResourceNotFoundException {
-        Tweet tweet = tweetRepository.findById(tweetId).orElseThrow(() -> new ResourceNotFoundException("Tweet not found for this id ::" + tweetId));
-        return ResponseEntity.ok().body(tweet);
-    }
-
-    @PostMapping("/employees")
-    public Tweet createTweet(@Valid @RequestBody Tweet tweet){
-        return tweetRepository.save(tweet);
-    }
-
-    /* @PutMapping("/employees/{id}")
-    public ResponseEntity<Employee> updateEmployee(@PathVariable(value = "id") Long employeeId, @Valid @RequestBody Employee employeeDetails) throws ResourceNotFoundException{
-        Employee employee = tweetRepository.findById(employeeId).orElseThrow(() -> new ResourceNotFoundException("Employee not found for this id :: " + employeeId));
-
-        employee.setEmailId(employeeDetails.getEmailId());
-        employee.setLastName(employeeDetails.getLastName());
-        employee.setFirstName(employeeDetails.getFirstName());
-        final Employee updatedEmployee = tweetRepository.save(employee);
-        return ResponseEntity.ok(updatedEmployee);
-    } */
-
-    @DeleteMapping("/employees/{id}")
-    public Map<String, Boolean> deleteTweet(@PathVariable(value = "id") Long TweetId) throws ResourceNotFoundException{
-        Tweet tweet = tweetRepository.findById(TweetId).orElseThrow(() -> new ResourceNotFoundException("Tweet not found for this id :: " + TweetId));
-
-        tweetRepository.delete(tweet);
-        Map<String, Boolean> response = new HashMap<>();
-        response.put("deleted", Boolean.TRUE);
-        return response;
-    }
-}class Controller {
-    
+    return result;
+  }
+  
+  @GetMapping("/tweet_count")
+  public ResponseEntity<List<TweetCount>> tweetCounts( @RequestParam("query") String query ) {
+    logger.info( "Tweet_count " + query );
+    ResponseEntity<List<TweetCount>> tweetCount =
+      (ResponseEntity<List<TweetCount>>) twitterService.getInterestCount( query );
+    return tweetCount;
+  }
+  
+  @GetMapping("/search")
+  public List<Datum> filteredStreamSearch( @RequestParam("query") String query){
+    return twitterService.searchTweets( query );
+  }
+  
+  
 }
