@@ -15,10 +15,18 @@ public class Tweet implements Serializable {
   @Id
   private long id;
 <<<<<<< HEAD
+<<<<<<< HEAD
   
 =======
   //private ArrayList<Quote> quotes = new ArrayList<>();
 
+>>>>>>> origin/TwitterBotPedroRetrofitGson
+=======
+  //private ArrayList<Quote> quotes = new ArrayList<>();
+
+=======
+  
+>>>>>>> TwitterBot
 >>>>>>> origin/TwitterBotPedroRetrofitGson
   public Tweet( String tag, String ts, String description ) {
     this.tag = tag;
@@ -28,11 +36,20 @@ public class Tweet implements Serializable {
 
 
 <<<<<<< HEAD
+<<<<<<< HEAD
   
 =======
     */
 
 
+>>>>>>> origin/TwitterBotPedroRetrofitGson
+=======
+    */
+
+
+=======
+  
+>>>>>>> TwitterBot
 >>>>>>> origin/TwitterBotPedroRetrofitGson
   public long getId() {
     return id;
@@ -73,10 +90,20 @@ public class Tweet implements Serializable {
     return "{ tag: " + tag + ", ts : " + ts + ", description : " + description + ", id : " + id + " }";
   }
 <<<<<<< HEAD
+<<<<<<< HEAD
   
 
 }
 =======
 
 }
+>>>>>>> origin/TwitterBotPedroRetrofitGson
+=======
+
+}
+=======
+  
+
+}
+>>>>>>> TwitterBot
 >>>>>>> origin/TwitterBotPedroRetrofitGson
