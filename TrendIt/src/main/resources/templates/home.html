@@ -29,7 +29,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
       <a href="#" class="w3-bar-item w3-button">New Notification 2</a>
     </div>
   </div>
-  <a href="#" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="My Account">
+  <a href="#" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="My Profile">
     <img src="../images/avatar.png" class="w3-circle" style="height:23px;width:23px" alt="Avatar">
   </a>
  </div>
@@ -54,7 +54,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
          <h4 class="w3-center">My Profile</h4>
          <p class="w3-center"><img src="../images/avatar.png" class="w3-circle" style="height:106px;width:106px" alt="Avatar"></p>
          <hr>
-         <p><i class="fa fa-pencil fa-fw w3-margin-right w3-text-theme"></i> Designer, UI</p>
+         <p th:text="${User.username}"><i class="fa fa-pencil fa-fw w3-margin-right w3-text-theme"></i></p>
          <p><i class="fa fa-home fa-fw w3-margin-right w3-text-theme"></i> London, UK</p>
          <p><i class="fa fa-birthday-cake fa-fw w3-margin-right w3-text-theme"></i> April 1, 1988</p>
         </div>
@@ -105,17 +105,9 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
         <div class="w3-container">
           <p>Interests</p>
           <p>
-            <span class="w3-tag w3-small w3-theme">News</span>
-            <span class="w3-tag w3-small w3-theme">W3Schools</span>
-            <span class="w3-tag w3-small w3-theme">Labels</span>
-            <span class="w3-tag w3-small w3-theme">Games</span>
-            <span class="w3-tag w3-small w3-theme">Friends</span>
-            <span class="w3-tag w3-small w3-theme">Games</span>
-            <span class="w3-tag w3-small w3-theme">Friends</span>
-            <span class="w3-tag w3-small w3-theme">Food</span>
-            <span class="w3-tag w3-small w3-theme">Design</span>
-            <span class="w3-tag w3-small w3-theme">Art</span>
-            <span class="w3-tag w3-small w3-theme">Photos</span>
+            <div th:each="a: ${User.interests}" style="float: left; padding-right: 3px; padding-bottom: 2px;">
+              <span class="w3-tag w3-small w3-theme" th:text="${a}"></span>
+            </div>
           </p>
         </div>
       </div>
