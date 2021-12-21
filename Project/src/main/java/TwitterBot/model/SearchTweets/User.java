@@ -1,4 +1,4 @@
-package TwitterBot.model; 
+package TwitterBot.model.SearchTweets;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.Date;
@@ -11,7 +11,7 @@ public class User{
 		 this.created_at = created_at; } 
     Date created_at;
     @SerializedName("entities")
-    public Entities getEntities() { 
+    public Entities getEntities() {
 		 return this.entities; } 
     public void setEntities(Entities entities) { 
 		 this.entities = entities; } 

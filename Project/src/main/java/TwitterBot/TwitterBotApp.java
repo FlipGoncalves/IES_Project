@@ -1,26 +1,14 @@
 package TwitterBot;
 
-import TwitterBot.APIInterface.APITwitter;
+import TwitterBot.Services.TwitterService;
 import TwitterBot.controller.TweetController;
-import TwitterBot.model.TweetCount;
-import TwitterBot.model.TweetCountResponse;
-import TwitterBot.model.TweetTrendsJson;
-import TwitterBot.model.TweetTrendsResponse;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
-
-import java.io.IOException;
-import java.util.List;
 
 
 // useful site : https://twitter4j.org/en/code-examples.html
@@ -28,6 +16,7 @@ import java.util.List;
 
 @SpringBootApplication
 @ComponentScan(basePackageClasses=TweetController.class)
+@ComponentScan(basePackageClasses= TwitterService.class)
 @EnableAutoConfiguration(exclude = {DataSourceAutoConfiguration.class})
 public class TwitterBotApp {
   static Twitter twitter;

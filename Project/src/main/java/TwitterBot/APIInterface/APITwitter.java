@@ -1,9 +1,9 @@
 package TwitterBot.APIInterface;
 
 
-import TwitterBot.model.TweetCountResponse;
-import TwitterBot.model.TweetSearchResponse;
-import TwitterBot.model.TweetTrendsResponse;
+import TwitterBot.model.CountTweets.TweetCountResponse;
+import TwitterBot.model.SearchTweets.TweetSearchResponse;
+import TwitterBot.model.TrendTweet.TweetTrendsResponse;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
@@ -15,7 +15,7 @@ import java.util.List;
 public interface APITwitter {
   @Headers({"Content-Type: application/json;charset=UTF-8"})
   @GET("trends/place.json")
-  Call<List<TweetTrendsResponse>> getTrends( @Query("id") String id, @Query("max_results") int maxT,
+  Call<List<TweetTrendsResponse>> getTrends( @Query("id") String id,
                                              @Header("Authorization") String auth );
   
   @Headers({"Content-Type: application/json;charset=UTF-8"})
@@ -23,6 +23,7 @@ public interface APITwitter {
   Call<TweetCountResponse> getCount( @Query("query") String query, @Query("granularity") String granularity,
                                      @Header("Authorization") String auth );
   
+  // TODO allow for more things to be added here!!
   @Headers({"Content-Type: application/json;charset=UTF-8"})
   @GET("tweets/search/recent")
   Call<TweetSearchResponse> searchTweets( @Query("query") String query,

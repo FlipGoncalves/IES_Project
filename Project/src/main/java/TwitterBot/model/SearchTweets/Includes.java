@@ -1,5 +1,6 @@
-package TwitterBot.model;
+package TwitterBot.model.SearchTweets;
 
+import TwitterBot.model.SearchTweets.User;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;

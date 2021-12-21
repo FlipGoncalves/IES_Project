@@ -1,4 +1,4 @@
-package TwitterBot.model;
+package TwitterBot.model.SearchTweets;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

@@ -1,8 +1,8 @@
 package TwitterBot.Services;
 
-import TwitterBot.model.Datum;
-import TwitterBot.model.TweetCount;
-import TwitterBot.model.TweetTrendsJson;
+import TwitterBot.model.SearchTweets.Datum;
+import TwitterBot.model.CountTweets.TweetCount;
+import TwitterBot.model.TrendTweet.TweetTrendsJson;
 
 import java.util.List;
 

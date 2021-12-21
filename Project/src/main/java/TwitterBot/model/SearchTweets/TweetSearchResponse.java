@@ -1,5 +1,8 @@
-package TwitterBot.model;
+package TwitterBot.model.SearchTweets;
 
+import TwitterBot.model.SearchTweets.Datum;
+import TwitterBot.model.SearchTweets.Includes;
+import TwitterBot.model.SearchTweets.Meta;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;

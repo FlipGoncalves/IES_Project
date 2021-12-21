@@ -1,5 +1,6 @@
-package TwitterBot.model;
+package TwitterBot.model.TrendTweet;
 
+import TwitterBot.model.SearchTweets.Locations;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
