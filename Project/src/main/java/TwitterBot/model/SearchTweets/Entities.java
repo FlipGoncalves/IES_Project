@@ -1,5 +1,4 @@
 package TwitterBot.model.SearchTweets;
-
 import com.google.gson.annotations.SerializedName;
 
 // Entities is also a part of search/recent json
@@ -8,21 +7,21 @@ import com.google.gson.annotations.SerializedName;
 public class Entities {
   Description description;
   Url url;
-  
+
   @SerializedName("description")
   public Description getDescription() {
     return this.description;
   }
-  
+
   public void setDescription( Description description ) {
     this.description = description;
   }
-  
+
   @SerializedName("url")
   public Url getUrl() {
     return this.url;
   }
-  
+
   public void setUrl( Url url ) {
     this.url = url;
   }
