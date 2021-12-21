@@ -1,4 +1,4 @@
-package Project.app;
+package Project.app.Controllers;
 
 import java.util.HashMap;
 import java.util.List;
