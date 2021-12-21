@@ -95,7 +95,7 @@ public class TwitterBotApp {
       e.printStackTrace();
     }
     queryParameters = new ArrayList<>();
-    queryParameters.add(new BasicNameValuePair("query", "from:hyperlegen OR from:KingJames OR from:DailyNASA"));
+    queryParameters.add(new BasicNameValuePair("query", "from:x    OR from:KingJames OR from:DailyNASA"));
     uriBuilder.addParameters(queryParameters);
   
     try {
