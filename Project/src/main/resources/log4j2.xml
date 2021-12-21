@@ -19,6 +19,10 @@
             <AppenderRef ref="LogToFile"/>
             <AppenderRef ref="LogToConsole"/>
         </Logger>
+        <Logger name="TwitterService" level="debug" additivity="false">
+            <AppenderRef ref="LogToFile"/>
+            <AppenderRef ref="LogToConsole"/>
+        </Logger>
         <Logger name="org.springframework.boot" level="error" additivity="false">
             <AppenderRef ref="LogToConsole"/>
         </Logger>
