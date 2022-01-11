@@ -21,25 +21,22 @@ import TwitterBot.model.*;
 
 import java.util.List;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.util.ArrayList;
+
 
 // useful site : https://twitter4j.org/en/code-examples.html
 
 
 @SpringBootApplication
-@ComponentScan(basePackageClasses=TweetController.class)
-@ComponentScan(basePackageClasses= TwitterService.class)
+@ComponentScan("com.app.repository.TweetRepository")
 @EnableAutoConfiguration(exclude = {DataSourceAutoConfiguration.class})
 public class TwitterBotApp {
   static Twitter twitter;
-  public static String token = null;
-  public static void main( String[] args ) throws TwitterException {
 
-    
-    token = System.getenv( "token" );
-    if ( token == null && ( token.isEmpty() || token.isBlank() ) ) {
-      System.out.println( "Bearer Token not set" );
-      System.exit( - 1 );
-    }
+  public static void main( String[] args ) throws TwitterException {
+    String tweetResponse = null;
     /*
     // TODO extract this to an endpoint of our controller so that main project can poll this into his own database
     Retrofit retrofit = new Retrofit.Builder()
@@ -113,6 +110,9 @@ public class TwitterBotApp {
     SpringApplication.run( TwitterBotApp.class, args );
   }
 
-// access the twitter API using your twitter4j.properties file
-// The factory instance is re-useable and thread safe.
+  // access the twitter API using your twitter4j.properties file
+  // The factory instance is re-useable and thread safe.
+  private static void error( Exception e ) {
+    System.out.println( e.getStackTrace() );
+  }
 }
