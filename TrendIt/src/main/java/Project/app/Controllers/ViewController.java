@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import Project.app.Models.*;
 import Project.app.Repositories.*;
+import Project.app.Service.*;
 
 import java.util.*;
 
@@ -17,6 +18,8 @@ public class ViewController {
 
 	@Autowired
 	private UserRepository user_rep;
+	@Autowired
+    private ApiService service;
 
 	@GetMapping("/login")
 	public String loginForm(Model model) {
@@ -40,6 +43,8 @@ public class ViewController {
 				ArrayList<Tweet> array = new ArrayList<Tweet>();
 				array.add(t);
 				array.add(t1);
+				List<Tweet> tweets = service.getAllTweets();
+				array.addAll(tweets);
 				Map<String, ArrayList<Tweet>> mp = new HashMap<>();
 				mp.put("Tweet", array);
 				model.addAllAttributes(mp);

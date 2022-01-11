@@ -1,14 +1,12 @@
 package Project.app.Controllers;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
 import java.util.Map;
+import java.util.HashMap;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,57 +17,51 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import Project.app.Repositories.*;
 import Project.app.Models.*;
 import Project.app.Exceptions.*;
 import Project.app.Service.*;
+import Project.app.Repositories.*;
 
 @RestController
 @RequestMapping("/TrendIt")
 public class ApiController {
     @Autowired
-    private TweetRepository tweets_rep;
-    @Autowired
     private ApiService service;
+
+    @Autowired
+    private TweetRepository tweet_rep;
+
+    @Autowired
+    private UserRepository user_rep;
 
     // TWEETS
 
     @GetMapping("/all_tweets")
-    public Set<Tweet> getAllTweets(@RequestParam(value = "trends", required = false) String trends) {
-        if(trends != null){
-            Set<Tweet> tweet = tweets_rep.findAllByTrends(trends);
-            return tweet;
-        }
-        return null;
+    public List<Tweet> getAllTweets(@RequestParam(value = "trends", required = false) String trends) {
+        return service.getAllTweets();
     }
 
-    @GetMapping("/get_tweet{id}")
-    public ResponseEntity<Tweet> getTweetById(@PathVariable(value = "id" ) Integer tweet_id) throws ResourceNotFoundException {
-        Tweet tweet = tweets_rep.findById(tweet_id).orElseThrow(() -> new ResourceNotFoundException("Tweet not found for this id ::" + tweet_id));
-        return ResponseEntity.ok().body(tweet);
+    @GetMapping("/get_tweet/{id}")
+    public Tweet getTweetById(@PathVariable(value = "id" ) Integer tweet_id) throws ResourceNotFoundException {
+        return service.getTweetById(tweet_id);
     }
 
     @PostMapping("/insert_tweet")
     public Tweet insertTweet(@Valid @RequestBody Tweet tweet){
-        return tweets_rep.save(tweet);
+        return service.saveTweet(tweet);
     }
 
     @PutMapping("/update_tweet/{id}")
-    public ResponseEntity<Tweet> updateUser(@PathVariable(value = "id") Integer tweet_id, @Valid @RequestBody Tweet tweet) throws ResourceNotFoundException{
-        Tweet tw = tweets_rep.findById(tweet_id).orElseThrow(() -> new ResourceNotFoundException("Tweet not found for this id :: " + tweet_id));
-
-        tw.setDescription(tweet.getDescription());
-        tw.setTrends(tweet.getTrends());
-        tw.setPerson(tweet.getPerson());
-        final Tweet updated_tweet = tweets_rep.save(tw);
-        return ResponseEntity.ok(updated_tweet);
+    public String updateTweet(@PathVariable(value = "id") Integer tweet_id, @Valid @RequestBody Tweet tweet) throws ResourceNotFoundException{
+        service.updateTweet(tweet_id, tweet);
+        return "Updated Tweet with ID: " + tweet_id;
     }
 
     @DeleteMapping("/delete_tweet/{id}")
     public Map<String, Boolean> deleteTweet(@PathVariable(value = "id") Integer tweet_id) throws ResourceNotFoundException{
-        Tweet tweet = tweets_rep.findById(tweet_id).orElseThrow(() -> new ResourceNotFoundException("Tweet not found for this id :: " + tweet_id));
-
-        tweets_rep.delete(tweet);
+        Tweet tweet = tweet_rep.findById(tweet_id).orElseThrow(() -> new ResourceNotFoundException("Tweet not found for this id :: " + tweet_id));
+        System.out.println(tweet);
+        tweet_rep.delete(tweet);
         Map<String, Boolean> response = new HashMap<>();
         response.put("deleted", Boolean.TRUE);
         return response;
@@ -111,16 +103,14 @@ public class ApiController {
     }
 
     @DeleteMapping("/delete_user_username/{username}")
-    public Map<String, Boolean> deleteUserByUsername(@PathVariable(value = "username") String username) throws ResourceNotFoundException {
+    public String deleteUserByUsername(@PathVariable(value = "username") String username) {
         service.deleteUserbyUsername(username);
-        Map<String, Boolean> response = new HashMap<>();
-        response.put("deleted", Boolean.TRUE);
-        return response;
+        return "Deleted User with ID: " + username;
     }
 
     @PutMapping("/update_user_username/{username}")
-    public ResponseEntity<User> updateUserByUsername(@PathVariable(value = "username") String username, @Valid @RequestBody User user) throws ResourceNotFoundException {
-        final User updatedUser = service.updateUserByUsername(username, user);
-        return ResponseEntity.ok(updatedUser); 
+    public String updateUserByUsername(@PathVariable(value = "username") String username, @Valid @RequestBody User user) {
+        service.updateUserByUsername(username, user);
+        return "Updated User with ID: " + username; 
     }
 }

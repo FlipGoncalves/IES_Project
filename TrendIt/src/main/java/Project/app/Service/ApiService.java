@@ -52,6 +52,7 @@ public class ApiService {
             us.setUsername(user.getUsername());
             us.setPassword(user.getPassword());
             us.setInterests(user.getInterests());
+            user_rep.delete(user);
             return user_rep.save(us);
         }
         return null;
@@ -63,7 +64,43 @@ public class ApiService {
             us.setUsername(user.getUsername());
             us.setPassword(user.getPassword());
             us.setInterests(user.getInterests());
+            user_rep.delete(user);
             return user_rep.save(us);
+        }
+        return null;
+    }
+
+
+    // TWEETS
+
+    public Tweet saveTweet(Tweet tweet) {
+        return tweet_rep.save(tweet);
+    }
+
+    public List<Tweet> saveTweets(List<Tweet> list_tweets) {
+        return tweet_rep.saveAll(list_tweets);
+    }
+
+    public List<Tweet> getAllTweets() {
+        return tweet_rep.findAll();
+    }
+
+    public Tweet getTweetById(int id) {
+        return (tweet_rep.findById(id) != null) ? tweet_rep.findById(id): new Tweet();
+    }
+
+    public void deleteTweet(int id) {
+        tweet_rep.delete((tweet_rep.findById(id) != null) ? tweet_rep.findById(id): null);
+    }
+
+    public Tweet updateTweet(int id, Tweet tweet) {
+        Tweet tw = tweet_rep.findById(id);
+        if (tw != null) {
+            tw.setDescription(tweet.getDescription());
+            tw.setTrends(tweet.getTrends());
+            tw.setPerson(tweet.getPerson());
+            tweet_rep.delete(tw);
+            return tweet_rep.save(tw);
         }
         return null;
     }
