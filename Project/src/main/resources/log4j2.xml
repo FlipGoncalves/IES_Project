@@ -11,6 +11,10 @@
         </File>
     </Appenders>
     <Loggers>
+        <Logger name="TwitterService" level="debug" additivity="false">
+            <AppenderRef ref="LogToFile"/>
+            <AppenderRef ref="LogToConsole"/>
+        </Logger>
         <Logger name="MyLog" level="debug" additivity="false">
             <AppenderRef ref="LogToFile"/>
             <AppenderRef ref="LogToConsole"/>
