@@ -168,6 +168,7 @@ public class TwitterService implements TTService {
       "Bearer " + TwitterBotApp.token );
   
     Response<TweetSearchResponse> execute = null;
+    // sync
     try {
       execute = callTargetResponse.execute();
     } catch (IOException e) {
@@ -183,6 +184,7 @@ public class TwitterService implements TTService {
     }
     
     /*
+    async
     callTargetResponse.enqueue( new Callback<>() {
       @Override public void onResponse( Call<TweetSearchResponse> call, Response<TweetSearchResponse> response ) {
 
