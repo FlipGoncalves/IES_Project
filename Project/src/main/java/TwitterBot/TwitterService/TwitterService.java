@@ -1,4 +1,4 @@
-package TwitterBot.Services;
+package TwitterBot.TwitterService;
 
 import TwitterBot.APIInterface.APITwitter;
 import TwitterBot.TwitterBotApp;
@@ -24,7 +24,7 @@ import java.util.List;
 @Service
 public class TwitterService implements TTService {
   private static final Logger logger = LogManager.getLogger( "TwitterService" );
-  
+
   /**
    * @param id city id according to twitter city id assignment available at
    *           https://api.twitter.com/1.1/trends/available.json
@@ -34,19 +34,19 @@ public class TwitterService implements TTService {
    */
   @Override public List<TweetTrendsJson> getTrends( long id ) {
     logger.debug( "First Service getTrends for place: " + id );
-    
+
     final Retrofit apiV1_1 =
       new Retrofit.Builder().baseUrl( "https://api.twitter.com/1.1/" )
                             .addConverterFactory( GsonConverterFactory.create() )
                             .build();
-    
+
     List<TweetTrendsJson> result = new ArrayList<>();
-    
+
     APITwitter client = apiV1_1.create( APITwitter.class );
-    
+
     Call<List<TweetTrendsResponse>> callTargetResponse = client.getTrends( id + "",
       "Bearer " + TwitterBotApp.token );
-    
+
     Response<List<TweetTrendsResponse>> execute = null;
     try {
       execute = callTargetResponse.execute();
@@ -61,7 +61,7 @@ public class TwitterService implements TTService {
     else{
       logger.error( "ERRO" );
     }
-  
+
     /*callTargetResponse.enqueue( new Callback<>() {
       @Override public void onResponse( Call<List<TweetTrendsResponse>> call,
                                         Response<List<TweetTrendsResponse>> response ) {
@@ -75,12 +75,12 @@ public class TwitterService implements TTService {
         logger.error( "Something Went Wrong: " + throwable );
       }
     } );*/
-    
-    
+
+
     logger.info( "Last get Trends result  -> " + result );
     return result;
   }
-  
+
   /**
    * @param query query that must respect
    *              https://developer.twittercom/en/docs/twitter-api/tweets/search/integrate/build-a-query this
@@ -90,26 +90,26 @@ public class TwitterService implements TTService {
    * were posted
    */
   @Override public List<TweetCount> getInterestCount( String query ) {
-    
+
     logger.debug( "Service getInterestCount for query: " + query );
     final Retrofit apiV2 =
       new Retrofit.Builder().baseUrl( "https://api.twitter.com/2/" )
                             .addConverterFactory( GsonConverterFactory.create() )
                             .build();
-    
+
     List<TweetCount> result = new ArrayList<>();
     APITwitter client = apiV2.create( APITwitter.class );
-    
-    
+
+
     Call<TweetCountResponse> callTargetResponse = client.getCount( query, "day",
       "Bearer " + TwitterBotApp.token );
-    
-    
+
+
     callTargetResponse.enqueue( new Callback<>() {
-      
+
       @Override public void onResponse( Call<TweetCountResponse> call,
                                         Response<TweetCountResponse> response ) {
-        
+
         logger.debug( "RESPONSE ->" + response.body() );
         assert response.body() != null;
         response.body().getTweetCountList().forEach( logger::debug );
@@ -118,18 +118,18 @@ public class TwitterService implements TTService {
         // add every trend
         // to the result variable so that after that we can send it through RabbitMQ
       }
-      
+
       @Override public void onFailure( Call<TweetCountResponse> call, Throwable throwable ) {
         logger.error( "Something Went Wrong: " + throwable );
       }
     } );
-    
+
     logger.info( "Result from getInterestCount -> " + result );
     return result;
   }
-  
+
   //TODO THIS ONE NEEDS TO BE REVIEWED THIS Query as a lot of parameters and we need to decide what to do and with what
-  
+
   /**
    * Tweets that match a certain query this returns a set of those tweets and some sort of pagination
    * and if we want to further explore more of a certain query we should provide a token id of the last tweet seen
@@ -143,16 +143,16 @@ public class TwitterService implements TTService {
       new Retrofit.Builder().baseUrl( "https://api.twitter.com/2/" )
                             .addConverterFactory( GsonConverterFactory.create() )
                             .build();
-    
+
     List<Datum> result = new ArrayList<>();
     APITwitter client = apiV2.create( APITwitter.class );
     // TODO make it dynamic allow for more stuff such has next page token max results and more
     Call<TweetSearchResponse> callTargetResponse = client.searchTweets( "from: TwitterDev",
       "Bearer " + TwitterBotApp.token );
-    
+
     callTargetResponse.enqueue( new Callback<>() {
       @Override public void onResponse( Call<TweetSearchResponse> call, Response<TweetSearchResponse> response ) {
-        
+
         logger.debug( "RESPONSE ->" + response.body() );
         assert response.body() != null;
         for (Datum datum : response.body().getData()) {
@@ -163,12 +163,12 @@ public class TwitterService implements TTService {
         // add every datum
         // to the result variable so that after that we can send it through RabbitMQ
       }
-      
+
       @Override public void onFailure( Call<TweetSearchResponse> call, Throwable throwable ) {
         logger.error( "Something Went Wrong: " + throwable );
       }
     } );
-    
+
     logger.info( "searchTweets result -> " + result );
     return result;
   }
