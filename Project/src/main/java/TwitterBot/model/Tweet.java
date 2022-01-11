@@ -16,21 +16,26 @@ public class Tweet implements Serializable {
 
   @Id
   private long id;
+<<<<<<< HEAD
   //private ArrayList<Quote> quotes = new ArrayList<>();
 
+=======
+  
+>>>>>>> main
   public Tweet( String tag, String ts, String description ) {
     this.tag = tag;
     this.ts = ts;
     this.description = description;
   }
 
-    /* public void add(Quote q){
-        quotes.add(q);
-    }
 
+<<<<<<< HEAD
     */
 
 
+=======
+  
+>>>>>>> main
   public long getId() {
     return id;
   }
@@ -69,5 +74,11 @@ public class Tweet implements Serializable {
   public String toString() {
     return "{ tag: " + tag + ", ts : " + ts + ", description : " + description + ", id : " + id + " }";
   }
+<<<<<<< HEAD
 
 }
+=======
+  
+
+}
+>>>>>>> main
