@@ -104,8 +104,23 @@ public class TwitterService implements TTService {
 
     Call<TweetCountResponse> callTargetResponse = client.getCount( query, "day",
       "Bearer " + TwitterBotApp.token );
-
-
+  
+  
+    Response<TweetCountResponse> execute = null;
+    try {
+      execute = callTargetResponse.execute();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    logger.debug( execute.code() );
+    if ( execute != null && execute.isSuccessful()){
+      logger.debug( execute.body() );
+      return execute.body().getTweetCountList();
+    }
+    else{
+      logger.error( "ERRO" );
+    }
+    /*
     callTargetResponse.enqueue( new Callback<>() {
 
       @Override public void onResponse( Call<TweetCountResponse> call,
@@ -124,6 +139,7 @@ public class TwitterService implements TTService {
         logger.error( "Something Went Wrong: " + throwable );
       }
     } );
+     */
 
     logger.info( "Result from getInterestCount -> " + result );
     return result;
@@ -139,7 +155,7 @@ public class TwitterService implements TTService {
    * @return
    */
   @Override public List<Datum> searchTweets( String query ) {
-    logger.debug( "Service getInterestCount for query: " + query );
+    logger.debug( "Service Search for query: " + query );
     final Retrofit apiV2 =
       new Retrofit.Builder().baseUrl( "https://api.twitter.com/2/" )
                             .addConverterFactory( GsonConverterFactory.create() )
@@ -150,7 +166,23 @@ public class TwitterService implements TTService {
     // TODO make it dynamic allow for more stuff such has next page token max results and more
     Call<TweetSearchResponse> callTargetResponse = client.searchTweets( "from: TwitterDev",
       "Bearer " + TwitterBotApp.token );
-
+  
+    Response<TweetSearchResponse> execute = null;
+    try {
+      execute = callTargetResponse.execute();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    logger.debug( execute.code() );
+    if ( execute != null && execute.isSuccessful()){
+      logger.debug( execute.body() );
+      return execute.body().getData();
+    }
+    else{
+      logger.error( "ERRO" );
+    }
+    
+    /*
     callTargetResponse.enqueue( new Callback<>() {
       @Override public void onResponse( Call<TweetSearchResponse> call, Response<TweetSearchResponse> response ) {
 
@@ -169,6 +201,7 @@ public class TwitterService implements TTService {
         logger.error( "Something Went Wrong: " + throwable );
       }
     } );
+     */
 
     logger.info( "searchTweets result -> " + result );
     return result;
