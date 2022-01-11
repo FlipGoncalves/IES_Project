@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import Project.app.Models.*;
 import Project.app.Repositories.*;
 
+import java.util.*;
+
 @Controller
 public class ViewController {
 
@@ -31,6 +33,16 @@ public class ViewController {
 			if (user_rep.findByUsername(us.getUsername()).getPassword().equals(us.getPassword())) {
 				System.out.println(us.getPassword());
 				model.addAttribute("User", user_rep.findByUsername(us.getUsername()));
+				Tweet t = new Tweet();
+				t.setDescription("tweet1");
+				Tweet t1 = new Tweet();
+				t1.setDescription("tweet2");
+				ArrayList<Tweet> array = new ArrayList<Tweet>();
+				array.add(t);
+				array.add(t1);
+				Map<String, ArrayList<Tweet>> mp = new HashMap<>();
+				mp.put("Tweet", array);
+				model.addAllAttributes(mp);
 				return "home";
 			}
 		}
@@ -67,5 +79,17 @@ public class ViewController {
 	@GetMapping("/")
 	public String index() {
 		return "index";
+	}
+
+	@GetMapping("/account")
+	public String account(@ModelAttribute User us, Model model) {
+		model.addAttribute("Edit", us);
+		return "account";
+	}
+
+	@PostMapping("/account")
+	public String accountForm(@ModelAttribute User us, Model model) {
+		model.addAttribute("User", us);
+		return "home";
 	}
 }

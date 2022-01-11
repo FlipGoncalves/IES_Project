@@ -29,6 +29,9 @@ public class User implements Serializable{
 	@Field("interests")
 	private List<String> interests;
 
+	private String morada;
+	private String data_nascimento;
+
 
 	//@OneToMany(targetEntity = Quote.class, fetch= FetchType.EAGER, mappedBy = "movie", cascade = CascadeType.ALL)
 	//private List<Quote> quotes;
@@ -71,6 +74,22 @@ public class User implements Serializable{
 
 	public void setInterests(List<String> interests) {
 		this.interests = interests;
+	}
+
+	public String getMorada() {
+		return morada;
+	}
+
+	public void setMorada(String morada) {
+		this.morada = morada;
+	}
+
+	public String getData_nascimento() {
+		return data_nascimento;
+	}
+
+	public void setData_nascimento(String data_nascimento) {
+		this.data_nascimento = data_nascimento;
 	}
 
 	@Override
