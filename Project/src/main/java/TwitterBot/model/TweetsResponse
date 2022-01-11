@@ -1,6 +1,5 @@
 package TwitterBot.model;
 
-
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -10,6 +9,6 @@ public class TweetsResponse {
   @Expose
   @SerializedName( "data" )
   List<Tweets> tweetsList;
-
-
+  
+  
 }

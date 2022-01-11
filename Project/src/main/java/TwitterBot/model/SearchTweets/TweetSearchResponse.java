@@ -1,5 +1,6 @@
 package TwitterBot.model.SearchTweets;
 
+
 import TwitterBot.model.SearchTweets.Datum;
 import TwitterBot.model.SearchTweets.Includes;
 import TwitterBot.model.SearchTweets.Meta;
@@ -14,30 +15,30 @@ public class TweetSearchResponse {
   List<Datum> data;
   Includes includes;
   Meta meta;
-  
+
   @SerializedName("data")
   public List<Datum> getData() {
     return this.data;
   }
-  
+
   public void setData( List<Datum> data ) {
     this.data = data;
   }
-  
+
   @SerializedName("includes")
   public Includes getIncludes() {
     return this.includes;
   }
-  
+
   public void setIncludes( Includes includes ) {
     this.includes = includes;
   }
-  
+
   @SerializedName("meta")
   public Meta getMeta() {
     return this.meta;
   }
-  
+
   public void setMeta( Meta meta ) {
     this.meta = meta;
   }
