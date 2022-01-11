@@ -1,5 +1,6 @@
 package TwitterBot;
 
+import TwitterBot.TwitterService.TwitterService;
 import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.config.CookieSpecs;
@@ -28,20 +29,21 @@ import java.util.ArrayList;
 
 
 @SpringBootApplication
-@ComponentScan("com.app.repository.TweetRepository")
+//@ComponentScan("com.app.repository.TweetRepository")
 @EnableAutoConfiguration(exclude = {DataSourceAutoConfiguration.class})
 public class TwitterBotApp {
   static Twitter twitter;
 
+  public static String token = null;
   public static void main( String[] args ) throws TwitterException {
-
     token = System.getenv( "token" );
     if ( token == null && ( token.isEmpty() || token.isBlank() ) ) {
       System.out.println( "Bearer Token not set" );
       System.exit( - 1 );
     }
-
-    SpringApplication.run( TwitterBotApp.class, args );
+    TwitterService ts = new TwitterService();
+    ts.getTrends( 1 );
+    //SpringApplication.run( TwitterBotApp.class, args );
   }
 
   // access the twitter API using your twitter4j.properties file
