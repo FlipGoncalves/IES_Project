@@ -1,8 +1,6 @@
 package Project.app.Controllers;
 
 import java.util.List;
-import java.util.Map;
-import java.util.HashMap;
 
 import javax.validation.Valid;
 
@@ -58,13 +56,13 @@ public class ApiController {
     }
 
     @DeleteMapping("/delete_tweet/{id}")
-    public Map<String, Boolean> deleteTweet(@PathVariable(value = "id") Integer tweet_id) throws ResourceNotFoundException{
+    public String deleteTweet(@PathVariable(value = "id") Integer tweet_id) throws ResourceNotFoundException{
         Tweet tweet = tweet_rep.findById(tweet_id).orElseThrow(() -> new ResourceNotFoundException("Tweet not found for this id :: " + tweet_id));
-        System.out.println(tweet);
-        tweet_rep.delete(tweet);
-        Map<String, Boolean> response = new HashMap<>();
-        response.put("deleted", Boolean.TRUE);
-        return response;
+        if (tweet != null) {
+            tweet_rep.deleteById(tweet_id);
+            return "Deleted Tweet with ID: " + tweet_id;
+        }
+        return null;
     }
 
 
@@ -85,9 +83,13 @@ public class ApiController {
     }
 
     @DeleteMapping("/delete_user_id/{id}")
-    public String deleteUserById(@PathVariable(value = "id") Integer user_id) {
-        service.deleteUserbyId(user_id);
-        return "Deleted User with ID: " + user_id;
+    public String deleteUserById(@PathVariable(value = "id") Integer user_id) throws ResourceNotFoundException {
+        User user = user_rep.findById(user_id).orElseThrow(() -> new ResourceNotFoundException("Tweet not found for this id :: " + user_id));
+        if (user != null) {
+            user_rep.delete(user);
+            return "Deleted User with ID: " + user_id;
+        }
+        return null;
     }
 
     @PutMapping("/update_user_id/{id}")
@@ -104,13 +106,17 @@ public class ApiController {
 
     @DeleteMapping("/delete_user_username/{username}")
     public String deleteUserByUsername(@PathVariable(value = "username") String username) {
-        service.deleteUserbyUsername(username);
-        return "Deleted User with ID: " + username;
+        User user = user_rep.findByUsername(username);
+        if (user != null) {
+            user_rep.delete(user);
+            return "Deleted User with username: " + username;
+        }
+        return null;
     }
 
     @PutMapping("/update_user_username/{username}")
     public String updateUserByUsername(@PathVariable(value = "username") String username, @Valid @RequestBody User user) {
         service.updateUserByUsername(username, user);
-        return "Updated User with ID: " + username; 
+        return "Updated User with username: " + username; 
     }
 }
