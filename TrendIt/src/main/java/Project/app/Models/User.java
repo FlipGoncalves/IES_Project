@@ -15,18 +15,12 @@ import java.util.*;
 @Document(collection = "User")
 public class User implements Serializable{
 
-	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Id
 	@Field("Id")
-	private Integer id;
-
-    @Field("username")
+	private String id;
 	private String username;
-
-	@Field("password")
 	private String password;
-
-	@Field("interests")
 	private List<String> interests;
 
 	private String morada;
@@ -44,11 +38,11 @@ public class User implements Serializable{
 		this.password = password;
 	}
 
-	public Integer getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 

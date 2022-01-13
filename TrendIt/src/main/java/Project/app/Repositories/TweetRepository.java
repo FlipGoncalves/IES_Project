@@ -8,7 +8,6 @@ import Project.app.Models.Tweet;
 
 @Repository
 public interface TweetRepository extends MongoRepository<Tweet, Integer>{
-    public Tweet findById(int id);
+    public Tweet findById(String id);
     public Set<Tweet> findAllByTrends(String trends);
-    public Tweet deleteById(int id);
 }

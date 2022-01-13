@@ -14,14 +14,11 @@ import org.springframework.data.mongodb.core.mapping.Field;
 public class Tweet implements Serializable {
 
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Field("Id")
 	@Id
-	private Integer id;
-    @Field("description")
+	@Field("Id")
+	private String id;
     private String description;
-    @Field("trends")
     private Set<String> trends;
-    @Field("person")
     private String person;
 
 	public Tweet(Integer id, String description, Set<String> trends, String person) {
@@ -44,13 +41,13 @@ public class Tweet implements Serializable {
 
     @GeneratedValue(strategy = GenerationType.AUTO)
 	@Id
-	public Integer getId() {
+	public String getId() {
 		return id;
 	}
 
     @GeneratedValue(strategy = GenerationType.AUTO)
 	@Id
-	public void setId(Integer id) {
+	public void setId(String id) {
 		this.id = id;
 	}
     

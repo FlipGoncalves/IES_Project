@@ -40,7 +40,7 @@ public class ApiController {
     }
 
     @GetMapping("/get_tweet/{id}")
-    public Tweet getTweetById(@PathVariable(value = "id" ) Integer tweet_id) throws ResourceNotFoundException {
+    public Tweet getTweetById(@PathVariable(value = "id" ) String tweet_id) throws ResourceNotFoundException {
         return service.getTweetById(tweet_id);
     }
 
@@ -50,16 +50,16 @@ public class ApiController {
     }
 
     @PutMapping("/update_tweet/{id}")
-    public String updateTweet(@PathVariable(value = "id") Integer tweet_id, @Valid @RequestBody Tweet tweet) throws ResourceNotFoundException{
+    public String updateTweet(@PathVariable(value = "id") String tweet_id, @Valid @RequestBody Tweet tweet) throws ResourceNotFoundException{
         service.updateTweet(tweet_id, tweet);
         return "Updated Tweet with ID: " + tweet_id;
     }
 
     @DeleteMapping("/delete_tweet/{id}")
-    public String deleteTweet(@PathVariable(value = "id") Integer tweet_id) throws ResourceNotFoundException{
-        Tweet tweet = tweet_rep.findById(tweet_id).orElseThrow(() -> new ResourceNotFoundException("Tweet not found for this id :: " + tweet_id));
+    public String deleteTweet(@PathVariable(value = "id") String tweet_id) throws ResourceNotFoundException{
+        Tweet tweet = tweet_rep.findById(tweet_id);
         if (tweet != null) {
-            tweet_rep.deleteById(tweet_id);
+            tweet_rep.delete(tweet);
             return "Deleted Tweet with ID: " + tweet_id;
         }
         return null;
@@ -73,7 +73,7 @@ public class ApiController {
     }
 
     @GetMapping("/get_user_id/{id}")
-    public User getUserById(@PathVariable(value = "id" ) Integer user_id) {
+    public User getUserById(@PathVariable(value = "id" ) String user_id) {
         return service.getUserById(user_id);
     }
 
@@ -93,7 +93,7 @@ public class ApiController {
     }
 
     @PutMapping("/update_user_id/{id}")
-    public String updateUserById(@PathVariable(value = "id") Integer user_id, @Valid @RequestBody User user) {
+    public String updateUserById(@PathVariable(value = "id") String user_id, @Valid @RequestBody User user) {
         service.updateUserById(user_id, user);
         return "Updated User with ID: " + user_id; 
     }

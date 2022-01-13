@@ -34,7 +34,7 @@ public class ApiService {
         return (user_rep.findByUsername(username) != null) ? user_rep.findByUsername(username): new User();
     }
     
-    public User getUserById(int user_id) {
+    public User getUserById(String user_id) {
         return (user_rep.findById(user_id) != null) ? user_rep.findById(user_id): new User();
     }
 
@@ -42,11 +42,11 @@ public class ApiService {
         user_rep.delete((user_rep.findByUsername(username) != null) ? user_rep.findByUsername(username): null);
     }
 
-    public void deleteUserbyId(int user_id) {
+    public void deleteUserbyId(String user_id) {
         user_rep.delete((user_rep.findById(user_id) != null) ? user_rep.findById(user_id): null);
     }
 
-    public User updateUserById(int user_id, User user) {
+    public User updateUserById(String user_id, User user) {
         User us = user_rep.findById(user_id);
         if (us != null) {
             us.setUsername(user.getUsername());
@@ -85,15 +85,15 @@ public class ApiService {
         return tweet_rep.findAll();
     }
 
-    public Tweet getTweetById(int id) {
+    public Tweet getTweetById(String id) {
         return (tweet_rep.findById(id) != null) ? tweet_rep.findById(id): new Tweet();
     }
 
-    public void deleteTweet(int id) {
+    public void deleteTweet(String id) {
         tweet_rep.delete((tweet_rep.findById(id) != null) ? tweet_rep.findById(id): null);
     }
 
-    public Tweet updateTweet(int id, Tweet tweet) {
+    public Tweet updateTweet(String id, Tweet tweet) {
         Tweet tw = tweet_rep.findById(id);
         if (tw != null) {
             tw.setDescription(tweet.getDescription());
