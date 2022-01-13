@@ -11,6 +11,10 @@
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<meta charset="ISO-8859-1">
 <style>
 html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 </style>
@@ -103,12 +107,23 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
       <!-- Interests --> 
       <div class="w3-card w3-round w3-white w3-hide-small">
         <div class="w3-container">
-          <p>Interests</p>
+          <h3>Interests</h3>
           <p>
             <div th:each="a: ${User.interests}" style="float: left; padding-right: 3px; padding-bottom: 2px;">
               <span class="w3-tag w3-small w3-theme" th:text="${a}"></span>
             </div>
           </p>
+        </div>
+      </div>
+      <br>
+
+      <div class="w3-card w3-round w3-white w3-hide-small"><br>
+        <div class="w3-container">
+          <div align="center">
+            <h2>Spring Boot Google Charts Example</h2>
+            <div id="chart_div"></div>
+            <div id="piechart"></div>
+          </div>
         </div>
       </div>
       <br>
@@ -121,32 +136,13 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
         <p><strong>Hey!</strong></p>
         <p>People are looking at your profile. Find out who.</p>
       </div>
-
-      <div class="w3-card w3-round w3-white w3-center">
-        <div class="w3-container">
-          <p>Upcoming Events:</p>
-          <img src="../images/forest.jpg" alt="Forest" style="width:100%;">
-          <p><strong>Holiday</strong></p>
-          <p>Friday 15:00</p>
-          <p><button class="w3-button w3-block w3-theme-l4">Info</button></p>
-        </div>
-      </div>
-      <br>
-      
-      <div class="w3-card w3-round w3-white w3-padding-16 w3-center">
-        <p>ADS</p>
-      </div>
-      <br>
-      
-      <div class="w3-card w3-round w3-white w3-padding-32 w3-center">
-        <p><i class="fa fa-bug w3-xxlarge"></i></p>
-      </div>
     
     <!-- End Left Column -->
     </div>
     
     <!-- Middle Column -->
     <div class="w3-col m7">
+
       <div class="w3-container w3-row-padding w3-card w3-white w3-round w3-margin" th:each="a: ${Tweet}"><br>
         <img src="../images/avatar4.png" alt="Avatar" class="w3-left w3-circle w3-margin-right" style="width:60px">
         <span class="w3-right w3-opacity">1 min</span>
@@ -179,6 +175,52 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 <footer class="w3-container w3-theme-d3 w3-padding-16">
   <h5>Universidade de Aveiro 2021/2022 - Introdução à Engenharia de Software</h5>
 </footer>
+
+<script th:inline="javascript">
+  var real_data = /*[[${chartData}]]*/'noValue';
+  $(document).ready(function() {
+      google.charts.load('current', {
+          packages : [ 'corechart', 'bar' ]
+      });
+      google.charts.setOnLoadCallback(drawColumnChart);
+      google.charts.setOnLoadCallback(drawPieChart);
+  });
+  function drawColumnChart() {
+      var data = new google.visualization.DataTable();
+      data.addColumn('string', 'Year');
+      data.addColumn('number', 'Views');
+      Object.keys(real_data).forEach(function(key) {
+          data.addRow([ key, real_data[key] ]);
+      });
+      var options = {
+          title : 'Blog stats',
+          hAxis : {
+              title : 'Years',
+          },
+          vAxis : {
+              title : 'View Count'
+          }
+      };
+      var chart = new google.visualization.ColumnChart(document
+              .getElementById('chart_div'));
+      chart.draw(data, options);
+  }
+  
+  function drawPieChart() {
+      var data = new google.visualization.DataTable();
+      data.addColumn('string', 'Year');
+      data.addColumn('number', 'Views');
+      Object.keys(real_data).forEach(function(key) {
+          data.addRow([ key, real_data[key] ]);
+      });
+      var options = {
+          title : 'Blog stats'
+      };
+      var chart = new google.visualization.PieChart(document
+              .getElementById('piechart'));
+      chart.draw(data, options);
+  }
+</script>
  
 <script>
 // Accordion

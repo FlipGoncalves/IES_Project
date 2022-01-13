@@ -14,7 +14,7 @@ import org.springframework.data.mongodb.core.mapping.Field;
 public class Tweet implements Serializable {
 
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Field("id")
+    @Field("Id")
 	@Id
 	private Integer id;
     @Field("description")

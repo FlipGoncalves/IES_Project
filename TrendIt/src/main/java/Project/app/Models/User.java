@@ -17,7 +17,7 @@ public class User implements Serializable{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Field("id")
+	@Field("Id")
 	private Integer id;
 
     @Field("username")

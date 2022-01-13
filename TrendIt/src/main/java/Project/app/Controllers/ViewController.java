@@ -34,20 +34,28 @@ public class ViewController {
 		if (user_rep.findByUsername(us.getUsername()) != null) {
 			System.out.println(user_rep.findByUsername(us.getUsername()));
 			if (user_rep.findByUsername(us.getUsername()).getPassword().equals(us.getPassword())) {
-				System.out.println(us.getPassword());
+
+				// get data from db
 				model.addAttribute("User", user_rep.findByUsername(us.getUsername()));
-				Tweet t = new Tweet();
-				t.setDescription("tweet1");
-				Tweet t1 = new Tweet();
-				t1.setDescription("tweet2");
+
+				// get tweets from db
 				ArrayList<Tweet> array = new ArrayList<Tweet>();
-				array.add(t);
-				array.add(t1);
+				// change to the right get
 				List<Tweet> tweets = service.getAllTweets();
 				array.addAll(tweets);
 				Map<String, ArrayList<Tweet>> mp = new HashMap<>();
 				mp.put("Tweet", array);
 				model.addAllAttributes(mp);
+
+				// get data from db
+				// change to the right data
+				Map<String, Integer> graphData = new TreeMap<>();
+				graphData.put("2016", 147);
+				graphData.put("2017", 1256);
+				graphData.put("2018", 3856);
+				graphData.put("2019", 19807);
+				model.addAttribute("chartData", graphData);
+
 				return "home";
 			}
 		}
