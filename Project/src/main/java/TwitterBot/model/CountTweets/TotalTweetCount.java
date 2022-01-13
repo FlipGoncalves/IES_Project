@@ -10,6 +10,7 @@ public class TotalTweetCount {
   public Long getTotalTweetCount() {
     return totalTweetCount;
   }
+  
   public void setTotalTweetCount( Long totalTweetCount ) {
     this.totalTweetCount = totalTweetCount;
   }

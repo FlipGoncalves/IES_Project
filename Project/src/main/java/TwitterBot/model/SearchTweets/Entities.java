@@ -1,6 +1,4 @@
 package TwitterBot.model.SearchTweets;
-
-
 import com.google.gson.annotations.SerializedName;
 
 // Entities is also a part of search/recent json

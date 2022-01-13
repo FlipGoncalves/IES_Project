@@ -1,6 +1,4 @@
 package TwitterBot.model.CountTweets;
-
-
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 

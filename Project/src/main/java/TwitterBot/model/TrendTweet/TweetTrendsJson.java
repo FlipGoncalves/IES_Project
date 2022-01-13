@@ -1,6 +1,4 @@
 package TwitterBot.model.TrendTweet;
-
-
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import lombok.AllArgsConstructor;
