@@ -118,11 +118,11 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
       <br>
 
       <div class="w3-card w3-round w3-white w3-hide-small"><br>
-        <div class="w3-container">
+        <div class="w3-container" th:each="a,iter: ${charData}">
           <div align="center">
-            <h2>Spring Boot Google Charts Example</h2>
-            <div id="chart_div"></div>
-            <div id="piechart"></div>
+            <h2 th:text="${a}"></h2>
+            <div th:id="'chart_div ' + ${iter.index}"></div>
+            <div th:id="'piechart ' + ${iter.index}"></div>
           </div>
         </div>
       </div>
@@ -177,14 +177,21 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 </footer>
 
 <script th:inline="javascript">
-  var real_data = /*[[${chartData}]]*/'noValue';
+  var data_ = /*[[${charData}]]*/'noValue';
+  var real_data;
+  var index;
   $(document).ready(function() {
+    for (i = 0; i < data_.length; i++) {
+      real_data = data_[i];
+      index = i;
       google.charts.load('current', {
           packages : [ 'corechart', 'bar' ]
       });
       google.charts.setOnLoadCallback(drawColumnChart);
       google.charts.setOnLoadCallback(drawPieChart);
+    }
   });
+
   function drawColumnChart() {
       var data = new google.visualization.DataTable();
       data.addColumn('string', 'Year');
@@ -201,8 +208,9 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
               title : 'View Count'
           }
       };
+      console.log('chart_div ' + index);
       var chart = new google.visualization.ColumnChart(document
-              .getElementById('chart_div'));
+              .getElementById('chart_div ' + index));
       chart.draw(data, options);
   }
   
@@ -217,12 +225,10 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
           title : 'Blog stats'
       };
       var chart = new google.visualization.PieChart(document
-              .getElementById('piechart'));
+              .getElementById('piechart ' + index));
       chart.draw(data, options);
   }
-</script>
- 
-<script>
+
 // Accordion
 function myFunction(id) {
   var x = document.getElementById(id);

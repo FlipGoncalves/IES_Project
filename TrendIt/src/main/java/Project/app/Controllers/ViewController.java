@@ -47,14 +47,36 @@ public class ViewController {
 				mp.put("Tweet", array);
 				model.addAllAttributes(mp);
 
+				mp.clear();
 				// get data from db
 				// change to the right data
+				List<Map<String, Integer>> data = new ArrayList<Map<String,Integer>>();
+				Map<String, List<Map<String, Integer>>> map = new HashMap<>();
 				Map<String, Integer> graphData = new TreeMap<>();
 				graphData.put("2016", 147);
 				graphData.put("2017", 1256);
 				graphData.put("2018", 3856);
 				graphData.put("2019", 19807);
-				model.addAttribute("chartData", graphData);
+				data.add(graphData);
+
+				Map<String, Integer> graph = new TreeMap<>();
+				graph.put("2020", 3);
+				graph.put("2021", 2);
+				graph.put("2022", 4);
+				graph.put("2023", 1);
+				data.add(graph);
+
+				Map<String, Integer> graph1 = new TreeMap<>();
+				graph1.put("2020", 3);
+				graph1.put("2021", 2);
+				graph1.put("2022", 4);
+				graph1.put("2023", 1);
+				data.add(graph1);
+
+				map.put("charData", data);
+				System.out.println(map);
+				//model.addAttribute("chartData", graphData);
+				model.addAllAttributes(map);
 
 				return "home";
 			}

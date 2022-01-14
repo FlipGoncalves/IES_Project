@@ -67,6 +67,7 @@ public class ApiController {
 
 
     // USERS
+    
     @GetMapping("/all_users")
     public List<User> getAllUsers() {
         return service.getAllUsers();
