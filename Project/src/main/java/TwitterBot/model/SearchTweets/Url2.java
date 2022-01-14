@@ -1,6 +1,4 @@
 package TwitterBot.model.SearchTweets;
-
-
 import com.google.gson.annotations.SerializedName;
 
 // urls which are linked to the tweet
