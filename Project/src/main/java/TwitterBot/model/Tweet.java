@@ -1,7 +1,5 @@
 package TwitterBot.model;
 
-
-
 import javax.persistence.Id;
 import java.io.Serializable;
 

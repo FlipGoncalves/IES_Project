@@ -1,6 +1,4 @@
 package TwitterBot.model.SearchTweets;
-
-
 import com.google.gson.annotations.SerializedName;
 
 // meta information about search/recent query

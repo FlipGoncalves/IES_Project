@@ -1,6 +1,4 @@
 package TwitterBot.model.SearchTweets;
-
-
 import com.google.gson.annotations.SerializedName;
 
 // Hashtags of each tweet returned in search/recent

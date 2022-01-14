@@ -1,6 +1,4 @@
 package TwitterBot.model.SearchTweets;
-
-
 import TwitterBot.model.SearchTweets.Datum;
 import TwitterBot.model.SearchTweets.Includes;
 import TwitterBot.model.SearchTweets.Meta;

@@ -1,6 +1,4 @@
 package TwitterBot.model.SearchTweets;
-
-
 import com.google.gson.annotations.SerializedName;
 
 import java.util.Date;
@@ -67,7 +65,7 @@ public class Datum {
   public void setText( String text ) {
     this.text = text;
   }
-  
+
   @Override public String toString() {
     return "Datum{" +
       "author_id='" + author_id + '\'' +
