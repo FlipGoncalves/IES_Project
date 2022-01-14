@@ -1,30 +1,37 @@
-package TwitterBot.TwitterService;
+package TwitterBot;
 
 
 import TwitterBot.APIInterface.APITwitter;
-import TwitterBot.TwitterBotApp;
 import TwitterBot.model.CountTweets.TweetCount;
 import TwitterBot.model.CountTweets.TweetCountResponse;
 import TwitterBot.model.SearchTweets.Datum;
 import TwitterBot.model.SearchTweets.TweetSearchResponse;
 import TwitterBot.model.TrendTweet.TweetTrendsJson;
-import TwitterBot.model.TrendTweet.TweetTrendsResponse;
+import TwitterBot.repository.TrendsRepository;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import retrofit2.Call;
-import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import TwitterBot.TwitterService.TTService;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class TwitterService implements TTService {
+@Component
+public class TwitterServiceimp implements TTService {
   private static final Logger logger = LogManager.getLogger( "TwitterService" );
+  
+  @Autowired
+  TrendsRepository trendsRepository ;
+  
 
   /**
    * @param id city id according to twitter city id assignment available at
@@ -57,6 +64,11 @@ public class TwitterService implements TTService {
     logger.debug( execute.code() );
     if ( execute != null && execute.isSuccessful()){
       logger.debug( execute.body() );
+      // save to the database
+      execute.body().get( 0 ).setId( "0" );
+      logger.info("PEDRO ES UMA MERDA! -> " + execute.body().get( 0 ) );
+      System.out.println("PEDRO ES UMA MERDA! -> " + execute.body().get( 0 ) );
+      //trendsRepository.save(execute.body().get( 0 ));
       return execute.body().get( 0 ).getTrends();
     }
     else{
@@ -115,6 +127,7 @@ public class TwitterService implements TTService {
     logger.debug( execute.code() );
     if ( execute != null && execute.isSuccessful()){
       logger.debug( execute.body() );
+      // save to the database
       return execute.body().getTweetCountList();
     }
     else{
@@ -177,6 +190,9 @@ public class TwitterService implements TTService {
     logger.debug( execute.code() );
     if ( execute != null && execute.isSuccessful()){
       logger.debug( execute.body() );
+      // save to the database
+      
+      
       return execute.body().getData();
     }
     else{

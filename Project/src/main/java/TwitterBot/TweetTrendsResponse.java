@@ -1,13 +1,25 @@
-package TwitterBot.model.TrendTweet;
+package TwitterBot;
 
 
 import TwitterBot.model.SearchTweets.Locations;
+import TwitterBot.model.TrendTweet.TweetTrendsJson;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import lombok.*;
+import org.springframework.data.mongodb.core.mapping.Document;
 
+import javax.persistence.Entity;
+import org.springframework.data.annotation.Id;
 import java.util.List;
 
+@Entity
+@Document
+@ToString(includeFieldNames = true)
+@AllArgsConstructor
+@NoArgsConstructor
 public class TweetTrendsResponse {
+  @Id
+  @Getter @Setter String id;
   @Expose
   @SerializedName("as_of")
   String as_of;
@@ -53,4 +65,5 @@ public class TweetTrendsResponse {
   public void setTrends( List<TweetTrendsJson> trends ) {
     this.trends = trends;
   }
+  
 }

@@ -5,13 +5,20 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
+
+import javax.persistence.Entity;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Document(collection = "Trends")
+@Entity
 public class TweetTrendsJson {
+  @Id
+  String id;
   @SerializedName("name")
   @Expose
   @Field("name")
@@ -76,10 +83,11 @@ public class TweetTrendsJson {
   public void setUrl( String url ) {
     this.url = url;
   }
-
+  
   @Override public String toString() {
-    return "Tweet{" +
-      "name='" + name + '\'' +
+    return "TweetTrendsJson{" +
+      "id='" + id + '\'' +
+      ", name='" + name + '\'' +
       ", promoted_content='" + promoted_content + '\'' +
       ", query='" + query + '\'' +
       ", tweet_volume=" + tweet_volume +

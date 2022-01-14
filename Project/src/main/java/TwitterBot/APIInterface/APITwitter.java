@@ -4,7 +4,7 @@ package TwitterBot.APIInterface;
 
 import TwitterBot.model.CountTweets.TweetCountResponse;
 import TwitterBot.model.SearchTweets.TweetSearchResponse;
-import TwitterBot.model.TrendTweet.TweetTrendsResponse;
+import TwitterBot.TweetTrendsResponse;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
