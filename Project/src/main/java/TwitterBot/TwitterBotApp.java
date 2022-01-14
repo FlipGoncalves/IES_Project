@@ -1,139 +1,76 @@
 package TwitterBot;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.config.CookieSpecs;
-import org.apache.http.client.config.RequestConfig;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.utils.URIBuilder;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.util.EntityUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.amqp.core.Binding;
+import org.springframework.amqp.core.BindingBuilder;
+import org.springframework.amqp.core.Queue;
+import org.springframework.amqp.core.TopicExchange;
+import org.springframework.amqp.rabbit.connection.ConnectionFactory;
+import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
+import org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter;
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
-import org.springframework.context.annotation.ComponentScan;
-import twitter4j.Twitter;
-import twitter4j.TwitterException;
-
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.util.ArrayList;
-
-
-// useful site : https://twitter4j.org/en/code-examples.html
+import org.springframework.context.annotation.Bean;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 
 @SpringBootApplication
-@ComponentScan("com.app.repository.TweetRepository")
-@EnableAutoConfiguration(exclude = {DataSourceAutoConfiguration.class})
+@EnableScheduling
 public class TwitterBotApp {
-  static Twitter twitter;
   
-  public static void main( String[] args ) throws TwitterException {
-    String tweetResponse = null;
-    
-    CloseableHttpClient httpClient = HttpClients.custom()
-                                                .setDefaultRequestConfig(
-                                                  RequestConfig.custom()
-                                                               .setCookieSpec( CookieSpecs.STANDARD )
-                                                               .build()
-                                                )
-                                                .build();
-    
-    String ids = "1138505981460193280,1261326399320715264";
-    String bearerToken = System.getenv( "ACCESS_TOKEN" );
-    URIBuilder uriBuilder = null;
-    try {
-      uriBuilder = new URIBuilder( "https://api.twitter.com/2/tweets" );
-    } catch (URISyntaxException e) {
-      error( e );
-    }
-    ArrayList<NameValuePair> queryParameters;
-    queryParameters = new ArrayList<>();
-    queryParameters.add( new BasicNameValuePair( "ids", ids ) );
-    queryParameters.add( new BasicNameValuePair( "tweet.fields", "created_at" ) );
-    uriBuilder.addParameters( queryParameters );
-    
-    HttpGet httpGet = null;
-    try {
-      httpGet = new HttpGet( uriBuilder.build() );
-    } catch (
-      URISyntaxException e) {
-      error( e );
-    }
-    httpGet.setHeader( "Authorization", String.format( "Bearer %s", bearerToken ) );
-    httpGet.setHeader( "Content-Type", "application/json" );
-    CloseableHttpResponse response = null;
-    try {
-      response = httpClient.execute( httpGet ); //
-    } catch (IOException e) {
-      error( e );
-    }
-    HttpEntity entity = null;
-    entity = response.getEntity();
-    if ( null != entity ) {
-      try {
-        tweetResponse = EntityUtils.toString( entity, "UTF-8" ); //
-      } catch (IOException e) {
-        error( e );
-      }
-    }
-    System.out.println(  );
-    System.out.println(  );
-    System.out.println(  );
-    System.out.println( tweetResponse );
-    System.out.println(  );
-    System.out.println(  );
-    System.out.println(  );
-    try {
-      uriBuilder = new URIBuilder("https://api.twitter.com/2/tweets/search/recent");
-    } catch (URISyntaxException e) {
-      e.printStackTrace();
-    }
-    queryParameters = new ArrayList<>();
-    queryParameters.add(new BasicNameValuePair("query", "from:hyperlegen OR from:KingJames OR from:DailyNASA"));
-    uriBuilder.addParameters(queryParameters);
+  private static final Logger logger = LogManager.getLogger( "TwitterBotApp" );
+  public static String token = null;
   
-    try {
-      httpGet = new HttpGet(uriBuilder.build());
-    } catch (URISyntaxException e) {
-      e.printStackTrace();
-    }
-    httpGet.setHeader("Authorization", String.format("Bearer %s", bearerToken));
-    httpGet.setHeader("Content-Type", "application/json");
+  static final String topicExchangeName = "spring-boot-exchange";
   
-    try {
-      response = httpClient.execute(httpGet);
-    } catch (IOException e) {
-      e.printStackTrace();
+  static final String queueName = "spring-boot";
+  
+  @Bean
+  Queue queue() {
+    return new Queue(queueName, false);
+  }
+  
+  @Bean
+  TopicExchange exchange() {
+    return new TopicExchange(topicExchangeName);
+  }
+  
+  @Bean
+  Binding binding(Queue queue, TopicExchange exchange) {
+    return BindingBuilder.bind(queue).to(exchange).with("trends.ask.#"); // queue for each type of request
+  }
+  
+  @Bean
+  SimpleMessageListenerContainer container(ConnectionFactory connectionFactory,
+                                           MessageListenerAdapter listenerAdapter) {
+    SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
+    container.setConnectionFactory(connectionFactory);
+    container.setQueueNames(queueName);
+    container.setMessageListener(listenerAdapter);
+    return container;
+  }
+  
+  @Bean
+  MessageListenerAdapter listenerAdapter( Receiver receiver) {
+    return new MessageListenerAdapter(receiver, "receiveMessage");
+  }
+  
+  @Bean
+  MessageListenerAdapter listenerAdapter1( Runner runner) {
+    return new MessageListenerAdapter(runner, "receiveMessage");
+  }
+  
+  public static void main( String[] args ) {
+    token = System.getenv( "token" );
+    
+    if ( token == null && token.isEmpty() ) {
+      System.out.println( "Bearer Token not set" );
+      System.exit( - 1 );
     }
-    entity = response.getEntity();
-    String searchResponse = null;
-    if (null != entity) {
-      try {
-        searchResponse = EntityUtils.toString(entity, "UTF-8");
-      } catch (IOException e) {
-        e.printStackTrace();
-      }
-    }
-    System.out.println(  );
-    System.out.println(  );
-    System.out.println(  );
-    System.out.println(searchResponse);
-    System.out.println(  );
-    System.out.println(  );
-    System.out.println(  );
+    
+    
     SpringApplication.run( TwitterBotApp.class, args );
   }
   
-  // access the twitter API using your twitter4j.properties file
-  // The factory instance is re-useable and thread safe.
-  private static void error( Exception e ) {
-    System.out.println( e.getStackTrace() );
-  }
 }
-    

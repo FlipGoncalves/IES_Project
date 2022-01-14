@@ -9,6 +9,6 @@ public class TweetsResponse {
   @Expose
   @SerializedName( "data" )
   List<Tweets> tweetsList;
-  
-  
+
+
 }
