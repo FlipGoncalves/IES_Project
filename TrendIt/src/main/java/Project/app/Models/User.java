@@ -15,19 +15,16 @@ import java.util.*;
 @Document(collection = "User")
 public class User implements Serializable{
 
-	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Field("id")
-	private Integer id;
-
-    @Field("username")
+	@Id
+	@Field("Id")
+	private String id;
 	private String username;
-
-	@Field("password")
 	private String password;
-
-	@Field("interests")
 	private List<String> interests;
+
+	private String morada;
+	private String data_nascimento;
 
 
 	//@OneToMany(targetEntity = Quote.class, fetch= FetchType.EAGER, mappedBy = "movie", cascade = CascadeType.ALL)
@@ -41,11 +38,11 @@ public class User implements Serializable{
 		this.password = password;
 	}
 
-	public Integer getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
@@ -73,8 +70,24 @@ public class User implements Serializable{
 		this.interests = interests;
 	}
 
+	public String getMorada() {
+		return morada;
+	}
+
+	public void setMorada(String morada) {
+		this.morada = morada;
+	}
+
+	public String getData_nascimento() {
+		return data_nascimento;
+	}
+
+	public void setData_nascimento(String data_nascimento) {
+		this.data_nascimento = data_nascimento;
+	}
+
 	@Override
     public String toString() {
-        return "User [id=" + id + ", Username=" + username + ", Password=" + password + ", Interests=" + interests + "]";
+        return "User [id=" + id + ", Username=" + username + ", Password=" + password + ", Interests=" + interests + ", Morada="+ morada+", Data Nascimento="+data_nascimento+"]";
     }
 }
