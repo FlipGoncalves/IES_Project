@@ -1,5 +1,4 @@
 package TwitterBot.model.TrendTweet;
-
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import lombok.AllArgsConstructor;
@@ -13,11 +12,14 @@ import org.springframework.data.mongodb.core.mapping.Field;
 
 import javax.persistence.Entity;
 
-@Entity
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Document(collection = "Trends")
 public class TweetTrendsJson {
+
   @Id
   String id;
 

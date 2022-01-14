@@ -1,5 +1,4 @@
 package TwitterBot.model.CountTweets;
-
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -11,7 +10,6 @@ public class TotalTweetCount {
   public Long getTotalTweetCount() {
     return totalTweetCount;
   }
-
   public void setTotalTweetCount( Long totalTweetCount ) {
     this.totalTweetCount = totalTweetCount;
   }
