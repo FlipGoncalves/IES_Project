@@ -18,6 +18,48 @@
 <style>
 html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 </style>
+<style>
+  body {font-family: Arial, Helvetica, sans-serif;}
+  
+  /* The Modal (background) */
+  .modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  }
+  
+  /* Modal Content */
+  .modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+  }
+  
+  /* The Close Button */
+  .close {
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+  
+  .close:hover,
+  .close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  </style>
 <body class="w3-theme-l5">
 
 <!-- Navbar -->
@@ -33,7 +75,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
       <a href="#" class="w3-bar-item w3-button">New Notification 2</a>
     </div>
   </div>
-  <a href="/account" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="My Profile">
+  <a id="myBtn" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="My Profile">
     <img src="../images/avatar.png" class="w3-circle" style="height:23px;width:23px" alt="Avatar">
   </a>
  </div>
@@ -65,45 +107,6 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
       </div>
       <br>
       
-      <!-- Accordion -->
-      <div class="w3-card w3-round">
-        <div class="w3-white">
-          <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-circle-o-notch fa-fw w3-margin-right"></i> My Groups</button>
-          <div id="Demo1" class="w3-hide w3-container">
-            <p>Some text..</p>
-          </div>
-          <button onclick="myFunction('Demo2')" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-calendar-check-o fa-fw w3-margin-right"></i> My Events</button>
-          <div id="Demo2" class="w3-hide w3-container">
-            <p>Some other text..</p>
-          </div>
-          <button onclick="myFunction('Demo3')" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-users fa-fw w3-margin-right"></i> My Photos</button>
-          <div id="Demo3" class="w3-hide w3-container">
-         <div class="w3-row-padding">
-         <br>
-           <div class="w3-half">
-             <img src="../images/lights.jpg" style="width:100%" class="w3-margin-bottom">
-           </div>
-           <div class="w3-half">
-             <img src="../images/nature.jpg" style="width:100%" class="w3-margin-bottom">
-           </div>
-           <div class="w3-half">
-             <img src="../images/mountains.jpg" style="width:100%" class="w3-margin-bottom">
-           </div>
-           <div class="w3-half">
-             <img src="../images/forest.jpg" style="width:100%" class="w3-margin-bottom">
-           </div>
-           <div class="w3-half">
-             <img src="../images/nature.jpg" style="width:100%" class="w3-margin-bottom">
-           </div>
-           <div class="w3-half">
-             <img src="../images/snow.jpg" style="width:100%" class="w3-margin-bottom">
-           </div>
-         </div>
-          </div>
-        </div>      
-      </div>
-      <br>
-      
       <!-- Interests --> 
       <div class="w3-card w3-round w3-white w3-hide-small">
         <div class="w3-container">
@@ -120,7 +123,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
       <div class="w3-card w3-round w3-white w3-hide-small"><br>
         <div class="w3-container" th:each="a,iter: ${charData}">
           <div align="center">
-            <h2 th:text="${a}"></h2>
+            <h2 th:text="${titles[iter.index]}"></h2>
             <div th:id="'chart_div ' + ${iter.index}"></div>
             <div th:id="'piechart ' + ${iter.index}"></div>
           </div>
@@ -143,22 +146,30 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
     <!-- Middle Column -->
     <div class="w3-col m7">
 
+      <!-- <div id="myModal" class="modal">
+        <div class="modal-content">
+          <span class="close">&times;</span>
+          <form action="#" th:action="@{/home}" th:object="${home}" method="post">
+            <div class="form-group">
+              <label for="username">Morada</label>
+              <input contenteditable="true" type="text" class="w3-border w3-padding form-control" id="Morada" th:field="*{morada}" placeholder="Morada">
+            </div>
+            <div class="form-group">
+              <label for="username">Data de Nascimento</label>
+              <input contenteditable="true" type="text" class="w3-border w3-padding form-control" id="Data_nascimento" th:field="*{data_nascimento}" placeholder="Data de Nascimento">
+            </div>
+            <button type="sumbit" class="w3-button w3-theme"><i class="bi bi-check-lg"></i>Update</button> 
+          </form>
+        </div>
+      </div> -->
+
       <div class="w3-container w3-row-padding w3-card w3-white w3-round w3-margin" th:each="a: ${Tweet}"><br>
         <img src="../images/avatar4.png" alt="Avatar" class="w3-left w3-circle w3-margin-right" style="width:60px">
         <span class="w3-right w3-opacity">1 min</span>
         <h4>John Doe</h4><br>
         <hr class="w3-clear">
         <p th:text="${a.description}"></p>
-          <div class="w3-row-padding" style="margin:0 -16px">
-            <div class="w3-half">
-              <img src="../images/lights.jpg" style="width:100%" alt="Northern Lights" class="w3-margin-bottom">
-            </div>
-            <div class="w3-half">
-              <img src="../images/nature.jpg" style="width:100%" alt="Nature" class="w3-margin-bottom">
-          </div>
-        </div>
-          <button type="button" class="w3-button w3-theme-d1 w3-margin-bottom"><i class="fa fa-thumbs-up"></i>  Like</button> 
-          <button type="button" class="w3-button w3-theme-d2 w3-margin-bottom"><i class="fa fa-comment"></i>  Comment</button> 
+        <button type="button" class="w3-button w3-theme-d1 w3-margin-bottom"><i class="fa fa-star"></i>  Fav</button>
         </div>
       
     <!-- End Middle Column -->
@@ -181,18 +192,17 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
   var real_data;
   var index;
   $(document).ready(function() {
-    for (i = 0; i < data_.length; i++) {
-      real_data = data_[i];
-      index = i;
-      google.charts.load('current', {
-          packages : [ 'corechart', 'bar' ]
-      });
-      google.charts.setOnLoadCallback(drawColumnChart);
-      google.charts.setOnLoadCallback(drawPieChart);
-    }
+    google.charts.load('current', {
+        packages : [ 'corechart', 'bar' ]
+    });
+    google.charts.setOnLoadCallback(drawColumnChart);
+    google.charts.setOnLoadCallback(drawPieChart);
   });
 
   function drawColumnChart() {
+    for (i = 0; i < data_.length; i++) {
+      real_data = data_[i];
+      index = i;
       var data = new google.visualization.DataTable();
       data.addColumn('string', 'Year');
       data.addColumn('number', 'Views');
@@ -212,9 +222,13 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
       var chart = new google.visualization.ColumnChart(document
               .getElementById('chart_div ' + index));
       chart.draw(data, options);
+    }
   }
   
   function drawPieChart() {
+    for (i = 0; i < data_.length; i++) {
+      real_data = data_[i];
+      index = i;
       var data = new google.visualization.DataTable();
       data.addColumn('string', 'Year');
       data.addColumn('number', 'Views');
@@ -227,7 +241,34 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
       var chart = new google.visualization.PieChart(document
               .getElementById('piechart ' + index));
       chart.draw(data, options);
+    }
   }
+
+  // Get the modal
+  var modal = document.getElementById("myModal");
+
+  // Get the button that opens the modal
+  var btn = document.getElementById("myBtn");
+
+  // Get the <span> element that closes the modal
+  var span = document.getElementsByClassName("close")[0];
+
+  // When the user clicks on the button, open the modal
+  btn.onclick = function() {
+    modal.style.display = "block";
+  }
+
+  // When the user clicks on <span> (x), close the modal
+  span.onclick = function() {
+    modal.style.display = "none";
+  }
+
+  // When the user clicks anywhere outside of the modal, close it
+  window.onclick = function(event) {
+    if (event.target == modal) {
+      modal.style.display = "none";
+    }
+  } 
 
 // Accordion
 function myFunction(id) {

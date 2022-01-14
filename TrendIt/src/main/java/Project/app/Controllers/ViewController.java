@@ -47,9 +47,10 @@ public class ViewController {
 				mp.put("Tweet", array);
 				model.addAllAttributes(mp);
 
-				mp.clear();
 				// get data from db
 				// change to the right data
+				List<String> titles = new ArrayList<String>();
+
 				List<Map<String, Integer>> data = new ArrayList<Map<String,Integer>>();
 				Map<String, List<Map<String, Integer>>> map = new HashMap<>();
 				Map<String, Integer> graphData = new TreeMap<>();
@@ -58,6 +59,7 @@ public class ViewController {
 				graphData.put("2018", 3856);
 				graphData.put("2019", 19807);
 				data.add(graphData);
+				titles.add("De 2016 a 2019");
 
 				Map<String, Integer> graph = new TreeMap<>();
 				graph.put("2020", 3);
@@ -65,18 +67,21 @@ public class ViewController {
 				graph.put("2022", 4);
 				graph.put("2023", 1);
 				data.add(graph);
+				titles.add("De 2020 a 2023");
 
 				Map<String, Integer> graph1 = new TreeMap<>();
-				graph1.put("2020", 3);
-				graph1.put("2021", 2);
-				graph1.put("2022", 4);
-				graph1.put("2023", 1);
+				graph1.put("2024", 2);
+				graph1.put("2025", 1);
+				graph1.put("2026", 5);
+				graph1.put("2027", 7);
 				data.add(graph1);
+				titles.add("De 2024 a 2027");
 
 				map.put("charData", data);
 				System.out.println(map);
 				//model.addAttribute("chartData", graphData);
 				model.addAllAttributes(map);
+				model.addAttribute("titles", titles);
 
 				return "home";
 			}
@@ -103,28 +108,23 @@ public class ViewController {
 		model.addAttribute("User", us);
 		user_rep.save(us);
 
-		return "home";	
+		return "index";
 	}
 
 	@GetMapping("/home")
-	public String home(Model model) {
+	public String home(@ModelAttribute User us, Model model) {
+		System.out.println("home");
+		return "home";
+	}
+
+	@PostMapping("/home")
+	public String homeSubmit(@ModelAttribute User us, Model model) {
+		System.out.println("home " + us);
 		return "home";
 	}
 
 	@GetMapping("/")
 	public String index() {
 		return "index";
-	}
-
-	@GetMapping("/account")
-	public String account(@ModelAttribute User us, Model model) {
-		model.addAttribute("Edit", us);
-		return "account";
-	}
-
-	@PostMapping("/account")
-	public String accountForm(@ModelAttribute User us, Model model) {
-		model.addAttribute("User", us);
-		return "home";
 	}
 }

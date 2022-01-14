@@ -88,6 +88,6 @@ public class User implements Serializable{
 
 	@Override
     public String toString() {
-        return "User [id=" + id + ", Username=" + username + ", Password=" + password + ", Interests=" + interests + "]";
+        return "User [id=" + id + ", Username=" + username + ", Password=" + password + ", Interests=" + interests + ", Morada="+ morada+", Data Nascimento="+data_nascimento+"]";
     }
 }
