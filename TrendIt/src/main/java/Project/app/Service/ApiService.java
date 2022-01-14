@@ -7,6 +7,7 @@ import Project.app.Models.*;
 import Project.app.Repositories.*;
 
 import java.util.List;
+import java.util.Date;
 
 @Service
 public class ApiService {
@@ -74,6 +75,7 @@ public class ApiService {
     // TWEETS
 
     public Tweet saveTweet(Tweet tweet) {
+        tweet.setInsert(new Date());
         return tweet_rep.save(tweet);
     }
 

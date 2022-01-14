@@ -36,13 +36,29 @@ public class ViewController {
 			if (user_rep.findByUsername(us.getUsername()).getPassword().equals(us.getPassword())) {
 
 				// get data from db
-				model.addAttribute("User", user_rep.findByUsername(us.getUsername()));
+				User user = user_rep.findByUsername(us.getUsername());
+				model.addAttribute("User", user);
 
+				List<String> interests = user.getInterests();
+				
 				// get tweets from db
 				ArrayList<Tweet> array = new ArrayList<Tweet>();
 				// change to the right get
 				List<Tweet> tweets = service.getAllTweets();
-				array.addAll(tweets);
+				List<Tweet> out = new ArrayList<Tweet>();
+				int count = 0;
+				for(int i = tweets.size() - 1; i > 0; i--) {
+					if (count == 10)
+						break;
+					Set<String> trends_tweet = tweets.get(i).getTrends();
+					for (String trend: trends_tweet) {
+						if (interests.contains(trend)) {
+							out.add(tweets.get(i));
+							count += 1;
+						}
+					}
+				}
+				array.addAll(out);
 				Map<String, ArrayList<Tweet>> mp = new HashMap<>();
 				mp.put("Tweet", array);
 				model.addAllAttributes(mp);

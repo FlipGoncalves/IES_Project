@@ -1,6 +1,7 @@
 package Project.app.Models;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Set;
 
 import javax.persistence.GeneratedValue;
@@ -20,6 +21,7 @@ public class Tweet implements Serializable {
     private String description;
     private Set<String> trends;
     private String person;
+	private Date insert;
 
 	public Tweet(Integer id, String description, Set<String> trends, String person) {
         this.description = description;
@@ -75,9 +77,17 @@ public class Tweet implements Serializable {
 		this.description = description;
 	}
 
+	public Date getInsert() {
+		return insert;
+	}
+
+	public void setInsert(Date insert) {
+		this.insert = insert;
+	}
+
 	@Override
 	public String toString() {
-		return "Movie [id=" + id + ", title=" + description + ", trends=" + trends + "]";
+		return "Tweet [id=" + id + ", title=" + description + ", trends=" + trends + ", person="+person+", date="+insert+"]";
 	}
 
 	// public void addQuote(Quote qt) {
