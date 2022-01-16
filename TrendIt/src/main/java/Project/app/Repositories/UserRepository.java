@@ -6,6 +6,6 @@ import Project.app.Models.User;
 
 @Repository
     public interface UserRepository extends MongoRepository<User, Integer>{
-        public User findById(int id);
+        public User findById(String id);
         public User findByUsername(String username);
 }

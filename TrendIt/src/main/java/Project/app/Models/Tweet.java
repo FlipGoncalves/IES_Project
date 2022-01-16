@@ -1,6 +1,7 @@
 package Project.app.Models;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Set;
 
 import javax.persistence.GeneratedValue;
@@ -13,16 +14,14 @@ import org.springframework.data.mongodb.core.mapping.Field;
 @Document(collection = "Tweet")
 public class Tweet implements Serializable {
 
-    @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Field("id")
-	private Integer id;
-    @Field("description")
+	@Id
+	@Field("Id")
+	private String id;
     private String description;
-    @Field("trends")
     private Set<String> trends;
-    @Field("person")
     private String person;
+	private Date insert;
 
 	public Tweet(Integer id, String description, Set<String> trends, String person) {
         this.description = description;
@@ -42,13 +41,15 @@ public class Tweet implements Serializable {
 	// 	this.quotes = quotes;
 	// }
 
-	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-	public Integer getId() {
+	@Id
+	public String getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+    @GeneratedValue(strategy = GenerationType.AUTO)
+	@Id
+	public void setId(String id) {
 		this.id = id;
 	}
     
@@ -76,9 +77,17 @@ public class Tweet implements Serializable {
 		this.description = description;
 	}
 
+	public Date getInsert() {
+		return insert;
+	}
+
+	public void setInsert(Date insert) {
+		this.insert = insert;
+	}
+
 	@Override
 	public String toString() {
-		return "Movie [id=" + id + ", title=" + description + ", trends=" + trends + "]";
+		return "Tweet [id=" + id + ", title=" + description + ", trends=" + trends + ", person="+person+", date="+insert+"]";
 	}
 
 	// public void addQuote(Quote qt) {
