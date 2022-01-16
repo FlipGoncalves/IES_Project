@@ -10,7 +10,6 @@ public class TweetController {
   
   @GetMapping("Trends")
   public String getTrends() {
-    String s = twitterService.getTrends( 1 ).toString();
-    return s;
+    return null;
   }
 }
