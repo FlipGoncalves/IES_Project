@@ -35,52 +35,56 @@ public class ViewController {
 			System.out.println(user_rep.findByUsername(us.getUsername()));
 			if (user_rep.findByUsername(us.getUsername()).getPassword().equals(us.getPassword())) {
 
-				// get data from db
-				model.addAttribute("User", user_rep.findByUsername(us.getUsername()));
-
+				// get user data from db
+				User user = user_rep.findByUsername(us.getUsername());
+				model.addAttribute("User", user);
+				List<String> interests = user.getInterests();
+				
 				// get tweets from db
 				ArrayList<Tweet> array = new ArrayList<Tweet>();
-				// change to the right get
 				List<Tweet> tweets = service.getAllTweets();
-				array.addAll(tweets);
+				List<Tweet> out = new ArrayList<Tweet>();
+				int count = 0;
+				for(int i = tweets.size() - 1; i > 0; i--) {
+					if (count == 10)
+						break;
+					Set<String> trends_tweet = tweets.get(i).getTrends();
+					for (String trend: trends_tweet) {
+						if (interests.contains(trend)) {
+							out.add(tweets.get(i));
+							count += 1;
+						}
+					}
+				}
+				array.addAll(out);
 				Map<String, ArrayList<Tweet>> mp = new HashMap<>();
 				mp.put("Tweet", array);
 				model.addAllAttributes(mp);
 
-				// get data from db
-				// change to the right data
-				List<String> titles = new ArrayList<String>();
-
-				List<Map<String, Integer>> data = new ArrayList<Map<String,Integer>>();
-				Map<String, List<Map<String, Integer>>> map = new HashMap<>();
+				// get data from db -> {title1: {name1: data1, name2: data2, name3: data3}, {title2: {name1: data1, name2: data2}}}
+				Map<String, Map<String, Integer>> data = new HashMap<>();
 				Map<String, Integer> graphData = new TreeMap<>();
+				List<String> titles = new ArrayList<String>();
 				graphData.put("2016", 147);
 				graphData.put("2017", 1256);
 				graphData.put("2018", 3856);
 				graphData.put("2019", 19807);
-				data.add(graphData);
-				titles.add("De 2016 a 2019");
+				data.put("De 2016 a 2019", graphData);
+				Map<String, Integer> graphData1 = new TreeMap<>();
+				graphData1.put("2020", 3);
+				graphData1.put("2021", 2);
+				graphData1.put("2022", 4);
+				graphData1.put("2023", 1);
+				data.put("De 2020 a 2023", graphData1);
 
-				Map<String, Integer> graph = new TreeMap<>();
-				graph.put("2020", 3);
-				graph.put("2021", 2);
-				graph.put("2022", 4);
-				graph.put("2023", 1);
-				data.add(graph);
-				titles.add("De 2020 a 2023");
-
-				Map<String, Integer> graph1 = new TreeMap<>();
-				graph1.put("2024", 2);
-				graph1.put("2025", 1);
-				graph1.put("2026", 5);
-				graph1.put("2027", 7);
-				data.add(graph1);
-				titles.add("De 2024 a 2027");
-
-				map.put("charData", data);
-				System.out.println(map);
-				//model.addAttribute("chartData", graphData);
-				model.addAllAttributes(map);
+				System.out.println(data);
+				List<Map<String, Integer>> sendData = new ArrayList<Map<String,Integer>>();
+				for (String title: data.keySet()) {
+					System.out.println(data.get(title));
+					titles.add(title);
+					sendData.add(data.get(title));
+				}
+				model.addAttribute("charData", sendData);
 				model.addAttribute("titles", titles);
 
 				return "home";
