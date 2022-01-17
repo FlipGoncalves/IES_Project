@@ -67,13 +67,13 @@ public class Datum {
   }
 
   @Override public String toString() {
-    return "Datum{" +
-      "author_id='" + author_id + '\'' +
-      ", conversation_id='" + conversation_id + '\'' +
-      ", created_at=" + created_at +
-      ", id='" + id + '\'' +
-      ", lang='" + lang + '\'' +
-      ", text='" + text + '\'' +
+    return "{" +
+      "\"author_id\":\"" + author_id + '\"' +
+      ",\"conversation_id\":\"" + conversation_id + '\"' +
+      ",\"created_at\":\"" + created_at +
+      ",\"id\":\"" + id + '\"' +
+      ",\"lang\":\"" + lang + '\"' +
+      ",\"text\":\"" + text + '\"' +
       '}';
   }
 }

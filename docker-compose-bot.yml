@@ -47,7 +47,7 @@ services:
       #- ./wait-for-it.sh:/usr/local/bin/wait-for-it.sh
 
     networks: # Networks to join (Services on the same network can communicate with each other using their name)
-      - backend_bot
+      - backend
 
 
   # Database Service (MongoDB)
@@ -69,7 +69,7 @@ services:
       - data_bot:/data/mongodb.log
       - init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
     networks:
-      - backend_bot
+      - backend
 
   rabbitmq:
     image: rabbitmq:3-management
@@ -83,7 +83,7 @@ services:
       - RABBITMQ_DEFAULT_USER=pedro
       - RABBITMQ_DEFAULT_PASS=pedro
     networks:
-    - backend_bot
+    - backend
 
 
 volumes:
@@ -92,5 +92,5 @@ volumes:
 
 # Networks to be created to facilitate communication between containers
 networks:
-  backend_bot:
+  backend:
     driver: bridge

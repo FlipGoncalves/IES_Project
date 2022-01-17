@@ -39,10 +39,9 @@ public class TweetCount {
   }
 
   @Override public String toString() {
-    return "TweetCount{" +
-      "end='" + end + '\'' +
-      ", start='" + start + '\'' +
-      ", tweet_count=" + tweet_count +
-      '}';
+    return "{" +
+      "\"end\":\"" + end + '\"' +
+      ",\"start\":\"" + start + '\"' +
+      ",\"tweet_count\":\"" + tweet_count + "\"}";
   }
 }

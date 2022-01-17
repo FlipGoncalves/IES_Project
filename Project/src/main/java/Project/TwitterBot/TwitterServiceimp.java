@@ -197,7 +197,8 @@ public class TwitterServiceimp implements TTService {
     List<Datum> result = new ArrayList<>();
     APITwitter client = apiV2.create( APITwitter.class );
     // TODO make it dynamic allow for more stuff such has next page token max results and more
-    Call<TweetSearchResponse> callTargetResponse = client.searchTweets( query,
+    // add extra fields
+    Call<TweetSearchResponse> callTargetResponse = client.searchTweets( query + "&max_results=10&expansions=author_id&tweet.fields=created_at,lang,conversation_id&user.fields=created_at,entities,location",
       "Bearer " + TwitterBotApp.token );
     logger.info("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"+ callTargetResponse.toString() );
     logger.info("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"+ callTargetResponse.request().url());
@@ -213,7 +214,7 @@ public class TwitterServiceimp implements TTService {
     if ( execute != null && execute.isSuccessful()){
       logger.info( execute.body() );
       // save to the database
-      return execute.body().getData().stream().filter( Objects::isNull ).collect( Collectors.toList());
+      return execute.body().getData();
     }
     else{
       logger.info( execute.code() );

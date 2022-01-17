@@ -1,4 +1,7 @@
 package Project.TwitterBot.model.TrendTweet;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonSerializationContext;
+import com.google.gson.JsonSerializer;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import lombok.AllArgsConstructor;
@@ -15,13 +18,12 @@ import javax.persistence.Entity;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
+import java.lang.reflect.Type;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Document(collection = "Trends")
 public class TweetTrendsJson {
-
-  @Id
-  String id;
 
   @SerializedName("name")
   @Expose
@@ -89,12 +91,13 @@ public class TweetTrendsJson {
   }
 
   @Override public String toString() {
-    return "Tweet{" +
-      "name='" + name + '\'' +
-      ", promoted_content='" + promoted_content + '\'' +
-      ", query='" + query + '\'' +
-      ", tweet_volume=" + tweet_volume +
-      ", url='" + url + '\'' +
+    return "{" +
+      "name\":\"" + name + '\"' +
+      ",\"promoted_content\":\"" + promoted_content + '\"' +
+      ",\"query\":\"" + query + '\"' +
+      ",\"tweet_volume\":\"" + tweet_volume +
+      ",\"url\":\"" + url + '\"' +
       '}';
   }
+  
 }
