@@ -4,24 +4,32 @@
         <Console name="LogToConsole" target="SYSTEM_OUT">
             <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
         </Console>
-        <File name="LogToFile" fileName="logs/app.log">
+        <File name="LogToFile" fileName="logs/app.log" append="true">
             <PatternLayout>
                 <Pattern>%d %p %c{1.} [%t] %m%n</Pattern>
             </PatternLayout>
         </File>
-        <File name="ServiceLogger" fileName="logs/service.log">
+        <File name="QueueSenderFile" fileName="logs/app.log" append="true">
             <PatternLayout>
                 <Pattern>%d %p %c{1.} [%t] %m%n</Pattern>
             </PatternLayout>
         </File>
-
-        <File name="TwitterBotAppLogger" fileName="logs/bot_app.log">
+        <File name="ServiceLoggerFile" fileName="logs/service.log" append="true">
+            <PatternLayout>
+                <Pattern>%d %p %c{1.} [%t] %m%n</Pattern>
+            </PatternLayout>
+        </File>
+        <File name="TwitterBotAppLoggerFile" fileName="logs/bot_app.log" append="true">
             <PatternLayout>
                 <Pattern>%d %p %c{1.} [%t] %m%n</Pattern>
             </PatternLayout>
         </File>
     </Appenders>
     <Loggers>
+        <Root level="error">
+            <AppenderRef ref="LogToFile"/>
+            <AppenderRef ref="LogToConsole"/>
+        </Root>
         <Logger name="MyLog" level="debug" additivity="false">
             <AppenderRef ref="LogToFile"/>
             <AppenderRef ref="LogToConsole"/>
@@ -31,19 +39,19 @@
             <AppenderRef ref="LogToConsole"/>
         </Logger>
         <Logger name="TwitterService" level="debug" additivity="false">
-            <AppenderRef ref="ServiceLogger"/>
+            <AppenderRef ref="ServiceLoggerFile"/>
+            <AppenderRef ref="LogToConsole"/>
+        </Logger>
+        <Logger name="QueueSender" level="debug" additivity="false">
+            <AppenderRef ref="QueueSenderFile"/>
             <AppenderRef ref="LogToConsole"/>
         </Logger>
         <Logger name="TwitterBotApp" level="debug" additivity="false">
-            <AppenderRef ref="TwitterBotAppLogger"/>
+            <AppenderRef ref="TwitterBotAppLoggerFile"/>
             <AppenderRef ref="LogToConsole"/>
         </Logger>
         <Logger name="org.springframework.boot" level="error" additivity="false">
             <AppenderRef ref="LogToConsole"/>
         </Logger>
-        <Root level="error">
-            <AppenderRef ref="LogToFile"/>
-            <AppenderRef ref="LogToConsole"/>
-        </Root>
     </Loggers>
 </Configuration>

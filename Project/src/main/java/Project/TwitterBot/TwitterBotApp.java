@@ -14,12 +14,16 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
+import java.io.IOException;
+import java.net.Socket;
+
 
 @SpringBootApplication
 @EnableScheduling
 public class TwitterBotApp {
   
   private static final Logger logger = LogManager.getLogger( "TwitterBotApp" );
+  private static final Logger logger1 = LogManager.getLogger( "TwitterService" );
   public static String token = null;
   
   static final String topicExchangeName = "spring-boot-exchange";
@@ -38,7 +42,8 @@ public class TwitterBotApp {
   
   @Bean
   Binding binding(Queue queue, TopicExchange exchange) {
-    return BindingBuilder.bind(queue).to(exchange).with("trends.ask.#"); // queue for each type of request
+    return BindingBuilder.bind(queue).to(exchange).with("foo.bar.#"); // queue for each type of request must match in
+    // runner
   }
   
   @Bean
@@ -64,9 +69,12 @@ public class TwitterBotApp {
       System.out.println( "Bearer Token not set" );
       System.exit( - 1 );
     }
-    
-    
-    SpringApplication.run( TwitterBotApp.class, args );
+    logger.error( token );
+    logger.info( token );
+    logger1.error( token );
+  
+  
+    SpringApplication.run( TwitterBotApp.class, args ).close();
   }
   
 }

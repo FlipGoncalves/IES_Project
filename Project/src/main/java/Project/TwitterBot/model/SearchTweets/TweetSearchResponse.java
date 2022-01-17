@@ -37,4 +37,12 @@ public class TweetSearchResponse {
   public void setMeta( Meta meta ) {
     this.meta = meta;
   }
+  
+  @Override public String toString() {
+    return "TweetSearchResponse{" +
+      "data=" + data +
+      ", includes=" + includes +
+      ", meta=" + meta +
+      '}';
+  }
 }

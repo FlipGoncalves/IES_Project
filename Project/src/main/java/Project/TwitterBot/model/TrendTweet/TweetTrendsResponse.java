@@ -51,4 +51,13 @@ public class TweetTrendsResponse {
   public void setTrends( List<TweetTrendsJson> trends ) {
     this.trends = trends;
   }
+  
+  @Override public String toString() {
+    return "TweetTrendsResponse{" +
+      "as_of='" + as_of + '\'' +
+      ", created_at='" + created_at + '\'' +
+      ", locations=" + locations +
+      ", trends=" + trends +
+      '}';
+  }
 }

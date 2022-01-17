@@ -3,6 +3,7 @@ package Project.TwitterBot;
 
 import Project.TwitterBot.model.CountTweets.TweetCount;
 import Project.TwitterBot.model.SearchTweets.Datum;
+import Project.TwitterBot.model.SearchTweets.TweetSearchResponse;
 import Project.TwitterBot.model.TrendTweet.TweetTrendsJson;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -19,7 +20,7 @@ import java.util.stream.Collectors;
 
 @Component
 public class Runner implements CommandLineRunner {
-  private static final Logger logger = LogManager.getLogger( "RabbitMqSender" );
+  private static final Logger logger = LogManager.getLogger( "QueueSender" );
   private static final int[] ids = new int[10];
   private final RabbitTemplate rabbitTemplate;
   private final Receiver receiver;
@@ -38,39 +39,56 @@ public class Runner implements CommandLineRunner {
     queue.add( message );
   }
   
-  @Scheduled(fixedDelay = 5000L)
+  @Scheduled(initialDelay = 8000L, fixedDelay = 1000L)
   public void sendMessage() {
-    
-    if ( queue.size() == 0 ) System.exit( 0 );
-    
-    logger.info( "Sending message... Timed" );
-    String s = queue.get( 0 );
-    rabbitTemplate.convertAndSend( TwitterBotApp.topicExchangeName, "foo.bar.baz", s);
-    queue.remove( 0 );
+    if ( queue.size() != 0 ) {
+      logger.info( "Sending message... Timed" );
+      String s = queue.get( 0 );
+      logger.info(s);
+      rabbitTemplate.convertAndSend( TwitterBotApp.topicExchangeName, "foo.bar.baz", s );
+      queue.remove( 0 );
+      logger.info("Queue Size -> " + queue.size());
+    }
   }
   
   @Override
   public void run( String... args ) throws Exception {
     //
+    System.out.println( "args" );
+    for (String s : args) {
+      System.out.println( s );
+    }
+    System.out.println( "end" );
     Random r = new Random();
-    List<TweetTrendsJson> t = ts.getTrends( r.nextInt() );
+    List<TweetTrendsJson> t = ts.getTrends( 1 );
     
-    List<String>queries = t.stream().map( TweetTrendsJson::getQuery ).collect( Collectors.toList());
+    logger.debug( "t -> " + t );
+    List<String> queries = t.stream().map( TweetTrendsJson::getQuery ).collect( Collectors.toList() );
     
-    List<String> ls = t.stream().map( TweetTrendsJson::toString ).collect( Collectors.toList());
+    System.out.println( "queries" );
+    queries.stream().forEach( System.out::print );
+    System.out.println( "end" );
     
-    for (String s: queries) {
-      ls.addAll(ts.searchTweets( s ).stream().map( Datum::toString ).collect( Collectors.toList()) );
-      ls.addAll(ts.getInterestCount( s ).stream().map( TweetCount::toString ).collect( Collectors.toList()) );
+    this.queue.addAll( t.stream().map( TweetTrendsJson::toString ).collect( Collectors.toList()) );
+  
+    for (String s : queries) {
+      try {
+  
+        this.queue.addAll( ts.searchTweets( s ).stream().map( Datum::toString ).collect( Collectors.toList() ) );
+      }
+      catch (NullPointerException n){
+        logger.error( "Null stuff query returned 0 tweets" );
+      }
+      this.queue.addAll( ts.getInterestCount( s ).stream().map( TweetCount::toString ).collect( Collectors.toList() ) );
     }
     
-    ls.addAll( ts.searchTweets( args[0] ).stream().map( Datum::toString ).collect( Collectors.toList() ) );
-    ls.addAll( ts.getInterestCount( args[0] ).stream().map( TweetCount::toString ).collect( Collectors.toList() ) );
+    this.queue.addAll( ts.searchTweets( args[0] ).stream().map( Datum::toString ).collect( Collectors.toList() ) );
+    this.queue.addAll( ts.getInterestCount( args[0] ).stream().map( TweetCount::toString ).collect( Collectors.toList() ) );
     
-    this.queue.addAll( ls );
+    //this.queue.addAll( ls );
     
-    System.out.println( "Sending message..." );
-    rabbitTemplate.convertAndSend( TwitterBotApp.topicExchangeName, "foo.bar.baz", "Hello from RabbitMQ!" );
+    while(this.queue.size() != 0) {
+    }
   }
   
 }

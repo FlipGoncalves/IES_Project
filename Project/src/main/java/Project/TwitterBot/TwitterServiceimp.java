@@ -23,6 +23,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 @Component
@@ -41,7 +43,7 @@ public class TwitterServiceimp implements TTService {
    *           This call to the api returns a TweetTrendJson obj
    */
   @Override public List<TweetTrendsJson> getTrends( long id ) {
-    logger.debug( "First Service getTrends for place: " + id );
+    logger.info( "First Service getTrends for place: " + id );
 
     final Retrofit apiV1_1 =
       new Retrofit.Builder().baseUrl( "https://api.twitter.com/1.1/" )
@@ -54,23 +56,33 @@ public class TwitterServiceimp implements TTService {
 
     Call<List<TweetTrendsResponse>> callTargetResponse = client.getTrends( id + "",
       "Bearer " + TwitterBotApp.token );
-
+    logger.info("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"+ callTargetResponse.request().body() );
+  
     Response<List<TweetTrendsResponse>> execute = null;
     try {
       execute = callTargetResponse.execute();
     } catch (IOException e) {
+      logger.info( e );
       e.printStackTrace();
+      logger.info( e );
     }
-    logger.debug( execute.code() );
+    logger.info( execute.code() );
     if ( execute != null && execute.isSuccessful()){
-      logger.debug( execute.body() );
+      logger.info( execute.body() );
       // save to the database
-      logger.info("PEDRO ES UMA MERDA! -> " + execute.body().get( 0 ) );
-      System.out.println("PEDRO ES UMA MERDA! -> " + execute.body().get( 0 ) );
+      logger.info("PEDRO TU CONSEGUES ! -> " + execute.body().get( 0 ) );
+      System.out.println("PEDRO TU CONSEGUES ! ->  " + execute.body().get( 0 ) );
       //trendsRepository.save(execute.body().get( 0 ));
       return execute.body().get( 0 ).getTrends();
     }
     else{
+      logger.info( execute.code() );
+      try {
+        logger.error( execute.errorBody().string() );
+      } catch (IOException e) {
+        e.printStackTrace();
+        logger.info( e );
+      }
       logger.error( "ERRO" );
     }
 
@@ -78,7 +90,7 @@ public class TwitterServiceimp implements TTService {
       @Override public void onResponse( Call<List<TweetTrendsResponse>> call,
                                         Response<List<TweetTrendsResponse>> response ) {
         assert response.body() != null;
-        logger.debug( "RESPONSE ->" + response.body() );
+        logger.info( "RESPONSE ->" + response.body() );
         response.body().get( 0 ).getTrends().forEach( logger::debug );
         result.addAll( response.body().get( 0 ).getTrends() ); // add every trend FIXME why the fck you no work
         // to the result variable so that after that we can send it through RabbitMQ
@@ -103,7 +115,7 @@ public class TwitterServiceimp implements TTService {
    */
   @Override public List<TweetCount> getInterestCount( String query ) {
 
-    logger.debug( "Service getInterestCount for query: " + query );
+    logger.info( "->>>>>>Service getInterestCount for query: " + query );
     final Retrofit apiV2 =
       new Retrofit.Builder().baseUrl( "https://api.twitter.com/2/" )
                             .addConverterFactory( GsonConverterFactory.create() )
@@ -111,25 +123,34 @@ public class TwitterServiceimp implements TTService {
 
     List<TweetCount> result = new ArrayList<>();
     APITwitter client = apiV2.create( APITwitter.class );
-
-
+  
+  
     Call<TweetCountResponse> callTargetResponse = client.getCount( query, "day",
       "Bearer " + TwitterBotApp.token );
   
+    logger.info("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"+ callTargetResponse.request().body() );
+    logger.info( callTargetResponse.toString() );
   
     Response<TweetCountResponse> execute = null;
     try {
       execute = callTargetResponse.execute();
     } catch (IOException e) {
+      logger.info( e );
       e.printStackTrace();
     }
-    logger.debug( execute.code() );
+    logger.info( execute.code() );
     if ( execute != null && execute.isSuccessful()){
-      logger.debug( execute.body() );
+      logger.info( execute.body() );
       // save to the database
       return execute.body().getTweetCountList();
     }
     else{
+      logger.info( execute.code() );
+      try {
+        logger.error( execute.errorBody().string() );
+      } catch (IOException e) {
+        logger.info( e );
+      }
       logger.error( "ERRO" );
     }
     /*
@@ -138,7 +159,7 @@ public class TwitterServiceimp implements TTService {
       @Override public void onResponse( Call<TweetCountResponse> call,
                                         Response<TweetCountResponse> response ) {
 
-        logger.debug( "RESPONSE ->" + response.body() );
+        logger.info( "RESPONSE ->" + response.body() );
         assert response.body() != null;
         response.body().getTweetCountList().forEach( logger::debug );
         result.addAll( response.body().getTweetCountList() ); // FIXME why the fck you no work
@@ -167,7 +188,7 @@ public class TwitterServiceimp implements TTService {
    * @return
    */
   @Override public List<Datum> searchTweets( String query ) {
-    logger.debug( "Service Search for query: " + query );
+    logger.info( "->>>Service Search for query: " + query );
     final Retrofit apiV2 =
       new Retrofit.Builder().baseUrl( "https://api.twitter.com/2/" )
                             .addConverterFactory( GsonConverterFactory.create() )
@@ -176,25 +197,32 @@ public class TwitterServiceimp implements TTService {
     List<Datum> result = new ArrayList<>();
     APITwitter client = apiV2.create( APITwitter.class );
     // TODO make it dynamic allow for more stuff such has next page token max results and more
-    Call<TweetSearchResponse> callTargetResponse = client.searchTweets( "from: TwitterDev",
+    Call<TweetSearchResponse> callTargetResponse = client.searchTweets( query,
       "Bearer " + TwitterBotApp.token );
-  
+    logger.info("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"+ callTargetResponse.toString() );
+    logger.info("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"+ callTargetResponse.request().url());
     Response<TweetSearchResponse> execute = null;
     // sync
     try {
       execute = callTargetResponse.execute();
     } catch (IOException e) {
+      logger.info( e );
       e.printStackTrace();
     }
-    logger.debug( execute.code() );
+    logger.info( execute.code() );
     if ( execute != null && execute.isSuccessful()){
-      logger.debug( execute.body() );
+      logger.info( execute.body() );
       // save to the database
-      
-      
-      return execute.body().getData();
+      return execute.body().getData().stream().filter( Objects::isNull ).collect( Collectors.toList());
     }
     else{
+      logger.info( execute.code() );
+      try {
+        logger.error( execute.errorBody().string() );
+      } catch (IOException e) {
+        logger.info( e );
+        e.printStackTrace();
+      }
       logger.error( "ERRO" );
     }
     
@@ -203,10 +231,10 @@ public class TwitterServiceimp implements TTService {
     callTargetResponse.enqueue( new Callback<>() {
       @Override public void onResponse( Call<TweetSearchResponse> call, Response<TweetSearchResponse> response ) {
 
-        logger.debug( "RESPONSE ->" + response.body() );
+        logger.info( "RESPONSE ->" + response.body() );
         assert response.body() != null;
         for (Datum datum : response.body().getData()) {
-          logger.debug( datum.getText() );
+          logger.info( datum.getText() );
         }
         result.addAll( response.body().getData() ); // FIXME why the fck you no work
         //TODO save the full request or each data[i]
