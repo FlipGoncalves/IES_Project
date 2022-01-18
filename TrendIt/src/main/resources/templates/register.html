@@ -75,58 +75,14 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
                 <label for="username">Repeat Password</label>
                 <input contenteditable="true" type="password" class="w3-border w3-padding form-control" id="Repeat_Password" placeholder="Repeat Password">
               </div>
-              <div class="form-group">
+              <div>
                 <label for="username">Interests</label>
-                <label class="container">
-                  <input type="checkbox" class="w3-border w3-padding" id="checkOne" th:field="*{interests}" value="InterestOne" name="InterestOne">
-                  <span class="checkmark"></span>
-                  InterestOne
-                </label>
-                <label class="container">
-                  <input type="checkbox" class="w3-border w3-padding" id="checkTwo" th:field="*{interests}" value="InterestTwo" name="InterestTwo">
-                  <span class="checkmark"></span>
-                  InterestTwo
-                </label>
-                <label class="container">
-                  <input type="checkbox" class="w3-border w3-padding" id="checkThree" th:field="*{interests}" value="InterestThree" name="InterestThree">
-                  <span class="checkmark"></span>
-                  InterestThree
-                </label>
-                <label class="container">
-                  <input type="checkbox" class="w3-border w3-padding" id="checkFour" th:field="*{interests}" value="InterestFour" name="InterestFour">
-                  <span class="checkmark"></span>
-                  InterestFour
-                </label>
-                <label class="container">
-                  <input type="checkbox" class="w3-border w3-padding" id="checkFive" th:field="*{interests}" value="InterestFive" name="InterestFive">
-                  <span class="checkmark"></span>
-                  InterestFive
-                </label>
-                <label class="container">
-                  <input type="checkbox" class="w3-border w3-padding" id="checkSix" th:field="*{interests}" value="InterestSix" name="InterestSix">
-                  <span class="checkmark"></span>
-                  InterestSix
-                </label>
-                <label class="container">
-                  <input type="checkbox" class="w3-border w3-padding" id="checkSeven" th:field="*{interests}" value="InterestSeven" name="InterestSeven">
-                  <span class="checkmark"></span>
-                  InterestSeven
-                </label>
-                <label class="container">
-                  <input type="checkbox" class="w3-border w3-padding" id="checkEight" th:field="*{interests}" value="InterestEight" name="InterestEight">
-                  <span class="checkmark"></span>
-                  InterestEight
-                </label>
-                <label class="container">
-                  <input type="checkbox" class="w3-border w3-padding" id="checkNine" th:field="*{interests}" value="InterestNine" name="InterestNine">
-                  <span class="checkmark"></span>
-                  InterestNine
-                </label>
-                <label class="container">
-                  <input type="checkbox" class="w3-border w3-padding" id="checkTen" th:field="*{interests}" value="InterestTen" name="InterestTen">
-                  <span class="checkmark"></span>
-                  InterestTen
-                </label>
+                <div class="form-group" th:each="interest: ${interests_data}">
+                  <label class="container">
+                    <input type="checkbox" class="w3-border w3-padding" id="checkOne" th:field="*{interests}" th:value="${interest}" th:name="${interest}">
+                    <span class="checkmark" th:text="${interest}"></span>
+                  </label>
+                </div>
               </div>
               <button onclick="if (document.getElementById('Password').value != document.getElementById('Repeat_Password').value) return false;" type="sumbit" class="w3-button w3-theme"><i class="bi bi-check-lg"></i>Register</button> 
             </div>
