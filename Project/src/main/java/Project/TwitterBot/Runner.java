@@ -13,7 +13,9 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -43,8 +45,8 @@ public class Runner implements CommandLineRunner {
   @Scheduled(initialDelay = 8000L, fixedDelay = 1000L)
   public void sendMessage() {
     int j;
-    j = r.nextInt( queue.size() );
     if ( queue.size() != 0 ) {
+      j = r.nextInt( queue.size() );
       for (int i = 0 ; i < 4 ; i++) {
         String s = queue.get( j );
         Gson g = new Gson();
@@ -64,61 +66,80 @@ public class Runner implements CommandLineRunner {
             TweetTrendsJson t = g.fromJson( s, TweetTrendsJson.class );
             logger.info( t.toString() + "Tweet Trends" );
           }
-          logger.info( s );
-          rabbitTemplate.convertAndSend( TwitterBotApp.topicExchangeName, "foo.bar.baz", s );
-          queue.remove( j );
-          j = r.nextInt( queue.size() );
         } catch (Exception aaa) {
           continue;
         }
-        
          */
+        
+        logger.info( s );
+        rabbitTemplate.convertAndSend( TwitterBotApp.topicExchangeName, "foo.bar.baz", s );
+        queue.remove( j );
+        j = r.nextInt( queue.size() );
         logger.info( "Sending message... Timed" );
         logger.info( "Queue Size -> " + queue.size() );
       }
     }
   }
+  
+  @Override
+  public void run( String... args ) throws Exception {
+    //
+    System.out.println( "args" );
+    for (String s : args) {
+      System.out.println( s );
+    }
+    System.out.println( "end" );
+    Random r = new Random();
+    List<TweetTrendsJson> t = ts.getTrends( 1 );
     
-    @Override
-    public void run ( String...args ) throws Exception {
-      //
-      System.out.println( "args" );
-      for (String s : args) {
-        System.out.println( s );
+    logger.debug( "t -> " + t );
+    /*
+    List<String> queries =
+      t.stream().map(  (TweetTrendsJson t_) -> new String(Base64.getDecoder().decode(t_.getQuery().getBytes(
+      StandardCharsets.UTF_8 )))  )
+       .collect( Collectors.toList() );
+    */
+    
+    List<String> queries = new ArrayList<>();
+    for (TweetTrendsJson t_ : t) {
+      String sQuery = null;
+      try {
+        sQuery = new String( Base64.getDecoder().decode( t_.getQuery().getBytes( StandardCharsets.UTF_8 ) ) );
+      } catch (IllegalArgumentException e) {
+        logger.info( "t query - > " + t_.getQuery() );
+        continue;
       }
-      System.out.println( "end" );
-      Random r = new Random();
-      List<TweetTrendsJson> t = ts.getTrends( 1 );
-      
-      logger.debug( "t -> " + t );
-      List<String> queries = t.stream().map( TweetTrendsJson::getQuery ).collect( Collectors.toList() );
-      
-      this.queue.addAll( t.stream().map( TweetTrendsJson::toString ).collect( Collectors.toList() ) );
-      
-      for (String s : queries) {
-        try {
-          this.queue.addAll( ts.searchTweets( s ).stream().map( Datum::toString ).collect( Collectors.toList() ) );
-        } catch (NullPointerException n) {
-          logger.error( "Null stuff query returned 0 tweets" + s );
-        }
-        this.queue.addAll(
-          ts.getInterestCount( s ).stream().map( TweetCount::toString ).collect( Collectors.toList() ) );
-      }
-      
-      List<Datum> datum = ts.searchTweets( args[0] );
-      logger.info( "OLA MENINOS" );
-      for (Datum d : datum) {
-        logger.error( "d ->> " + d.toString() + "||||||||||" );
-      }
-      logger.info( "OLA MENINOS" );
-      this.queue.addAll( datum.stream().map( Datum::toString ).collect( Collectors.toList() ) );
-      this.queue.addAll(
-        ts.getInterestCount( args[0] ).stream().map( TweetCount::toString ).collect( Collectors.toList() ) );
-      
-      //this.queue.addAll( ls );
-      
-      while (this.queue.size() != 0) {
-      }
+      logger.error(
+        "decoded - > " + sQuery );
+      queries.add( sQuery );
     }
     
+    this.queue.addAll( t.stream().map( TweetTrendsJson::toString ).collect( Collectors.toList() ) );
+    
+    for (String s : queries) {
+      try {
+        this.queue.addAll( ts.searchTweets( s ).stream().map( Datum::toString ).collect( Collectors.toList() ) );
+      } catch (NullPointerException n) {
+        logger.error( "Null stuff query returned 0 tweets" + s );
+      }
+      this.queue.addAll(
+        ts.getInterestCount( s ).stream().map( TweetCount::toString ).collect( Collectors.toList() ) );
+    }
+    
+    List<Datum> datum = ts.searchTweets( args[0] );
+    logger.info( "OLA MENINOS" );
+    for (Datum d : datum) {
+      logger.error( "d ->> " + d.toString() + "||||||||||" );
+    }
+    logger.info( "OLA MENINOS" );
+    this.queue.addAll( datum.stream().map( Datum::toString ).collect( Collectors.toList() ) );
+    this.queue.addAll(
+      ts.getInterestCount( args[0] ).stream().map( TweetCount::toString ).collect( Collectors.toList() ) );
+    
+    //this.queue.addAll( ls );
+    
+    while (this.queue.size() != 0) {
+    }
   }
+  
+}

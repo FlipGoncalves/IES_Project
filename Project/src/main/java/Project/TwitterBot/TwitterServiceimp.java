@@ -198,7 +198,7 @@ public class TwitterServiceimp implements TTService {
     APITwitter client = apiV2.create( APITwitter.class );
     // TODO make it dynamic allow for more stuff such has next page token max results and more
     // add extra fields
-    Call<TweetSearchResponse> callTargetResponse = client.searchTweets( query + "&max_results=10&expansions=author_id&tweet.fields=created_at,lang,conversation_id&user.fields=created_at,entities,location",
+    Call<TweetSearchResponse> callTargetResponse = client.searchTweets( query , 10, "author_id","created_at,lang,conversation_id","created_at,entities",
       "Bearer " + TwitterBotApp.token );
     logger.info("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"+ callTargetResponse.toString() );
     logger.info("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"+ callTargetResponse.request().url());
