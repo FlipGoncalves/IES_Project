@@ -1,6 +1,7 @@
 package Project.TwitterBot.model.CountTweets;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import org.bson.internal.Base64;
 
 public class TweetCount {
   @Expose
@@ -12,8 +13,18 @@ public class TweetCount {
   @Expose
   @SerializedName("tweet_count")
   Long tweet_count;
-
-
+  
+  @Expose( serialize = true, deserialize = false)
+  String query;
+  
+  public String getQuery() {
+    return new String( Base64.decode(query));
+  }
+  
+  public void setQuery( String query ) {
+    this.query = query;
+  }
+  
   public String getEnd() {
     return end;
   }

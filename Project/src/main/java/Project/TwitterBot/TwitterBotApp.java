@@ -2,6 +2,7 @@ package Project.TwitterBot;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.core.config.Configurator;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.Queue;
@@ -14,16 +15,13 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
-import java.io.IOException;
-import java.net.Socket;
-
 
 @SpringBootApplication
 @EnableScheduling
 public class TwitterBotApp {
   
-  private static final Logger logger = LogManager.getLogger( "TwitterBotApp" );
-  private static final Logger logger1 = LogManager.getLogger( "TwitterService" );
+  private static final Logger logger = LogManager.getLogger( "TwitterBot" );
+  //private static final Logger logger1 = LogManager.getLogger( "TwitterService" );
   public static String token = null;
   
   static final String topicExchangeName = "spring-boot-exchange";
@@ -46,6 +44,7 @@ public class TwitterBotApp {
     // runner
   }
   
+  
   @Bean
   SimpleMessageListenerContainer container(ConnectionFactory connectionFactory,
                                            MessageListenerAdapter listenerAdapter) {
@@ -64,6 +63,7 @@ public class TwitterBotApp {
   
   public static void main( String[] args ) {
     token = System.getenv( "token" );
+    Configurator.initialize(null, "/app/log4j2.xml");
     
     if ( token == null && token.isEmpty() ) {
       System.out.println( "Bearer Token not set" );
@@ -71,8 +71,10 @@ public class TwitterBotApp {
     }
     logger.error( token );
     logger.info( token );
-    logger1.error( token );
+    //logger1.error( token );
   
+    logger.error("Configuration File Defined To Be :: "+System.getProperty("log4j.configurationFile"));
+    logger.trace("Configuration File Defined To Be :: "+System.getProperty("log4j.configurationFile"));
   
     SpringApplication.run( TwitterBotApp.class, args ).close();
   }

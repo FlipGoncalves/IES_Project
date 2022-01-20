@@ -1,9 +1,12 @@
 package Project.app.Models;
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
 
 // data which in included inside the Twitter api json response for endpoint search/recent
+@Document(value = "tweets")
 public class Datum {
   String author_id;
   String conversation_id;
@@ -11,6 +14,9 @@ public class Datum {
   String id;
   String lang;
   String text;
+  @Expose
+  @SerializedName( "query" )
+  String query;
 
   @SerializedName("author_id")
   public String getAuthor_id() {
