@@ -33,10 +33,19 @@ public class ViewController {
 		System.out.println(us);
 		if (user_rep.findByUsername(us.getUsername()) != null) {
 			System.out.println(user_rep.findByUsername(us.getUsername()));
-			if (user_rep.findByUsername(us.getUsername()).getPassword().equals(us.getPassword())) {
+			// hashed password
+			String pass = us.getPassword();
+			int hash = 7;
+			for (int i = 0; i < pass.length(); i++) {
+				hash = hash*31 + pass.charAt(i);
+			}
+			System.out.println(hash);
+
+			if (user_rep.findByUsername(us.getUsername()).getPassword().equals(Integer.toString(hash))) {
 
 				// get user data from db
 				User user = user_rep.findByUsername(us.getUsername());
+
 				model.addAttribute("User", user);
 				List<String> interests = user.getInterests();
 				
@@ -65,17 +74,24 @@ public class ViewController {
 				Map<String, Map<String, Integer>> data = new HashMap<>();
 				Map<String, Integer> graphData = new TreeMap<>();
 				List<String> titles = new ArrayList<String>();
-				graphData.put("2016", 147);
-				graphData.put("2017", 1256);
-				graphData.put("2018", 3856);
-				graphData.put("2019", 19807);
-				data.put("De 2016 a 2019", graphData);
+
+				// for all trends
 				Map<String, Integer> graphData1 = new TreeMap<>();
-				graphData1.put("2020", 3);
-				graphData1.put("2021", 2);
-				graphData1.put("2022", 4);
-				graphData1.put("2023", 1);
-				data.put("De 2020 a 2023", graphData1);
+				count = 10;
+				for(int i = 0; i < 6; i++) {
+					graphData1.put("Interest_" + i, count);
+					count += 100;
+				}
+				data.put("Twitter COunt for all Interests", graphData1);
+
+				// for user interests
+				count = 0;
+				for (String trend: interests) {
+					// get count for trend
+					graphData.put(trend, count);
+					count += 100;
+				}
+				data.put("Twitter Count for each Interest", graphData);
 
 				System.out.println(data);
 				List<Map<String, Integer>> sendData = new ArrayList<Map<String,Integer>>();
@@ -97,12 +113,33 @@ public class ViewController {
 	public String registerForm(Model model) {
 		model.addAttribute("register", new User());
 		// envia user para a base de dados, ou seja envia para o rest controller
+
+		// get trends from database
+		ArrayList<String> array = new ArrayList<String>();
+		// trends.size()
+		int count = 10;
+		for(int i = 0; i < count; i++) {
+			array.add("Interest_" + i);
+		}
+		Map<String, ArrayList<String>> mp = new HashMap<>();
+		mp.put("interests_data", array);
+		model.addAllAttributes(mp);
+
 		return "register";
 	}
 
 	@PostMapping("/register")
 	public String registerSubmit(@ModelAttribute User us, Model model) {
 		System.out.println(us);
+
+		// hashed password
+		String pass = us.getPassword();
+		int hash = 7;
+		for (int i = 0; i < pass.length(); i++) {
+			hash = hash*31 + pass.charAt(i);
+		}
+		System.out.println(hash);
+		us.setPassword(Integer.toString(hash));
 
 		if (user_rep.findByUsername(us.getUsername()) != null) {
 			System.out.println(user_rep.findByUsername(us.getUsername()));
