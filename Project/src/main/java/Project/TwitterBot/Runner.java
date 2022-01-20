@@ -88,7 +88,7 @@ public class Runner implements CommandLineRunner {
     }
     System.out.println( "end" );
     Random r = new Random();
-    List<TweetTrendsJson> t = ts.getTrends( 1 );
+    List<TweetTrendsJson> t = ts.getTrends( 23424975 );
     
     logger.debug( "t -> " + t );
     /*
@@ -122,6 +122,20 @@ public class Runner implements CommandLineRunner {
     queries.addAll( Arrays.stream( args ).collect( Collectors.toList()) );
     //this.queue.addAll( t.stream().map( TweetTrendsJson::toString ).collect( Collectors.toList() ) );
     this.queue.addAll( t.stream().map( g::toJson ).collect( Collectors.toList()) );
+    queries.stream().map( (String l) -> l.isEmpty() || l == null );
+    logger.error( "--------------------------------" );
+    queries.stream().forEach( logger::error );
+    logger.error( "--------------------------------" );
+  
+    logger.error( "--------------------------------" );
+    System.out.println( "args" );
+    for (String s : args) {
+      logger.error( s );
+    }
+  
+  
+    logger.error( "--------------------------------" );
+    logger.error( "--------------------------------" );
     for (String s : queries) {
       for (TweetCount tweetCount : ts.getInterestCount( s )) {
         tweetCount.setQuery( s );

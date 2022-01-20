@@ -35,10 +35,11 @@ public class ApiController {
     // TWEETS
 
     @GetMapping("/all_tweets")
-    public List<Tweet> getAllTweets(@RequestParam(value = "trends", required = false) String trends) {
+    public List<Datum> getAllTweets(@RequestParam(value = "trends", required = false) String trends) {
         return service.getAllTweets();
     }
 
+    /*
     @GetMapping("/get_tweet/{id}")
     public Tweet getTweetById(@PathVariable(value = "id" ) String tweet_id) throws ResourceNotFoundException {
         return service.getTweetById(tweet_id);
@@ -64,6 +65,7 @@ public class ApiController {
         }
         return null;
     }
+    */
 
 
     // USERS

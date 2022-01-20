@@ -17,7 +17,15 @@ public class Datum {
   @Expose
   @SerializedName( "query" )
   String query;
-
+  
+  public String getQuery() {
+    return query;
+  }
+  
+  public void setQuery( String query ) {
+    this.query = query;
+  }
+  
   @SerializedName("author_id")
   public String getAuthor_id() {
     return this.author_id;

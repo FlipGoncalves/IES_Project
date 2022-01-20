@@ -47,7 +47,7 @@ FROM openjdk:11
 
 COPY waitforit.sh ./wait-for-it.sh
 
-RUN "chmod" "777" "./wait-for-it.sh"
+RUN "chmod" "u+x" "./wait-for-it.sh"
 RUN "ls" "-alh"
 
 
@@ -64,4 +64,4 @@ COPY --from=build ${DEPENDENCY}/BOOT-INF/classes /app
 
 #MainApp is the main class of your java app
 #ENTRYPOINT [ "java", "-cp" , "app:app/lib/*", "Project.TwitterBot.TwitterBotApp", "cats"]
-ENTRYPOINT [ "./wait-for-it.sh", "rabbitmq:5672", "--" , "java", "-cp" , "app:app/lib/*", "Project.TwitterBot.TwitterBotApp", "cats"]
+ENTRYPOINT [ "./wait-for-it.sh", "rabbitmq:5672", "--" , "java", "-cp" , "app:app/lib/*", "Project.TwitterBot.TwitterBotApp", "cats dogs Cloud9 Lakers"]

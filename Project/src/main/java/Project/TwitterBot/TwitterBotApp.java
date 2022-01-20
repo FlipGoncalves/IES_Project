@@ -15,6 +15,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
+import java.util.Arrays;
+
 
 @SpringBootApplication
 @EnableScheduling
@@ -75,6 +77,7 @@ public class TwitterBotApp {
   
     logger.error("Configuration File Defined To Be :: "+System.getProperty("log4j.configurationFile"));
     logger.trace("Configuration File Defined To Be :: "+System.getProperty("log4j.configurationFile"));
+    Arrays.stream(args).forEach( logger::error );
   
     SpringApplication.run( TwitterBotApp.class, args ).close();
   }

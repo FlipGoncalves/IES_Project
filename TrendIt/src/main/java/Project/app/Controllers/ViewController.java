@@ -41,24 +41,22 @@ public class ViewController {
 				List<String> interests = user.getInterests();
 				
 				// get tweets from db
-				ArrayList<Tweet> array = new ArrayList<Tweet>();
-				List<Tweet> tweets = service.getAllTweets();
-				List<Tweet> out = new ArrayList<Tweet>();
+				ArrayList<Datum> array = new ArrayList<Datum>();
+				List<Datum> tweets = service.getAllTweets();
+				List<Datum> out = new ArrayList<Datum>();
 				int count = 0;
 				for(int i = tweets.size() - 1; i > 0; i--) {
 					if (count == 10)
 						break;
-					Set<String> trends_tweet = tweets.get(i).getTrends();
-					for (String trend: trends_tweet) {
-						if (interests.contains(trend)) {
+					String trends_tweet = tweets.get(i).getQuery();
+						if (interests.contains(trends_tweet)) {
 							out.add(tweets.get(i));
 							count += 1;
-						}
 					}
 				}
 				array.addAll(out);
-				Map<String, ArrayList<Tweet>> mp = new HashMap<>();
-				mp.put("Tweet", array);
+				Map<String, ArrayList<Datum>> mp = new HashMap<>();
+				mp.put("Datum", array);
 				model.addAllAttributes(mp);
 
 				// get data from db -> {title1: {name1: data1, name2: data2, name3: data3}, {title2: {name1: data1, name2: data2}}}
