@@ -27,7 +27,7 @@ public class ApiController {
     private ApiService service;
 
     @Autowired
-    private TweetRepository tweet_rep;
+    private TweetSearchResponseRepository tweet_rep;
 
     @Autowired
     private UserRepository user_rep;
@@ -35,35 +35,35 @@ public class ApiController {
     // TWEETS
 
     @GetMapping("/all_tweets")
-    public List<Tweet> getAllTweets(@RequestParam(value = "trends", required = false) String trends) {
+    public List<Datum> getAllTweets(@RequestParam(value = "trends", required = false) String trends) {
         return service.getAllTweets();
     }
 
-    @GetMapping("/get_tweet/{id}")
-    public Tweet getTweetById(@PathVariable(value = "id" ) String tweet_id) throws ResourceNotFoundException {
-        return service.getTweetById(tweet_id);
-    }
+    // @GetMapping("/get_tweet/{id}")
+    // public Tweet getTweetById(@PathVariable(value = "id" ) String tweet_id) throws ResourceNotFoundException {
+    //     return service.getTweetById(tweet_id);
+    // }
 
-    @PostMapping("/insert_tweet")
-    public Tweet insertTweet(@Valid @RequestBody Tweet tweet){
-        return service.saveTweet(tweet);
-    }
+    // @PostMapping("/insert_tweet")
+    // public Tweet insertTweet(@Valid @RequestBody Tweet tweet){
+    //     return service.saveTweet(tweet);
+    // }
 
-    @PutMapping("/update_tweet/{id}")
-    public String updateTweet(@PathVariable(value = "id") String tweet_id, @Valid @RequestBody Tweet tweet) throws ResourceNotFoundException{
-        service.updateTweet(tweet_id, tweet);
-        return "Updated Tweet with ID: " + tweet_id;
-    }
+    // @PutMapping("/update_tweet/{id}")
+    // public String updateTweet(@PathVariable(value = "id") String tweet_id, @Valid @RequestBody Tweet tweet) throws ResourceNotFoundException{
+    //     service.updateTweet(tweet_id, tweet);
+    //     return "Updated Tweet with ID: " + tweet_id;
+    // }
 
-    @DeleteMapping("/delete_tweet/{id}")
-    public String deleteTweet(@PathVariable(value = "id") String tweet_id) throws ResourceNotFoundException{
-        Tweet tweet = tweet_rep.findById(tweet_id);
-        if (tweet != null) {
-            tweet_rep.delete(tweet);
-            return "Deleted Tweet with ID: " + tweet_id;
-        }
-        return null;
-    }
+    // @DeleteMapping("/delete_tweet/{id}")
+    // public String deleteTweet(@PathVariable(value = "id") String tweet_id) throws ResourceNotFoundException{
+    //     Tweet tweet = tweet_rep.findById(tweet_id);
+    //     if (tweet != null) {
+    //         tweet_rep.delete(tweet);
+    //         return "Deleted Tweet with ID: " + tweet_id;
+    //     }
+    //     return null;
+    // }
 
 
     // USERS

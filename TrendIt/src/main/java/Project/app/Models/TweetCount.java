@@ -50,4 +50,14 @@ public class TweetCount {
       ",\"start\":\"" + start + '\"' +
       ",\"tweet_count\":\"" + tweet_count + "\"}";
   }
+
+  public String getQuery() {
+    return query;
+  }
+
+  public void setQuery(String query) {
+    this.query = query;
+  }
 }
+
+

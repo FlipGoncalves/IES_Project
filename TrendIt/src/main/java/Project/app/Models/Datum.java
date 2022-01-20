@@ -80,6 +80,15 @@ public class Datum {
       ",\"id\":\"" + id + '\"' +
       ",\"lang\":\"" + lang + '\"' +
       ",\"text\":\"" + text + '\"' +
+      ", \"query\":\"" + query + "\"" +
       '}';
+  }
+
+  public String getQuery() {
+    return query;
+  }
+
+  public void setQuery(String query) {
+    this.query = query;
   }
 }

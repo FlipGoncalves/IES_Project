@@ -50,51 +50,50 @@ public class ViewController {
 				List<String> interests = user.getInterests();
 				
 				// get tweets from db
-				ArrayList<Tweet> array = new ArrayList<Tweet>();
-				List<Tweet> tweets = service.getAllTweets();
-				List<Tweet> out = new ArrayList<Tweet>();
-				int count = 0;
+				ArrayList<Datum> array = new ArrayList<Datum>();
+				List<Datum> tweets = service.getAllTweets();
+				List<Datum> out = new ArrayList<Datum>();
+				// int count = 0;
 				for(int i = tweets.size() - 1; i > 0; i--) {
-					if (count == 10)
-						break;
-					Set<String> trends_tweet = tweets.get(i).getTrends();
-					for (String trend: trends_tweet) {
-						if (interests.contains(trend)) {
-							out.add(tweets.get(i));
-							count += 1;
-						}
+					// if (count == 10)
+					// 	break;
+					String trend = tweets.get(i).getQuery();
+					System.out.println(tweets.get(i));
+					if (interests.contains(trend)) {
+						out.add(tweets.get(i));
+						// count += 1;
 					}
+					out.add(tweets.get(i));
 				}
 				array.addAll(out);
-				Map<String, ArrayList<Tweet>> mp = new HashMap<>();
+				Map<String, ArrayList<Datum>> mp = new HashMap<>();
 				mp.put("Tweet", array);
 				model.addAllAttributes(mp);
 
 				// get data from db -> {title1: {name1: data1, name2: data2, name3: data3}, {title2: {name1: data1, name2: data2}}}
-				Map<String, Map<String, Integer>> data = new HashMap<>();
-				Map<String, Integer> graphData = new TreeMap<>();
+				Map<String, Map<String, Long>> data = new HashMap<>();
+				Map<String, Long> graphData = new TreeMap<>();
 				List<String> titles = new ArrayList<String>();
 
 				// for all trends
-				Map<String, Integer> graphData1 = new TreeMap<>();
-				count = 10;
-				for(int i = 0; i < 6; i++) {
-					graphData1.put("Interest_" + i, count);
-					count += 100;
+				List<TweetCount> graph = service.getAllTweetCount();
+				Map<String, Long> graphData1 = new TreeMap<>();
+				for(int i = 0; i < graph.size() && i < 6; i++) {
+					graphData1.put(graph.get(i).getQuery(), graph.get(i).getTweet_count());
 				}
-				data.put("Twitter COunt for all Interests", graphData1);
+				data.put("Twitter Count for all Interests", graphData1);
 
 				// for user interests
-				count = 0;
+				long count2 = 0;
 				for (String trend: interests) {
 					// get count for trend
-					graphData.put(trend, count);
-					count += 100;
+					graphData.put(trend, count2);
+					count2 += 100;
 				}
 				data.put("Twitter Count for each Interest", graphData);
 
 				System.out.println(data);
-				List<Map<String, Integer>> sendData = new ArrayList<Map<String,Integer>>();
+				List<Map<String, Long>> sendData = new ArrayList<Map<String,Long>>();
 				for (String title: data.keySet()) {
 					System.out.println(data.get(title));
 					titles.add(title);
@@ -116,11 +115,12 @@ public class ViewController {
 
 		// get trends from database
 		ArrayList<String> array = new ArrayList<String>();
-		// trends.size()
-		int count = 10;
-		for(int i = 0; i < count; i++) {
-			array.add("Interest_" + i);
+		List<TweetTrendsJson> trends = service.getAllTweetTrend();
+
+		for(int i = 0; i < trends.size(); i++) {
+			array.add(trends.get(i).getName());
 		}
+
 		Map<String, ArrayList<String>> mp = new HashMap<>();
 		mp.put("interests_data", array);
 		model.addAllAttributes(mp);

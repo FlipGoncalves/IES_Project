@@ -97,14 +97,14 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 
       <div class="w3-container w3-row-padding w3-card w3-white w3-round w3-margin" th:each="a: ${Tweet}"><br>
         <img src="../images/avatar4.png" alt="Avatar" class="w3-left w3-circle w3-margin-right" style="width:60px">
-        <span class="w3-right w3-opacity" th:text="${a.insert}"></span>
-        <h4 th:text="${a.person}"></h4><br>
+        <span class="w3-right w3-opacity" th:text="${a.created_at}"></span>
+        <h4 th:text="${a.author_id}"></h4><br>
         <hr class="w3-clear">
-        <p th:text="${a.description}"></p>
+        <p th:text="${a.text}"></p>
         <h6>Tags</h6>
         <p>
-          <div th:each="b: ${a.trends}" style="float: left; padding-right: 3px; padding-bottom: 2px;">
-            <span class="w3-tag w3-small w3-theme" th:text="${b}"></span>
+          <div style="float: left; padding-right: 3px; padding-bottom: 2px;">
+            <span class="w3-tag w3-small w3-theme" th:text="${a.query}"></span>
           </div>
         </p>
         <br>

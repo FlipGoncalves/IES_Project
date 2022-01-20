@@ -84,11 +84,11 @@ public class Runner implements CommandLineRunner {
     //
     System.out.println( "args" );
     for (String s : args) {
-      System.out.println( s );
+      logger.info( s );
     }
     System.out.println( "end" );
     Random r = new Random();
-    List<TweetTrendsJson> t = ts.getTrends( 1 );
+    List<TweetTrendsJson> t = ts.getTrends( 23424975 );
     
     logger.debug( "t -> " + t );
     /*
@@ -109,7 +109,7 @@ public class Runner implements CommandLineRunner {
           new String( Base64.getDecoder().decode( t_.getQuery().replaceAll( "[^0-9a-zA-Z]","" ).getBytes( StandardCharsets.UTF_8 ) ) );
         logger.error(
           "decoded - > " + sQuery );
-        queries.add( sQuery );
+        //queries.add( sQuery );
       } catch (StringIndexOutOfBoundsException e) {
         logger.error( "t query - >+" + t_ +"\n"   + e.toString() );
       }
@@ -120,6 +120,10 @@ public class Runner implements CommandLineRunner {
     }
   
     queries.addAll( Arrays.stream( args ).collect( Collectors.toList()) );
+    queries.stream().map( (String l) -> !l.isEmpty() || l != null );
+
+    queries.stream().forEach(logger::error);
+
     //this.queue.addAll( t.stream().map( TweetTrendsJson::toString ).collect( Collectors.toList() ) );
     this.queue.addAll( t.stream().map( g::toJson ).collect( Collectors.toList()) );
     for (String s : queries) {
