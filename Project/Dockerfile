@@ -58,4 +58,4 @@ COPY --from=build ${DEPENDENCY}/BOOT-INF/classes /app
 
 
 #MainApp is the main class of your java app
-ENTRYPOINT [ "java", "-cp" , "app:app/lib/*", "Project.TwitterBot.TwitterBotApp", "cats"]
+ENTRYPOINT [ "java", "-Dlogging.config=/app/log4j2.xml", "-cp" , "app:app/lib/*", "Project.TwitterBot.TwitterBotApp", "cats"]

@@ -1,4 +1,4 @@
-package Project.app.repository;
+package Project.app.Repositories;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 import Project.app.Models.TweetCount;

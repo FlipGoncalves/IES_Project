@@ -7,12 +7,15 @@ import Project.app.Models.*;
 import Project.app.Repositories.*;
 
 import java.util.List;
-import java.util.Date;
 
 @Service
 public class ApiService {
     @Autowired
-    TweetRepository tweet_rep;
+    TweetSearchResponseRepository tweet_rep;
+    @Autowired
+    TweetTrendResponseRepository tweet_trend;
+    @Autowired
+    TweetCountResponseRepository tweet_count;
     @Autowired
     UserRepository user_rep;
 
@@ -34,7 +37,7 @@ public class ApiService {
     public User getUserbyUsername(String username) {
         return (user_rep.findByUsername(username) != null) ? user_rep.findByUsername(username): new User();
     }
-    
+
     public User getUserById(String user_id) {
         return (user_rep.findById(user_id) != null) ? user_rep.findById(user_id): new User();
     }
@@ -105,5 +108,52 @@ public class ApiService {
             return tweet_rep.save(tw);
         }
         return null;
+    }
+
+    // datum -> tweet
+    public  Datum saveTweet (Datum d){
+        return tweet_rep.save( d );
+
+    }
+
+    public List<Datum> getAllTweets() {
+        return tweet_rep.findAll();
+    }
+
+    /*
+    public Tweet updateTweet(String id, Datum datum) {
+        Tweet tw = tweet_rep.findById(id);
+        if (tw != null) {
+            tw.setDescription(tweet.getDescription());
+            tw.setTrends(tweet.getTrends());
+            tw.setPerson(tweet.getPerson());
+            tweet_rep.delete(tw);
+            return tweet_rep.save(tw);
+        }
+        return null;
+    }
+    */
+
+    public  TweetCount saveTweetCount (TweetCount d){
+        return tweet_count.save( d );
+
+    }
+
+    public List<TweetCount> getAllTweetCount() {
+        return tweet_count.findAll();
+    }
+
+
+    public  TweetTrendsJson saveTweetTrend (TweetTrendsJson d){
+        return tweet_trend.save( d );
+
+    }
+
+    public List<TweetTrendsJson> getAllTweetTrend() {
+        return tweet_trend.findAll();
+    }
+
+    public void updateTweet( String tweet_id, Datum tweet ) {
+        return;
     }
 }

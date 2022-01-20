@@ -37,6 +37,7 @@ services:
       # THE PORT TO WHICH THE CLIENT SHOULD CONNECT DEFAULTS TO 5672_
       SPRING_RABBITMQ_HOST: rabbitmq
       SPRING_RABBITMQ_PORT: 5672
+      SPRING_logging_config: "/app/log4j2.xml"
 
       # USERNAME AND PASSWORD
       SPRING_RABBITMQ_USERNAME: pedro
