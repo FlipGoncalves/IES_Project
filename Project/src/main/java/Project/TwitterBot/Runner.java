@@ -44,7 +44,7 @@ public class Runner implements CommandLineRunner {
     int j;
     if ( queue.size() != 0 ) {
       j = r.nextInt( queue.size() );
-      for (int i = 0 ; i < 4 ; i++) {
+      for (int i = 0 ; i < 2 ; i++) {
         String s = queue.get( j );
         /*
         Gson g = new Gson();
@@ -84,7 +84,7 @@ public class Runner implements CommandLineRunner {
     //
     System.out.println( "args" );
     for (String s : args) {
-      System.out.println( s );
+      logger.info( s );
     }
     System.out.println( "end" );
     Random r = new Random();
@@ -102,24 +102,30 @@ public class Runner implements CommandLineRunner {
     List<String> queries = new ArrayList<>();
     for (TweetTrendsJson t_ : t) {
       String sQuery = null;
-      
       try {
-        
         sQuery =
           new String( Base64.getDecoder().decode( t_.getQuery().replaceAll( "[^0-9a-zA-Z]","" ).getBytes( StandardCharsets.UTF_8 ) ) );
         logger.error(
-          "decoded - > " + sQuery );
+          "!!!!decoded - > " + sQuery + "|||" );
         queries.add( sQuery );
       } catch (StringIndexOutOfBoundsException e) {
         logger.error( "t query - >+" + t_ +"\n"   + e.toString() );
+        logger.error(
+          "!!!!decoded - > " + t_.getQuery() + "|||" );
       }
       catch (IllegalArgumentException e1){
         logger.error( "t query - >+" + t_ +"\n"   + e1.toString() );
+        logger.error(
+          "!!!!decoded - > " + t_.getQuery() + "|||" );
       }
       
     }
   
     queries.addAll( Arrays.stream( args ).collect( Collectors.toList()) );
+    queries.stream().map( (String l) -> !l.isEmpty() || l != null );
+
+    queries.stream().forEach(logger::error);
+
     //this.queue.addAll( t.stream().map( TweetTrendsJson::toString ).collect( Collectors.toList() ) );
     this.queue.addAll( t.stream().map( g::toJson ).collect( Collectors.toList()) );
     queries.stream().map( (String l) -> l.isEmpty() || l == null );

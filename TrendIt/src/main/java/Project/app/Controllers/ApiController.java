@@ -27,7 +27,7 @@ public class ApiController {
     private ApiService service;
 
     @Autowired
-    private TweetRepository tweet_rep;
+    private TweetSearchResponseRepository tweet_rep;
 
     @Autowired
     private UserRepository user_rep;
@@ -39,37 +39,35 @@ public class ApiController {
         return service.getAllTweets();
     }
 
-    /*
-    @GetMapping("/get_tweet/{id}")
-    public Tweet getTweetById(@PathVariable(value = "id" ) String tweet_id) throws ResourceNotFoundException {
-        return service.getTweetById(tweet_id);
-    }
+    // @GetMapping("/get_tweet/{id}")
+    // public Tweet getTweetById(@PathVariable(value = "id" ) String tweet_id) throws ResourceNotFoundException {
+    //     return service.getTweetById(tweet_id);
+    // }
 
-    @PostMapping("/insert_tweet")
-    public Tweet insertTweet(@Valid @RequestBody Tweet tweet){
-        return service.saveTweet(tweet);
-    }
+    // @PostMapping("/insert_tweet")
+    // public Tweet insertTweet(@Valid @RequestBody Tweet tweet){
+    //     return service.saveTweet(tweet);
+    // }
 
-    @PutMapping("/update_tweet/{id}")
-    public String updateTweet(@PathVariable(value = "id") String tweet_id, @Valid @RequestBody Tweet tweet) throws ResourceNotFoundException{
-        service.updateTweet(tweet_id, tweet);
-        return "Updated Tweet with ID: " + tweet_id;
-    }
+    // @PutMapping("/update_tweet/{id}")
+    // public String updateTweet(@PathVariable(value = "id") String tweet_id, @Valid @RequestBody Tweet tweet) throws ResourceNotFoundException{
+    //     service.updateTweet(tweet_id, tweet);
+    //     return "Updated Tweet with ID: " + tweet_id;
+    // }
 
-    @DeleteMapping("/delete_tweet/{id}")
-    public String deleteTweet(@PathVariable(value = "id") String tweet_id) throws ResourceNotFoundException{
-        Tweet tweet = tweet_rep.findById(tweet_id);
-        if (tweet != null) {
-            tweet_rep.delete(tweet);
-            return "Deleted Tweet with ID: " + tweet_id;
-        }
-        return null;
-    }
-    */
+    // @DeleteMapping("/delete_tweet/{id}")
+    // public String deleteTweet(@PathVariable(value = "id") String tweet_id) throws ResourceNotFoundException{
+    //     Tweet tweet = tweet_rep.findById(tweet_id);
+    //     if (tweet != null) {
+    //         tweet_rep.delete(tweet);
+    //         return "Deleted Tweet with ID: " + tweet_id;
+    //     }
+    //     return null;
+    // }
 
 
     // USERS
-    
+
     @GetMapping("/all_users")
     public List<User> getAllUsers() {
         return service.getAllUsers();
@@ -98,7 +96,7 @@ public class ApiController {
     @PutMapping("/update_user_id/{id}")
     public String updateUserById(@PathVariable(value = "id") String user_id, @Valid @RequestBody User user) {
         service.updateUserById(user_id, user);
-        return "Updated User with ID: " + user_id; 
+        return "Updated User with ID: " + user_id;
     }
 
     // User with CRUD methods for username
@@ -120,6 +118,6 @@ public class ApiController {
     @PutMapping("/update_user_username/{username}")
     public String updateUserByUsername(@PathVariable(value = "username") String username, @Valid @RequestBody User user) {
         service.updateUserByUsername(username, user);
-        return "Updated User with username: " + username; 
+        return "Updated User with username: " + username;
     }
 }

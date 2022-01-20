@@ -33,50 +33,67 @@ public class ViewController {
 		System.out.println(us);
 		if (user_rep.findByUsername(us.getUsername()) != null) {
 			System.out.println(user_rep.findByUsername(us.getUsername()));
-			if (user_rep.findByUsername(us.getUsername()).getPassword().equals(us.getPassword())) {
+			// hashed password
+			String pass = us.getPassword();
+			int hash = 7;
+			for (int i = 0; i < pass.length(); i++) {
+				hash = hash*31 + pass.charAt(i);
+			}
+			System.out.println(hash);
+
+			if (user_rep.findByUsername(us.getUsername()).getPassword().equals(Integer.toString(hash))) {
 
 				// get user data from db
 				User user = user_rep.findByUsername(us.getUsername());
+
 				model.addAttribute("User", user);
 				List<String> interests = user.getInterests();
-				
+
 				// get tweets from db
 				ArrayList<Datum> array = new ArrayList<Datum>();
 				List<Datum> tweets = service.getAllTweets();
 				List<Datum> out = new ArrayList<Datum>();
-				int count = 0;
+				// int count = 0;
 				for(int i = tweets.size() - 1; i > 0; i--) {
-					if (count == 10)
-						break;
-					String trends_tweet = tweets.get(i).getQuery();
-						if (interests.contains(trends_tweet)) {
-							out.add(tweets.get(i));
-							count += 1;
+					// if (count == 10)
+					// 	break;
+					String trend = tweets.get(i).getQuery();
+					System.out.println(tweets.get(i));
+					if (interests.contains(trend)) {
+						out.add(tweets.get(i));
+						// count += 1;
 					}
+					out.add(tweets.get(i));
 				}
 				array.addAll(out);
 				Map<String, ArrayList<Datum>> mp = new HashMap<>();
-				mp.put("Datum", array);
+				mp.put("Tweet", array);
 				model.addAllAttributes(mp);
 
 				// get data from db -> {title1: {name1: data1, name2: data2, name3: data3}, {title2: {name1: data1, name2: data2}}}
-				Map<String, Map<String, Integer>> data = new HashMap<>();
-				Map<String, Integer> graphData = new TreeMap<>();
+				Map<String, Map<String, Long>> data = new HashMap<>();
+				Map<String, Long> graphData = new TreeMap<>();
 				List<String> titles = new ArrayList<String>();
-				graphData.put("2016", 147);
-				graphData.put("2017", 1256);
-				graphData.put("2018", 3856);
-				graphData.put("2019", 19807);
-				data.put("De 2016 a 2019", graphData);
-				Map<String, Integer> graphData1 = new TreeMap<>();
-				graphData1.put("2020", 3);
-				graphData1.put("2021", 2);
-				graphData1.put("2022", 4);
-				graphData1.put("2023", 1);
-				data.put("De 2020 a 2023", graphData1);
+
+				// for all trends
+				List<TweetCount> graph = service.getAllTweetCount();
+				Map<String, Long> graphData1 = new TreeMap<>();
+				for(int i = 0; i < graph.size() && i < 6; i++) {
+					graphData1.put(graph.get(i).getQuery(), graph.get(i).getTweet_count());
+				}
+				data.put("Twitter Count for all Interests", graphData1);
+
+				// for user interests
+				long count2 = 0;
+				for (String trend: interests) {
+					// get count for trend
+					graphData.put(trend, count2);
+					count2 += 100;
+				}
+				data.put("Twitter Count for each Interest", graphData);
 
 				System.out.println(data);
-				List<Map<String, Integer>> sendData = new ArrayList<Map<String,Integer>>();
+				List<Map<String, Long>> sendData = new ArrayList<Map<String,Long>>();
 				for (String title: data.keySet()) {
 					System.out.println(data.get(title));
 					titles.add(title);
@@ -95,12 +112,34 @@ public class ViewController {
 	public String registerForm(Model model) {
 		model.addAttribute("register", new User());
 		// envia user para a base de dados, ou seja envia para o rest controller
+
+		// get trends from database
+		ArrayList<String> array = new ArrayList<String>();
+		List<TweetTrendsJson> trends = service.getAllTweetTrend();
+
+		for(int i = 0; i < trends.size(); i++) {
+			array.add(trends.get(i).getName());
+		}
+
+		Map<String, ArrayList<String>> mp = new HashMap<>();
+		mp.put("interests_data", array);
+		model.addAllAttributes(mp);
+
 		return "register";
 	}
 
 	@PostMapping("/register")
 	public String registerSubmit(@ModelAttribute User us, Model model) {
 		System.out.println(us);
+
+		// hashed password
+		String pass = us.getPassword();
+		int hash = 7;
+		for (int i = 0; i < pass.length(); i++) {
+			hash = hash*31 + pass.charAt(i);
+		}
+		System.out.println(hash);
+		us.setPassword(Integer.toString(hash));
 
 		if (user_rep.findByUsername(us.getUsername()) != null) {
 			System.out.println(user_rep.findByUsername(us.getUsername()));

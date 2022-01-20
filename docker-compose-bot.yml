@@ -11,7 +11,7 @@ services:
     ports:
       - "9002:9002"
     restart: unless-stopped
-    entrypoint: [ "./wait-for-it.sh", "rabbitmq:5672", "--", "java","-cp","app:app/lib/*","Project.TwitterBot.TwitterBotApp" , "cats" ]
+    #entrypoint: [ "./wait-for-it.sh", "rabbitmq:5672", "--", "java","-cp","app:app/lib/*","Project.TwitterBot.TwitterBotApp" , "cats" ]
     depends_on:
        - rabbitmq
 
