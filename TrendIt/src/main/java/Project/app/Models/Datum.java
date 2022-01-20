@@ -18,7 +18,6 @@ public class Datum {
   @SerializedName( "query" )
   String query;
 
-
   @SerializedName("author_id")
   public String getAuthor_id() {
     return this.author_id;
@@ -81,15 +80,6 @@ public class Datum {
       ",\"id\":\"" + id + '\"' +
       ",\"lang\":\"" + lang + '\"' +
       ",\"text\":\"" + text + '\"' +
-      ", \"query\":\"" + query + "\"" +
       '}';
-  }
-
-  public String getQuery() {
-    return query;
-  }
-
-  public void setQuery(String query) {
-    this.query = query;
   }
 }

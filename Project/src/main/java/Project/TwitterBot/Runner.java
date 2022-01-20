@@ -44,7 +44,7 @@ public class Runner implements CommandLineRunner {
     int j;
     if ( queue.size() != 0 ) {
       j = r.nextInt( queue.size() );
-      for (int i = 0 ; i < 2 ; i++) {
+      for (int i = 0 ; i < 4 ; i++) {
         String s = queue.get( j );
         /*
         Gson g = new Gson();
@@ -84,11 +84,11 @@ public class Runner implements CommandLineRunner {
     //
     System.out.println( "args" );
     for (String s : args) {
-      logger.info( s );
+      System.out.println( s );
     }
     System.out.println( "end" );
     Random r = new Random();
-    List<TweetTrendsJson> t = ts.getTrends( 23424975 );
+    List<TweetTrendsJson> t = ts.getTrends( 1 );
     
     logger.debug( "t -> " + t );
     /*
@@ -102,12 +102,14 @@ public class Runner implements CommandLineRunner {
     List<String> queries = new ArrayList<>();
     for (TweetTrendsJson t_ : t) {
       String sQuery = null;
+      
       try {
+        
         sQuery =
           new String( Base64.getDecoder().decode( t_.getQuery().replaceAll( "[^0-9a-zA-Z]","" ).getBytes( StandardCharsets.UTF_8 ) ) );
         logger.error(
-          "!!!!decoded - > " + sQuery + "|||" );
-        //queries.add( sQuery );
+          "decoded - > " + sQuery );
+        queries.add( sQuery );
       } catch (StringIndexOutOfBoundsException e) {
         logger.error( "t query - >+" + t_ +"\n"   + e.toString() );
       }
@@ -118,26 +120,8 @@ public class Runner implements CommandLineRunner {
     }
   
     queries.addAll( Arrays.stream( args ).collect( Collectors.toList()) );
-    queries.stream().map( (String l) -> !l.isEmpty() || l != null );
-
-    queries.stream().forEach(logger::error);
-
     //this.queue.addAll( t.stream().map( TweetTrendsJson::toString ).collect( Collectors.toList() ) );
     this.queue.addAll( t.stream().map( g::toJson ).collect( Collectors.toList()) );
-    queries.stream().map( (String l) -> l.isEmpty() || l == null );
-    logger.error( "--------------------------------" );
-    queries.stream().forEach( logger::error );
-    logger.error( "--------------------------------" );
-  
-    logger.error( "--------------------------------" );
-    System.out.println( "args" );
-    for (String s : args) {
-      logger.error( s );
-    }
-  
-  
-    logger.error( "--------------------------------" );
-    logger.error( "--------------------------------" );
     for (String s : queries) {
       for (TweetCount tweetCount : ts.getInterestCount( s )) {
         tweetCount.setQuery( s );
