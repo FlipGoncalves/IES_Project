@@ -107,16 +107,12 @@ public class Runner implements CommandLineRunner {
           new String( Base64.getDecoder().decode( t_.getQuery().replaceAll( "[^0-9a-zA-Z]","" ).getBytes( StandardCharsets.UTF_8 ) ) );
         logger.error(
           "!!!!decoded - > " + sQuery + "|||" );
-        queries.add( sQuery );
+        //queries.add( sQuery );
       } catch (StringIndexOutOfBoundsException e) {
         logger.error( "t query - >+" + t_ +"\n"   + e.toString() );
-        logger.error(
-          "!!!!decoded - > " + t_.getQuery() + "|||" );
       }
       catch (IllegalArgumentException e1){
         logger.error( "t query - >+" + t_ +"\n"   + e1.toString() );
-        logger.error(
-          "!!!!decoded - > " + t_.getQuery() + "|||" );
       }
       
     }
