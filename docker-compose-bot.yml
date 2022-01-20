@@ -3,42 +3,49 @@ version: '3.3'
 # Define services
 services:
   # App backend service
-  app-server:
+  twitter-bot:
     # Configuration for building the docker image for the backend service
     build:
-      context: TrendIt # Use an image built from the specified dockerfile in the `polling-app-server` directory.
+      context: Project # Use an image built from the specified dockerfile in the `polling-app-server` directory.
       dockerfile: Dockerfile
     ports:
-      - "9001:9001"
+      - "9002:9002"
     restart: unless-stopped
+
     depends_on:
-      - db # This service depends on mysql. Start that first.
+       - rabbitmq
+       - db
+         #command: [ "./wait-for-it.sh", "rabbitmq:5672", "--", "java","-cp","app:app/lib/*","Project.TwitterBot.TwitterBotApp" , "cats" ]
+
     environment: # Pass environment variables to the service
-      SERVER_PORT: 9001
-      SPRING_APPLICATION_NAME: TrendIt
-      SPRING_DATASOURCE_URL: jdbc:mongodb://db:27017/trendit
+      SERVER_PORT: 9002
+      SPRING_APPLICATION_NAME: TwitterBot
+      SPRING_DATASOURCE_URL: jdbc:mongodb://db:27017/twitterBot
       SPRING_DATA_MONGODB_AUTHENTICATION_DATABASE: admin
       SPRING_DATA_MONGODB_HOST: db
       SPRING_DATA_MONGODB_PORT: 27017
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: example
-      SPRING_DATA_MONGODB_DATABASE: trendit
+      SPRING_DATA_MONGODB_DATABASE: twitterBot
       SPRING_DATA_MONGODB_USERNAME: root
       SPRING_DATA_MONGODB_PASSWORD: example
-      SPRING_JPA_HIBERNATE_DDL_AUTO: update
-      # This is true to make SpringBoot to automatically register a bean of type 'org.springframework.amqp.core.AmqpAdmin'.
-      # Check the org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration javadoc for details.
+
+      token: AAAAAAAAAAAAAAAAAAAAAMOJWgEAAAAAAPUQt2bZyfeNdIHrg6lU%2FtJNeSQ%3DlqsCxGQKrOP0XDdRwcnLfOrF1lTV2cSNd4tjyS67QeFf0lX74r
       SPRING_RABBITMQ_DYNAMIC: true
 
+
       # THE PORT TO WHICH THE CLIENT SHOULD CONNECT DEFAULTS TO 5672_
+      SPRING_RABBITMQ_HOST: rabbitmq
       SPRING_RABBITMQ_PORT: 5672
+      SPRING_logging_config: "/app/log4j2.xml"
 
       # USERNAME AND PASSWORD
       SPRING_RABBITMQ_USERNAME: pedro
       SPRING_RABBITMQ_PASSWORD: pedro
 
       # THE HOST, DEFAULTS TO LOCALHOST_
-      SPRING_RABBITMQ_HOST: rabbitmq
+      #volumes:
+      #- ./wait-for-it.sh:/usr/local/bin/wait-for-it.sh
 
     networks: # Networks to join (Services on the same network can communicate with each other using their name)
       - backend
@@ -55,19 +62,33 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: example
-      MONGO_INITDB_DATABASE: trendit
+      MONGO_INITDB_DATABASE: twitterBot
       MONGO_DB_USERNMAE: grupo51
       MONGO_DB_PASSWORD: grupo51
     volumes:
-      - data:/data/db
-      - data:/data/mongodb.log
+      - data_bot:/data/db
+      - data_bot:/data/mongodb.log
       - init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
     networks:
       - backend
 
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    hostname: rabbitmq
+    restart: always
+    ports:
+      - 15672:15672
+      - 5672:5672
+    environment:
+      - RABBITMQ_DEFAULT_USER=pedro
+      - RABBITMQ_DEFAULT_PASS=pedro
+    networks:
+    - backend
+
 
 volumes:
-  data:
+  data_bot:
   init-mongo.js:
 
 # Networks to be created to facilitate communication between containers

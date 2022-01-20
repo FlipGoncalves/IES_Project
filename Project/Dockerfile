@@ -56,5 +56,6 @@ COPY --from=build ${DEPENDENCY}/META-INF /app/META-INF
 
 COPY --from=build ${DEPENDENCY}/BOOT-INF/classes /app
 
+
 #MainApp is the main class of your java app
-ENTRYPOINT ["java","-cp","app:app/lib/*","Project.app.ProjetoApplication"]
+ENTRYPOINT [ "java", "-Dlogging.config=/app/log4j2.xml", "-cp" , "app:app/lib/*", "Project.TwitterBot.TwitterBotApp", "cats"]
