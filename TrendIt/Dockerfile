@@ -48,6 +48,12 @@ FROM openjdk:11
 
 ARG DEPENDENCY=/app/target/dependency
 
+
+COPY waitforit.sh ./wait-for-it.sh
+
+RUN "chmod" "777" "./wait-for-it.sh"
+RUN "ls" "-alh"
+
 # Copy project dependencies from the build stage
 
 COPY --from=build ${DEPENDENCY}/BOOT-INF/lib /app/lib
@@ -57,4 +63,4 @@ COPY --from=build ${DEPENDENCY}/META-INF /app/META-INF
 COPY --from=build ${DEPENDENCY}/BOOT-INF/classes /app
 
 #MainApp is the main class of your java app
-ENTRYPOINT ["java","-cp","app:app/lib/*","Project.app.ProjetoApplication"]
+ENTRYPOINT ["./wait-for-it.sh", "rabbitmq:5672", "--" ,"java","-cp","app:app/lib/*","Project.app.ProjetoApplication"]

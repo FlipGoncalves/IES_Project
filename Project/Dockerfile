@@ -43,8 +43,13 @@ RUN ./mvnw package -DskipTests
 RUN mkdir -p target/dependency && (cd target/dependency; jar -xf ../*.jar)
 
 #### Stage 2: A minimal docker image with command to run the app
-
 FROM openjdk:11
+
+COPY waitforit.sh ./wait-for-it.sh
+
+RUN "chmod" "777" "./wait-for-it.sh"
+RUN "ls" "-alh"
+
 
 ARG DEPENDENCY=/app/target/dependency
 
@@ -58,4 +63,5 @@ COPY --from=build ${DEPENDENCY}/BOOT-INF/classes /app
 
 
 #MainApp is the main class of your java app
-ENTRYPOINT [ "java", "-Dlogging.config=/app/log4j2.xml", "-cp" , "app:app/lib/*", "Project.TwitterBot.TwitterBotApp", "cats"]
+#ENTRYPOINT [ "java", "-cp" , "app:app/lib/*", "Project.TwitterBot.TwitterBotApp", "cats"]
+ENTRYPOINT [ "./wait-for-it.sh", "rabbitmq:5672", "--" , "java", "-cp" , "app:app/lib/*", "Project.TwitterBot.TwitterBotApp", "cats"]
