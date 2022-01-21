@@ -48,7 +48,9 @@ public class TweetCount {
     return "{" +
       "\"end\":\"" + end + '\"' +
       ",\"start\":\"" + start + '\"' +
-      ",\"tweet_count\":\"" + tweet_count + "\"}";
+      ",\"tweet_count\":\"" + tweet_count + "\" " +
+      ",\"query\":\"" + query + "\" " +
+      "}";
   }
 
   public String getQuery() {

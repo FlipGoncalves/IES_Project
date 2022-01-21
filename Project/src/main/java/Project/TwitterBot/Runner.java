@@ -39,7 +39,7 @@ public class Runner implements CommandLineRunner {
     queue.add( message );
   }
   
-  @Scheduled(initialDelay = 8000L, fixedDelay = 1000L)
+  @Scheduled(initialDelay = 8000L, fixedDelay = 4000L)
   public void sendMessage() {
     int j;
     if ( queue.size() != 0 ) {
@@ -104,19 +104,19 @@ public class Runner implements CommandLineRunner {
       String sQuery = null;
       try {
         sQuery =
-          new String( Base64.getDecoder().decode( t_.getQuery().replaceAll( "[^0-9a-zA-Z]","" ).getBytes( StandardCharsets.UTF_8 ) ) );
+          new String( Base64.getDecoder().decode( t_.getQuery().getBytes( StandardCharsets.UTF_8 ) ) );
         logger.error(
           "!!!!decoded - > " + sQuery + "|||" );
         queries.add( sQuery );
       } catch (StringIndexOutOfBoundsException e) {
         logger.error( "t query - >+" + t_ +"\n"   + e.toString() );
-        logger.error(
-          "!!!!decoded - > " + t_.getQuery() + "|||" );
+        // logger.error(
+        //   "!!!!decoded - > " + t_.getQuery() + "|||" );
       }
       catch (IllegalArgumentException e1){
         logger.error( "t query - >+" + t_ +"\n"   + e1.toString() );
-        logger.error(
-          "!!!!decoded - > " + t_.getQuery() + "|||" );
+        // logger.error(
+        //   "!!!!decoded - > " + t_.getQuery() + "|||" );
       }
       
     }
