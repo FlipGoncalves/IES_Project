@@ -121,13 +121,13 @@ public class ViewController {
 		// }
 
 
-		List<Datum> tweets = service.getAllTweets();
+		List<TweetTrendsJson> tweets = service.getAllTweetTrend();
 		Set<String> array = new HashSet<String>();
 		// int count = 0;
 		for(int i = tweets.size() - 1; i > 0; i--) {
 			// if (count == 10)
 			// 	break;
-			String trend = tweets.get(i).getQuery();
+			String trend = tweets.get(i).getName();
 			array.add(trend);
 		}
 

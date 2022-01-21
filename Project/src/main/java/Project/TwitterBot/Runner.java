@@ -101,24 +101,7 @@ public class Runner implements CommandLineRunner {
     Gson g = new Gson();
     List<String> queries = new ArrayList<>();
     for (TweetTrendsJson t_ : t) {
-      String sQuery = null;
-      try {
-        sQuery =
-          new String( Base64.getDecoder().decode( t_.getQuery().getBytes( StandardCharsets.UTF_8 ) ) );
-        logger.error(
-          "!!!!decoded - > " + sQuery + "|||" );
-        queries.add( sQuery );
-      } catch (StringIndexOutOfBoundsException e) {
-        logger.error( "t query - >+" + t_ +"\n"   + e.toString() );
-        // logger.error(
-        //   "!!!!decoded - > " + t_.getQuery() + "|||" );
-      }
-      catch (IllegalArgumentException e1){
-        logger.error( "t query - >+" + t_ +"\n"   + e1.toString() );
-        // logger.error(
-        //   "!!!!decoded - > " + t_.getQuery() + "|||" );
-      }
-      
+      queries.add( t_.getName() );
     }
   
     queries.addAll( Arrays.stream( args ).collect( Collectors.toList()) );
