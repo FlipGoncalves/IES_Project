@@ -10,8 +10,8 @@ services:
       dockerfile: Dockerfile
     ports:
       - "9002:9002"
-    deploy: 
-      restart_policy: 
+    deploy:
+      restart_policy:
         condition: on-failure
         delay: 10s
         max_attempts: 2
@@ -40,7 +40,7 @@ services:
       # THE PORT TO WHICH THE CLIENT SHOULD CONNECT DEFAULTS TO 5672_
       SPRING_RABBITMQ_HOST: rabbitmq
       SPRING_RABBITMQ_PORT: 5672
-      SPRING_logging_config: "/app/log4j2.xml"
+      SPRING_LOGGING_CONFIG: "/app/log4j2.xml"
 
       # USERNAME AND PASSWORD
       SPRING_RABBITMQ_USERNAME: pedro

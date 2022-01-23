@@ -10,8 +10,8 @@ services:
       dockerfile: Dockerfile
     ports:
       - "9001:9001"
-    deploy: 
-      restart_policy: 
+    deploy:
+      restart_policy:
         condition: on-failure
         delay: 10s
         max_attempts: 2
@@ -33,7 +33,7 @@ services:
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
       # This is true to make SpringBoot to automatically register a bean of type 'org.springframework.amqp.core.AmqpAdmin'.
       # Check the org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration javadoc for details.
-      SPRING_RABBITMQ_DYNAMIC: true
+      SPRING_LOGGING_CONFIG: "/app/log4j2.xml"
 
       # THE PORT TO WHICH THE CLIENT SHOULD CONNECT DEFAULTS TO 5672_
       SPRING_RABBITMQ_PORT: 5672
