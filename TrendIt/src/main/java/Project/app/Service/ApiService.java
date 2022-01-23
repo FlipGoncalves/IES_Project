@@ -78,41 +78,41 @@ public class ApiService {
 
     // TWEETS
 
-    // public Tweet saveTweet(Tweet tweet) {
-    //     tweet.setInsert(new Date());
-    //     return tweet_rep.save(tweet);
-    // }
+    public Tweet saveTweet(Tweet tweet) {
+        tweet.setInsert(new Date());
+        return tweet_rep.save(tweet);
+    }
 
-    // public List<Tweet> saveTweets(List<Tweet> list_tweets) {
-    //     return tweet_rep.saveAll(list_tweets);
-    // }
+    public List<Tweet> saveTweets(List<Tweet> list_tweets) {
+        return tweet_rep.saveAll(list_tweets);
+    }
 
-    // public List<Tweet> getAllTweets() {
-    //     return tweet_rep.findAll();
-    // }
+    public List<Tweet> getAllTweets() {
+        return tweet_rep.findAll();
+    }
 
-    // public Tweet getTweetById(String id) {
-    //     return (tweet_rep.findById(id) != null) ? tweet_rep.findById(id): new Tweet();
-    // }
+    public Tweet getTweetById(String id) {
+        return (tweet_rep.findById(id) != null) ? tweet_rep.findById(id): new Tweet();
+    }
 
-    // public void deleteTweet(String id) {
-    //     tweet_rep.delete((tweet_rep.findById(id) != null) ? tweet_rep.findById(id): null);
-    // }
+    public void deleteTweet(String id) {
+        tweet_rep.delete((tweet_rep.findById(id) != null) ? tweet_rep.findById(id): null);
+    }
 
-    // public Tweet updateTweet(String id, Tweet tweet) {
-    //     Tweet tw = tweet_rep.findById(id);
-    //     if (tw != null) {
-    //         tw.setDescription(tweet.getDescription());
-    //         tw.setTrends(tweet.getTrends());
-    //         tw.setPerson(tweet.getPerson());
-    //         tweet_rep.delete(tw);
-    //         return tweet_rep.save(tw);
-    //     }
-    //     return null;
-    // }
+    public Tweet updateTweet(String id, Tweet tweet) {
+        Tweet tw = tweet_rep.findById(id);
+        if (tw != null) {
+            tw.setDescription(tweet.getDescription());
+            tw.setTrends(tweet.getTrends());
+            tw.setPerson(tweet.getPerson());
+            tweet_rep.delete(tw);
+            return tweet_rep.save(tw);
+        }
+        return null;
+    }
 
     // datum -> tweet
-    public Datum saveTweet (Datum d){
+    public  Datum saveTweet (Datum d){
         return tweet_rep.save( d );
 
     }
@@ -135,7 +135,7 @@ public class ApiService {
     }
     */
 
-    public TweetCount saveTweetCount (TweetCount d){
+    public  TweetCount saveTweetCount (TweetCount d){
         return tweet_count.save( d );
 
     }

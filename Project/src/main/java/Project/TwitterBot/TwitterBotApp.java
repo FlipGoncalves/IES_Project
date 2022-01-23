@@ -15,38 +15,36 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
-import java.util.Arrays;
-
 
 @SpringBootApplication
 @EnableScheduling
 public class TwitterBotApp {
-
+  
   private static final Logger logger = LogManager.getLogger( "TwitterBot" );
   //private static final Logger logger1 = LogManager.getLogger( "TwitterService" );
   public static String token = null;
-
+  
   static final String topicExchangeName = "spring-boot-exchange";
-
+  
   static final String queueName = "spring-boot";
-
+  
   @Bean
   Queue queue() {
     return new Queue(queueName, false);
   }
-
+  
   @Bean
   TopicExchange exchange() {
     return new TopicExchange(topicExchangeName);
   }
-
+  
   @Bean
   Binding binding(Queue queue, TopicExchange exchange) {
     return BindingBuilder.bind(queue).to(exchange).with("foo.bar.#"); // queue for each type of request must match in
     // runner
   }
-
-
+  
+  
   @Bean
   SimpleMessageListenerContainer container(ConnectionFactory connectionFactory,
                                            MessageListenerAdapter listenerAdapter) {
@@ -56,18 +54,17 @@ public class TwitterBotApp {
     container.setMessageListener(listenerAdapter);
     return container;
   }
-
+  
   @Bean
   MessageListenerAdapter listenerAdapter( Receiver receiver) {
     return new MessageListenerAdapter(receiver, "receiveMessage");
   }
-
-
+  
+  
   public static void main( String[] args ) {
     token = System.getenv( "token" );
-
     Configurator.initialize(null, "/app/log4j2.xml");
-
+    
     if ( token == null && token.isEmpty() ) {
       System.out.println( "Bearer Token not set" );
       System.exit( - 1 );
@@ -75,12 +72,11 @@ public class TwitterBotApp {
     logger.error( token );
     logger.info( token );
     //logger1.error( token );
-
+  
     logger.error("Configuration File Defined To Be :: "+System.getProperty("log4j.configurationFile"));
     logger.trace("Configuration File Defined To Be :: "+System.getProperty("log4j.configurationFile"));
-    Arrays.stream(args).forEach( logger::error );
-
+  
     SpringApplication.run( TwitterBotApp.class, args ).close();
   }
-
+  
 }

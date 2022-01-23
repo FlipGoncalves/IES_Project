@@ -33,19 +33,10 @@ public class ViewController {
 		System.out.println(us);
 		if (user_rep.findByUsername(us.getUsername()) != null) {
 			System.out.println(user_rep.findByUsername(us.getUsername()));
-			// hashed password
-			String pass = us.getPassword();
-			int hash = 7;
-			for (int i = 0; i < pass.length(); i++) {
-				hash = hash*31 + pass.charAt(i);
-			}
-			System.out.println(hash);
-
-			if (user_rep.findByUsername(us.getUsername()).getPassword().equals(Integer.toString(hash))) {
+			if (user_rep.findByUsername(us.getUsername()).getPassword().equals(us.getPassword())) {
 
 				// get user data from db
 				User user = user_rep.findByUsername(us.getUsername());
-
 				model.addAttribute("User", user);
 				List<String> interests = user.getInterests();
 
@@ -62,16 +53,17 @@ public class ViewController {
 					if (interests.contains(trend)) {
 						out.add(tweets.get(i));
 						count += 1;
+
 					}
 				}
 				array.addAll(out);
-				Map<String, ArrayList<Datum>> mp = new HashMap<>();
+				Map<String, ArrayList<Tweet>> mp = new HashMap<>();
 				mp.put("Tweet", array);
 				model.addAllAttributes(mp);
 
 				// get data from db -> {title1: {name1: data1, name2: data2, name3: data3}, {title2: {name1: data1, name2: data2}}}
-				Map<String, Map<String, Long>> data = new HashMap<>();
-				Map<String, Long> graphData = new TreeMap<>();
+				Map<String, Map<String, Integer>> data = new HashMap<>();
+				Map<String, Integer> graphData = new TreeMap<>();
 				List<String> titles = new ArrayList<String>();
 
 				// for all trends
@@ -80,19 +72,21 @@ public class ViewController {
 				Map<String, Long> graphData1 = new TreeMap<>();
 				for(int i = 0; i < graph.size(); i++) {
 					graphData1.put(graph.get(i).getQuery(), graph.get(i).getTweet_count());
+
 				}
-				data.put("Twitter Count for all Interests", graphData1);
+				data.put("Twitter COunt for all Interests", graphData1);
 
 				// for user interests
 				for(int i = 0; i < graph.size(); i++) {
 					if (interests.contains(graph.get(i).getQuery())) {
 						graphData.put(graph.get(i).getQuery(), graph.get(i).getTweet_count());
 					}
+
 				}
 				data.put("Twitter Count for each Interest", graphData);
 
 				System.out.println(data);
-				List<Map<String, Long>> sendData = new ArrayList<Map<String,Long>>();
+				List<Map<String, Integer>> sendData = new ArrayList<Map<String,Integer>>();
 				for (String title: data.keySet()) {
 					System.out.println(data.get(title));
 					titles.add(title);
@@ -132,6 +126,7 @@ public class ViewController {
 		}
 
 		Map<String, Set<String>> mp = new HashMap<>();
+
 		mp.put("interests_data", array);
 		model.addAllAttributes(mp);
 
@@ -141,15 +136,6 @@ public class ViewController {
 	@PostMapping("/register")
 	public String registerSubmit(@ModelAttribute User us, Model model) {
 		System.out.println(us);
-
-		// hashed password
-		String pass = us.getPassword();
-		int hash = 7;
-		for (int i = 0; i < pass.length(); i++) {
-			hash = hash*31 + pass.charAt(i);
-		}
-		System.out.println(hash);
-		us.setPassword(Integer.toString(hash));
 
 		if (user_rep.findByUsername(us.getUsername()) != null) {
 			System.out.println(user_rep.findByUsername(us.getUsername()));
