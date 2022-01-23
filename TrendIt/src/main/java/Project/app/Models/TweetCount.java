@@ -52,4 +52,8 @@ public class TweetCount {
       ",\"query\":\"" + query + "\" " +
       "}";
   }
+  
+  public String getQuery() {
+    return query;
+  }
 }

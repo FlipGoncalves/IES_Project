@@ -78,6 +78,7 @@ public class ApiService {
 
     // TWEETS
 
+/*
     public Tweet saveTweet(Tweet tweet) {
         tweet.setInsert(new Date());
         return tweet_rep.save(tweet);
@@ -110,6 +111,7 @@ public class ApiService {
         }
         return null;
     }
+    */
 
     // datum -> tweet
     public  Datum saveTweet (Datum d){

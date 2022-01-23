@@ -82,4 +82,8 @@ public class Datum {
       ",\"text\":\"" + text + '\"' +
       '}';
   }
+  
+  public String getQuery() {
+    return query;
+  }
 }
