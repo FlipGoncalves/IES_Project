@@ -1,4 +1,4 @@
-package TwitterBot.exception;
+package Project.TwitterBot.exception;
 
 
 import org.springframework.http.HttpStatus;

@@ -1,7 +1,9 @@
 package Project.app.Models;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import org.springframework.data.mongodb.core.mapping.Document;
 
+@Document(value = "tweetcount")
 public class TweetCount {
   @Expose
   @SerializedName("end")
@@ -12,6 +14,10 @@ public class TweetCount {
   @Expose
   @SerializedName("tweet_count")
   Long tweet_count;
+ 
+  @Expose
+  @SerializedName( "query" )
+  String query;
 
 
   public String getEnd() {
@@ -42,6 +48,8 @@ public class TweetCount {
     return "{" +
       "\"end\":\"" + end + '\"' +
       ",\"start\":\"" + start + '\"' +
-      ",\"tweet_count\":\"" + tweet_count + "\"}";
+      ",\"tweet_count\":\"" + tweet_count + "\" " +
+      ",\"query\":\"" + query + "\" " +
+      "}";
   }
 }

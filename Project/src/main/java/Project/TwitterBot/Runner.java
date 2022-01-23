@@ -14,15 +14,12 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Component
 public class Runner implements CommandLineRunner {
-  private static final Logger logger = LogManager.getLogger( "QueueSender" );
+  private static final Logger logger = LogManager.getLogger( "TwitterService" );
   private static final int[] ids = new int[10];
   private static Random r = new Random();
   private final RabbitTemplate rabbitTemplate;
@@ -49,8 +46,8 @@ public class Runner implements CommandLineRunner {
       j = r.nextInt( queue.size() );
       for (int i = 0 ; i < 8 ; i++) {
         String s = queue.get( j );
-        Gson g = new Gson();
         /*
+        Gson g = new Gson();
         code to load a class
         try {
           if ( s.contains( "author_id" ) ) {
@@ -74,6 +71,7 @@ public class Runner implements CommandLineRunner {
         logger.info( s );
         rabbitTemplate.convertAndSend( TwitterBotApp.topicExchangeName, "foo.bar.baz", s );
         queue.remove( j );
+        if(queue.size() == 0) break;
         j = r.nextInt( queue.size() );
         logger.info( "Sending message... Timed" );
         logger.info( "Queue Size -> " + queue.size() );
@@ -100,42 +98,31 @@ public class Runner implements CommandLineRunner {
        .collect( Collectors.toList() );
     */
 
+    
+    Gson g = new Gson();
     List<String> queries = new ArrayList<>();
     for (TweetTrendsJson t_ : t) {
-      String sQuery = null;
-      try {
-        sQuery = new String( Base64.getDecoder().decode( t_.getQuery().getBytes( StandardCharsets.UTF_8 ) ) );
-      } catch (IllegalArgumentException e) {
-        logger.info( "t query - > " + t_.getQuery() );
-        continue;
-      }
-      logger.error(
-        "decoded - > " + sQuery );
-      queries.add( sQuery );
+      queries.add( t_.getName() );
     }
 
-    this.queue.addAll( t.stream().map( TweetTrendsJson::toString ).collect( Collectors.toList() ) );
-
+  
+    queries.addAll( Arrays.stream( args ).collect( Collectors.toList()) );
+    //this.queue.addAll( t.stream().map( TweetTrendsJson::toString ).collect( Collectors.toList() ) );
+    this.queue.addAll( t.stream().map( g::toJson ).collect( Collectors.toList()) );
     for (String s : queries) {
-      try {
-        this.queue.addAll( ts.searchTweets( s ).stream().map( Datum::toString ).collect( Collectors.toList() ) );
-      } catch (NullPointerException n) {
-        logger.error( "Null stuff query returned 0 tweets" + s );
+      for (TweetCount tweetCount : ts.getInterestCount( s )) {
+        tweetCount.setQuery( s );
+        String toJson = g.toJson( tweetCount );
+        this.queue.add( toJson );
       }
-      this.queue.addAll(
-        ts.getInterestCount( s ).stream().map( TweetCount::toString ).collect( Collectors.toList() ) );
-    }
+      for (Datum tweetCount : ts.searchTweets( s )) {
+        tweetCount.setQuery( s );
+        String toJson = g.toJson( tweetCount );
+        this.queue.add( toJson );
+      }
 
-    List<Datum> datum = ts.searchTweets( args[0] );
-    logger.info( "OLA MENINOS" );
-    for (Datum d : datum) {
-      logger.error( "d ->> " + d.toString() + "||||||||||" );
     }
-    logger.info( "OLA MENINOS" );
-    this.queue.addAll( datum.stream().map( Datum::toString ).collect( Collectors.toList() ) );
-    this.queue.addAll(
-      ts.getInterestCount( args[0] ).stream().map( TweetCount::toString ).collect( Collectors.toList() ) );
-
+    
     //this.queue.addAll( ls );
 
     while (this.queue.size() != 0) {

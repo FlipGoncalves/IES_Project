@@ -35,27 +35,25 @@ public class ViewController {
 			System.out.println(user_rep.findByUsername(us.getUsername()));
 			if (user_rep.findByUsername(us.getUsername()).getPassword().equals(us.getPassword())) {
 
-				// get data from db
+				// get user data from db
 				User user = user_rep.findByUsername(us.getUsername());
 				model.addAttribute("User", user);
-
 				List<String> interests = user.getInterests();
-				
+
 				// get tweets from db
-				ArrayList<Tweet> array = new ArrayList<Tweet>();
-				// change to the right get
-				List<Tweet> tweets = service.getAllTweets();
-				List<Tweet> out = new ArrayList<Tweet>();
+				ArrayList<Datum> array = new ArrayList<Datum>();
+				List<Datum> tweets = service.getAllTweets();
+				List<Datum> out = new ArrayList<Datum>();
 				int count = 0;
 				for(int i = tweets.size() - 1; i > 0; i--) {
-					if (count == 10)
+					if (count == 30)
 						break;
-					Set<String> trends_tweet = tweets.get(i).getTrends();
-					for (String trend: trends_tweet) {
-						if (interests.contains(trend)) {
-							out.add(tweets.get(i));
-							count += 1;
-						}
+					String trend = tweets.get(i).getQuery();
+					System.out.println(tweets.get(i));
+					if (interests.contains(trend)) {
+						out.add(tweets.get(i));
+						count += 1;
+
 					}
 				}
 				array.addAll(out);
@@ -63,40 +61,38 @@ public class ViewController {
 				mp.put("Tweet", array);
 				model.addAllAttributes(mp);
 
-				// get data from db
-				// change to the right data
+				// get data from db -> {title1: {name1: data1, name2: data2, name3: data3}, {title2: {name1: data1, name2: data2}}}
+				Map<String, Map<String, Integer>> data = new HashMap<>();
+				Map<String, Integer> graphData = new TreeMap<>();
 				List<String> titles = new ArrayList<String>();
 
-				List<Map<String, Integer>> data = new ArrayList<Map<String,Integer>>();
-				Map<String, List<Map<String, Integer>>> map = new HashMap<>();
-				Map<String, Integer> graphData = new TreeMap<>();
-				graphData.put("2016", 147);
-				graphData.put("2017", 1256);
-				graphData.put("2018", 3856);
-				graphData.put("2019", 19807);
-				data.add(graphData);
-				titles.add("De 2016 a 2019");
+				// for all trends
+				List<TweetCount> graph = service.getAllTweetCount();
+				graph.stream().forEach(System.out::println);
+				Map<String, Long> graphData1 = new TreeMap<>();
+				for(int i = 0; i < graph.size(); i++) {
+					graphData1.put(graph.get(i).getQuery(), graph.get(i).getTweet_count());
 
-				Map<String, Integer> graph = new TreeMap<>();
-				graph.put("2020", 3);
-				graph.put("2021", 2);
-				graph.put("2022", 4);
-				graph.put("2023", 1);
-				data.add(graph);
-				titles.add("De 2020 a 2023");
+				}
+				data.put("Twitter COunt for all Interests", graphData1);
 
-				Map<String, Integer> graph1 = new TreeMap<>();
-				graph1.put("2024", 2);
-				graph1.put("2025", 1);
-				graph1.put("2026", 5);
-				graph1.put("2027", 7);
-				data.add(graph1);
-				titles.add("De 2024 a 2027");
+				// for user interests
+				for(int i = 0; i < graph.size(); i++) {
+					if (interests.contains(graph.get(i).getQuery())) {
+						graphData.put(graph.get(i).getQuery(), graph.get(i).getTweet_count());
+					}
 
-				map.put("charData", data);
-				System.out.println(map);
-				//model.addAttribute("chartData", graphData);
-				model.addAllAttributes(map);
+				}
+				data.put("Twitter Count for each Interest", graphData);
+
+				System.out.println(data);
+				List<Map<String, Integer>> sendData = new ArrayList<Map<String,Integer>>();
+				for (String title: data.keySet()) {
+					System.out.println(data.get(title));
+					titles.add(title);
+					sendData.add(data.get(title));
+				}
+				model.addAttribute("charData", sendData);
 				model.addAttribute("titles", titles);
 
 				return "home";
@@ -109,6 +105,31 @@ public class ViewController {
 	public String registerForm(Model model) {
 		model.addAttribute("register", new User());
 		// envia user para a base de dados, ou seja envia para o rest controller
+
+		// get trends from database
+		// ArrayList<String> array = new ArrayList<String>();
+		// List<TweetTrendsJson> trends = service.getAllTweetTrend();
+
+		// for(int i = 0; i < trends.size(); i++) {
+		// 	array.add(trends.get(i).getName());
+		// }
+
+
+		List<TweetTrendsJson> tweets = service.getAllTweetTrend();
+		Set<String> array = new HashSet<String>();
+		// int count = 0;
+		for(int i = tweets.size() - 1; i > 0; i--) {
+			// if (count == 10)
+			// 	break;
+			String trend = tweets.get(i).getName();
+			array.add(trend);
+		}
+
+		Map<String, Set<String>> mp = new HashMap<>();
+
+		mp.put("interests_data", array);
+		model.addAllAttributes(mp);
+
 		return "register";
 	}
 

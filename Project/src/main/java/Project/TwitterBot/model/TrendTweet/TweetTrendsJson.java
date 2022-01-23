@@ -1,24 +1,12 @@
 package Project.TwitterBot.model.TrendTweet;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonSerializationContext;
-import com.google.gson.JsonSerializer;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
-import org.springframework.data.annotation.Id;
+import org.bson.internal.Base64;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
-import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.Field;
-
-import javax.persistence.Entity;
-
-import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.Field;
-
-import java.lang.reflect.Type;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -67,7 +55,7 @@ public class TweetTrendsJson {
   }
 
   public String getQuery() {
-    return query;
+    return new String( Base64.decode(query));
   }
 
   public void setQuery( String query ) {

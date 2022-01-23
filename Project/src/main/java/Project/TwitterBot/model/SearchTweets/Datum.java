@@ -1,5 +1,7 @@
 package Project.TwitterBot.model.SearchTweets;
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import org.bson.internal.Base64;
 
 import java.util.Date;
 
@@ -11,7 +13,17 @@ public class Datum {
   String id;
   String lang;
   String text;
-
+  @Expose( serialize = true, deserialize = false)
+  String query;
+  
+  public String getQuery() {
+    return new String( Base64.decode(query));
+  }
+  
+  public void setQuery( String query ) {
+    this.query = query;
+  }
+  
   @SerializedName("author_id")
   public String getAuthor_id() {
     return this.author_id;
