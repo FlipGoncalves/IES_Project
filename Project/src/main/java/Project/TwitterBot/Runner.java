@@ -26,32 +26,32 @@ public class Runner implements CommandLineRunner {
   private final Receiver receiver;
   public ArrayList<String> queue = new ArrayList<>(); // queue for commands and query Strings or ids
   @Autowired TwitterServiceimp ts;
-  
+
   public Runner( Receiver receiver, RabbitTemplate rabbitTemplate ) {
     this.receiver = receiver;
     this.rabbitTemplate = rabbitTemplate;
   }
-  
+
   // Receive message
   public void receiveMessage( String message ) {
     // Add a way to know what queue or something similar
     logger.info( "RUNNER RECEIVED: " + message );
     queue.add( message );
   }
-  
-  @Scheduled(initialDelay = 8000L, fixedDelay = 4000L)
+
+  @Scheduled(initialDelay = 8000L, fixedDelay = 500L)
   public void sendMessage() {
     int j;
     if ( queue.size() != 0 ) {
       j = r.nextInt( queue.size() );
-      for (int i = 0 ; i < 4 ; i++) {
+      for (int i = 0 ; i < 8 ; i++) {
         String s = queue.get( j );
         /*
         Gson g = new Gson();
         code to load a class
         try {
           if ( s.contains( "author_id" ) ) {
-  
+
             Datum t = g.fromJson( s, Datum.class );
             logger.info( t.toString() + "Datum" );
           }
@@ -67,7 +67,7 @@ public class Runner implements CommandLineRunner {
           continue;
         }
          */
-        
+
         logger.info( s );
         rabbitTemplate.convertAndSend( TwitterBotApp.topicExchangeName, "foo.bar.baz", s );
         queue.remove( j );
@@ -78,7 +78,7 @@ public class Runner implements CommandLineRunner {
       }
     }
   }
-  
+
   @Override
   public void run( String... args ) throws Exception {
     //
@@ -89,7 +89,7 @@ public class Runner implements CommandLineRunner {
     System.out.println( "end" );
     Random r = new Random();
     List<TweetTrendsJson> t = ts.getTrends( 1 );
-    
+
     logger.debug( "t -> " + t );
     /*
     List<String> queries =
@@ -97,12 +97,14 @@ public class Runner implements CommandLineRunner {
       StandardCharsets.UTF_8 )))  )
        .collect( Collectors.toList() );
     */
+
     
     Gson g = new Gson();
     List<String> queries = new ArrayList<>();
     for (TweetTrendsJson t_ : t) {
       queries.add( t_.getName() );
     }
+
   
     queries.addAll( Arrays.stream( args ).collect( Collectors.toList()) );
     //this.queue.addAll( t.stream().map( TweetTrendsJson::toString ).collect( Collectors.toList() ) );
@@ -118,12 +120,13 @@ public class Runner implements CommandLineRunner {
         String toJson = g.toJson( tweetCount );
         this.queue.add( toJson );
       }
+
     }
     
     //this.queue.addAll( ls );
-    
+
     while (this.queue.size() != 0) {
     }
   }
-  
+
 }
