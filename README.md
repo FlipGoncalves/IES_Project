@@ -23,3 +23,18 @@ To get the full description, with everything needed to organize the concept, we 
 # Indix
 ## Project
 TwitterBot and TwitterAPI files
+
+## SketchBook
+Arquitect and Product Owner SketchBook
+
+## TrendIt
+Main Application files, with REST and View Controllers
+
+## Reports
+All the updated reports from the first Iteration until the last one, and the presentation slides
+
+## Demo
+A demo video of the application working
+
+## Rest of the files
+Files going from docker-compose files, to mongo start file and bash scripts
