@@ -102,8 +102,8 @@ public class ViewController {
 		// for(int i = 0; i < trends.size(); i++) {
 		// 	array.add(trends.get(i).getName());
 		// }
-		
-		
+
+
 		List<Datum> tweets = service.getAllTweets();
 		Set<String> array = new HashSet<String>();
 		// int count = 0;
@@ -113,7 +113,7 @@ public class ViewController {
 			String trend = tweets.get(i).getQuery();
 			array.add(trend);
 		}
-		
+
 		Map<String, Set<String>> mp = new HashMap<>();
 		mp.put("interests_data", array);
 		model.addAllAttributes(mp);
