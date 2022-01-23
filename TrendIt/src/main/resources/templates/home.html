@@ -27,7 +27,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
   <a href="/" class="w3-bar-item w3-button w3-padding-large w3-theme-d4"><i class="fa fa-home w3-margin-right"></i>TrendIt</a>
   <!-- <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="News"><i class="fa fa-globe"></i></a>
   <div class="w3-dropdown-hover w3-hide-small">
-    <button class="w3-button w3-padding-large" title="Notifications"><i class="fa fa-bell"></i><span class="w3-badge w3-right w3-small w3-green">2</span></button>     
+    <button class="w3-button w3-padding-large" title="Notifications"><i class="fa fa-bell"></i><span class="w3-badge w3-right w3-small w3-green">2</span></button>
     <div class="w3-dropdown-content w3-card-4 w3-bar-block" style="width:300px">
       <a href="#" class="w3-bar-item w3-button">New Notification 1</a>
       <a href="#" class="w3-bar-item w3-button">New Notification 2</a>
@@ -47,7 +47,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 </div>
 
 <!-- Page Container -->
-<div class="w3-container w3-content" style="max-width:1400px;margin-top:80px">    
+<div class="w3-container w3-content" style="max-width:1400px;margin-top:80px">
   <!-- The Grid -->
   <div class="w3-row">
     <!-- Left Column -->
@@ -64,8 +64,8 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
         </div>
       </div>
       <br>
-      
-      <!-- Interests --> 
+
+      <!-- Interests -->
       <div class="w3-card w3-round w3-white w3-hide-small">
         <div class="w3-container">
           <h3>Interests</h3>
@@ -88,61 +88,35 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
         </div>
       </div>
       <br>
-      
-      <!-- Alert Box -->
-      <div class="w3-container w3-display-container w3-round w3-theme-l4 w3-border w3-theme-border w3-margin-bottom w3-hide-small">
-        <span onclick="this.parentElement.style.display='none'" class="w3-button w3-theme-l3 w3-display-topright">
-          <i class="fa fa-remove"></i>
-        </span>
-        <p><strong>Hey!</strong></p>
-        <p>People are looking at your profile. Find out who.</p>
-      </div>
-    
+
     <!-- End Left Column -->
     </div>
-    
+
     <!-- Middle Column -->
     <div class="w3-col m7">
 
-      <!-- <div id="myModal" class="modal">
-        <div class="modal-content">
-          <span class="close">&times;</span>
-          <form action="#" th:action="@{/home}" th:object="${home}" method="post">
-            <div class="form-group">
-              <label for="username">Morada</label>
-              <input contenteditable="true" type="text" class="w3-border w3-padding form-control" id="Morada" th:field="*{morada}" placeholder="Morada">
-            </div>
-            <div class="form-group">
-              <label for="username">Data de Nascimento</label>
-              <input contenteditable="true" type="text" class="w3-border w3-padding form-control" id="Data_nascimento" th:field="*{data_nascimento}" placeholder="Data de Nascimento">
-            </div>
-            <button type="sumbit" class="w3-button w3-theme"><i class="bi bi-check-lg"></i>Update</button> 
-          </form>
-        </div>
-      </div> -->
-
       <div class="w3-container w3-row-padding w3-card w3-white w3-round w3-margin" th:each="a: ${Tweet}"><br>
         <img src="../images/avatar4.png" alt="Avatar" class="w3-left w3-circle w3-margin-right" style="width:60px">
-        <span class="w3-right w3-opacity" th:text="${a.insert}"></span>
-        <h4 th:text="${a.person}"></h4><br>
+        <span class="w3-right w3-opacity" th:text="${a.created_at}"></span>
+        <h4 th:text="${a.author_id}"></h4><br>
         <hr class="w3-clear">
-        <p th:text="${a.description}"></p>
+        <p th:text="${a.text}"></p>
         <h6>Tags</h6>
         <p>
-          <div th:each="b: ${a.trends}" style="float: left; padding-right: 3px; padding-bottom: 2px;">
-            <span class="w3-tag w3-small w3-theme" th:text="${b}"></span>
+          <div style="float: left; padding-right: 3px; padding-bottom: 2px;">
+            <span class="w3-tag w3-small w3-theme" th:text="${a.query}"></span>
           </div>
         </p>
         <br>
         <!-- <button type="button" class="w3-button w3-theme-d1 w3-margin-bottom"><i class="fa fa-star"></i>  Fav</button> -->
         </div>
-      
+
     <!-- End Middle Column -->
     </div>
-    
+
   <!-- End Grid -->
   </div>
-  
+
 <!-- End Page Container -->
 </div>
 <br>
@@ -169,8 +143,8 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
       real_data = data_[i];
       index = i;
       var data = new google.visualization.DataTable();
-      data.addColumn('string', 'Year');
-      data.addColumn('number', 'Views');
+      data.addColumn('string', 'Interests');
+      data.addColumn('number', 'Number of Tweets');
       Object.keys(real_data).forEach(function(key) {
           data.addRow([ key, real_data[key] ]);
       });
@@ -189,14 +163,14 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
       chart.draw(data, options);
     }
   }
-  
+
   function drawPieChart() {
     for (i = 0; i < data_.length; i++) {
       real_data = data_[i];
       index = i;
       var data = new google.visualization.DataTable();
-      data.addColumn('string', 'Year');
-      data.addColumn('number', 'Views');
+      data.addColumn('string', 'Interests');
+      data.addColumn('number', 'Number of Tweets');
       Object.keys(real_data).forEach(function(key) {
           data.addRow([ key, real_data[key] ]);
       });
@@ -233,7 +207,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
     if (event.target == modal) {
       modal.style.display = "none";
     }
-  } 
+  }
 
 // Accordion
 function myFunction(id) {
@@ -241,9 +215,9 @@ function myFunction(id) {
   if (x.className.indexOf("w3-show") == -1) {
     x.className += " w3-show";
     x.previousElementSibling.className += " w3-theme-d1";
-  } else { 
+  } else {
     x.className = x.className.replace("w3-show", "");
-    x.previousElementSibling.className = 
+    x.previousElementSibling.className =
     x.previousElementSibling.className.replace(" w3-theme-d1", "");
   }
 }
@@ -253,11 +227,11 @@ function openNav() {
   var x = document.getElementById("navDemo");
   if (x.className.indexOf("w3-show") == -1) {
     x.className += " w3-show";
-  } else { 
+  } else {
     x.className = x.className.replace(" w3-show", "");
   }
 }
 </script>
 
 </body>
-</html> 
+</html>

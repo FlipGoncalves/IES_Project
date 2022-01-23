@@ -23,7 +23,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
   <a href="/" class="w3-bar-item w3-button w3-padding-large w3-theme-d4"><i class="fa fa-home w3-margin-right"></i>TrendIt</a>
   <!-- <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="News"><i class="fa fa-globe"></i></a>
   <div class="w3-dropdown-hover w3-hide-small">
-    <button class="w3-button w3-padding-large" title="Notifications"><i class="fa fa-bell"></i><span class="w3-badge w3-right w3-small w3-green">2</span></button>     
+    <button class="w3-button w3-padding-large" title="Notifications"><i class="fa fa-bell"></i><span class="w3-badge w3-right w3-small w3-green">2</span></button>
     <div class="w3-dropdown-content w3-card-4 w3-bar-block" style="width:300px">
       <a href="#" class="w3-bar-item w3-button">New Notification 1</a>
       <a href="#" class="w3-bar-item w3-button">New Notification 2</a>
@@ -41,7 +41,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 </div>
 
 <!-- Page Container -->
-<div class="w3-container w3-content" style="max-width:1400px;margin-top:80px">    
+<div class="w3-container w3-content" style="max-width:1400px;margin-top:80px">
   <!-- The Grid -->
   <div class="w3-row">
     <!-- Left Column -->
@@ -54,7 +54,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
           </div>
     <!-- End Left Column -->
     </div>
-    
+
     <!-- Middle Column -->
     <div class="w3-col m7">
     <form action="/TrendIt/insert_user" th:action="@{/register}" th:object="${register}" method="post">
@@ -75,78 +75,34 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
                 <label for="username">Repeat Password</label>
                 <input contenteditable="true" type="password" class="w3-border w3-padding form-control" id="Repeat_Password" placeholder="Repeat Password">
               </div>
-              <div class="form-group">
+              <div>
                 <label for="username">Interests</label>
-                <label class="container">
-                  <input type="checkbox" class="w3-border w3-padding" id="checkOne" th:field="*{interests}" value="InterestOne" name="InterestOne">
-                  <span class="checkmark"></span>
-                  InterestOne
-                </label>
-                <label class="container">
-                  <input type="checkbox" class="w3-border w3-padding" id="checkTwo" th:field="*{interests}" value="InterestTwo" name="InterestTwo">
-                  <span class="checkmark"></span>
-                  InterestTwo
-                </label>
-                <label class="container">
-                  <input type="checkbox" class="w3-border w3-padding" id="checkThree" th:field="*{interests}" value="InterestThree" name="InterestThree">
-                  <span class="checkmark"></span>
-                  InterestThree
-                </label>
-                <label class="container">
-                  <input type="checkbox" class="w3-border w3-padding" id="checkFour" th:field="*{interests}" value="InterestFour" name="InterestFour">
-                  <span class="checkmark"></span>
-                  InterestFour
-                </label>
-                <label class="container">
-                  <input type="checkbox" class="w3-border w3-padding" id="checkFive" th:field="*{interests}" value="InterestFive" name="InterestFive">
-                  <span class="checkmark"></span>
-                  InterestFive
-                </label>
-                <label class="container">
-                  <input type="checkbox" class="w3-border w3-padding" id="checkSix" th:field="*{interests}" value="InterestSix" name="InterestSix">
-                  <span class="checkmark"></span>
-                  InterestSix
-                </label>
-                <label class="container">
-                  <input type="checkbox" class="w3-border w3-padding" id="checkSeven" th:field="*{interests}" value="InterestSeven" name="InterestSeven">
-                  <span class="checkmark"></span>
-                  InterestSeven
-                </label>
-                <label class="container">
-                  <input type="checkbox" class="w3-border w3-padding" id="checkEight" th:field="*{interests}" value="InterestEight" name="InterestEight">
-                  <span class="checkmark"></span>
-                  InterestEight
-                </label>
-                <label class="container">
-                  <input type="checkbox" class="w3-border w3-padding" id="checkNine" th:field="*{interests}" value="InterestNine" name="InterestNine">
-                  <span class="checkmark"></span>
-                  InterestNine
-                </label>
-                <label class="container">
-                  <input type="checkbox" class="w3-border w3-padding" id="checkTen" th:field="*{interests}" value="InterestTen" name="InterestTen">
-                  <span class="checkmark"></span>
-                  InterestTen
-                </label>
+                <div class="form-group" th:each="interest: ${interests_data}">
+                  <label class="container">
+                    <input type="checkbox" class="w3-border w3-padding" id="checkOne" th:field="*{interests}" th:value="${interest}" th:name="${interest}">
+                    <span class="checkmark" th:text="${interest}"></span>
+                  </label>
+                </div>
               </div>
-              <button onclick="if (document.getElementById('Password').value != document.getElementById('Repeat_Password').value) return false;" type="sumbit" class="w3-button w3-theme"><i class="bi bi-check-lg"></i>Register</button> 
+              <button onclick="if (document.getElementById('Password').value != document.getElementById('Repeat_Password').value) return false;" type="sumbit" class="w3-button w3-theme"><i class="bi bi-check-lg"></i>Register</button>
             </div>
           </div>
         </div>
       </div>
     </form>
-      
+
     <!-- End Middle Column -->
     </div>
-    
+
     <!-- Right Column -->
     <div class="w3-col m2">
-      
+
     <!-- End Right Column -->
     </div>
-    
+
   <!-- End Grid -->
   </div>
-  
+
 <!-- End Page Container -->
 </div>
 <br>
@@ -155,7 +111,7 @@ html, body, h1, h2, h3, h4, h5 {font-family: "Open Sans", sans-serif}
 <footer class="w3-container w3-theme-d3 w3-padding-16">
     <h5>Universidade de Aveiro 2021/2022 - Introdução à Engenharia de Software</h5>
 </footer>
- 
+
 <script>
 
 function password() {
@@ -174,9 +130,9 @@ function myFunction(id) {
   if (x.className.indexOf("w3-show") == -1) {
     x.className += " w3-show";
     x.previousElementSibling.className += " w3-theme-d1";
-  } else { 
+  } else {
     x.className = x.className.replace("w3-show", "");
-    x.previousElementSibling.className = 
+    x.previousElementSibling.className =
     x.previousElementSibling.className.replace(" w3-theme-d1", "");
   }
 }
@@ -186,11 +142,11 @@ function openNav() {
   var x = document.getElementById("navDemo");
   if (x.className.indexOf("w3-show") == -1) {
     x.className += " w3-show";
-  } else { 
+  } else {
     x.className = x.className.replace(" w3-show", "");
   }
 }
 </script>
 
 </body>
-</html> 
+</html>
