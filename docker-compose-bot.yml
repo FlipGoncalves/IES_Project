@@ -10,8 +10,14 @@ services:
       dockerfile: Dockerfile
     ports:
       - "9002:9002"
-    restart: unless-stopped
-    entrypoint: [ "./wait-for-it.sh", "rabbitmq:5672", "--", "java","-cp","app:app/lib/*","Project.TwitterBot.TwitterBotApp" , "cats" ]
+    deploy: 
+      restart_policy: 
+        condition: on-failure
+        delay: 10s
+        max_attempts: 2
+        window: 120s
+    #entrypoint: [ "./wait-for-it.sh", "rabbitmq:5672", "--", "java","-cp","app:app/lib/*","Project.TwitterBot.TwitterBotApp" , "cats" ]
+
     depends_on:
        - rabbitmq
 
@@ -29,7 +35,6 @@ services:
       SPRING_DATA_MONGODB_PASSWORD: example
 
       token: AAAAAAAAAAAAAAAAAAAAAMOJWgEAAAAAAPUQt2bZyfeNdIHrg6lU%2FtJNeSQ%3DlqsCxGQKrOP0XDdRwcnLfOrF1lTV2cSNd4tjyS67QeFf0lX74r
-      SPRING_RABBITMQ_DYNAMIC: true
 
 
       # THE PORT TO WHICH THE CLIENT SHOULD CONNECT DEFAULTS TO 5672_

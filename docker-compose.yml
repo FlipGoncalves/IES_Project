@@ -10,7 +10,12 @@ services:
       dockerfile: Dockerfile
     ports:
       - "9001:9001"
-    restart: unless-stopped
+    deploy: 
+      restart_policy: 
+        condition: on-failure
+        delay: 10s
+        max_attempts: 2
+        window: 120s
     depends_on:
       - db # This service depends on mysql. Start that first.
     environment: # Pass environment variables to the service

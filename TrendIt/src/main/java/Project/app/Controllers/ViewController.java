@@ -41,19 +41,19 @@ public class ViewController {
 				List<String> interests = user.getInterests();
 
 				// get tweets from db
-				ArrayList<Tweet> array = new ArrayList<Tweet>();
-				List<Tweet> tweets = service.getAllTweets();
-				List<Tweet> out = new ArrayList<Tweet>();
+				ArrayList<Datum> array = new ArrayList<Datum>();
+				List<Datum> tweets = service.getAllTweets();
+				List<Datum> out = new ArrayList<Datum>();
 				int count = 0;
 				for(int i = tweets.size() - 1; i > 0; i--) {
-					if (count == 10)
+					if (count == 30)
 						break;
-					Set<String> trends_tweet = tweets.get(i).getTrends();
-					for (String trend: trends_tweet) {
-						if (interests.contains(trend)) {
-							out.add(tweets.get(i));
-							count += 1;
-						}
+					String trend = tweets.get(i).getQuery();
+					System.out.println(tweets.get(i));
+					if (interests.contains(trend)) {
+						out.add(tweets.get(i));
+						count += 1;
+
 					}
 				}
 				array.addAll(out);
@@ -67,20 +67,21 @@ public class ViewController {
 				List<String> titles = new ArrayList<String>();
 
 				// for all trends
-				Map<String, Integer> graphData1 = new TreeMap<>();
-				count = 10;
-				for(int i = 0; i < 6; i++) {
-					graphData1.put("Interest_" + i, count);
-					count += 100;
+				List<TweetCount> graph = service.getAllTweetCount();
+				graph.stream().forEach(System.out::println);
+				Map<String, Long> graphData1 = new TreeMap<>();
+				for(int i = 0; i < graph.size(); i++) {
+					graphData1.put(graph.get(i).getQuery(), graph.get(i).getTweet_count());
+
 				}
 				data.put("Twitter COunt for all Interests", graphData1);
 
 				// for user interests
-				count = 0;
-				for (String trend: interests) {
-					// get count for trend
-					graphData.put(trend, count);
-					count += 100;
+				for(int i = 0; i < graph.size(); i++) {
+					if (interests.contains(graph.get(i).getQuery())) {
+						graphData.put(graph.get(i).getQuery(), graph.get(i).getTweet_count());
+					}
+
 				}
 				data.put("Twitter Count for each Interest", graphData);
 
@@ -106,13 +107,26 @@ public class ViewController {
 		// envia user para a base de dados, ou seja envia para o rest controller
 
 		// get trends from database
-		ArrayList<String> array = new ArrayList<String>();
-		// trends.size()
-		int count = 10;
-		for(int i = 0; i < count; i++) {
-			array.add("Interest_" + i);
+		// ArrayList<String> array = new ArrayList<String>();
+		// List<TweetTrendsJson> trends = service.getAllTweetTrend();
+
+		// for(int i = 0; i < trends.size(); i++) {
+		// 	array.add(trends.get(i).getName());
+		// }
+
+
+		List<TweetTrendsJson> tweets = service.getAllTweetTrend();
+		Set<String> array = new HashSet<String>();
+		// int count = 0;
+		for(int i = tweets.size() - 1; i > 0; i--) {
+			// if (count == 10)
+			// 	break;
+			String trend = tweets.get(i).getName();
+			array.add(trend);
 		}
-		Map<String, ArrayList<String>> mp = new HashMap<>();
+
+		Map<String, Set<String>> mp = new HashMap<>();
+
 		mp.put("interests_data", array);
 		model.addAllAttributes(mp);
 
